@@ -5,10 +5,10 @@ An online U-Fund system built in Java **24** and ___ _replace with other platfor
   
 ## Team
 
-- MEMBER1
-- MEMBER2
-- MEMBER3
-- MEMBER4
+- Tommy Bell
+- Nolan York
+- Brayden Poma
+- James Halt
 
 
 ## Prerequisites
