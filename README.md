@@ -6,7 +6,7 @@ An online U-Fund system built in Java **24** and ___ _replace with other platfor
 ## Team
 
 - Tommy Bell
-- Nolan York
+- Nolan York!
 - Brayden Poma
 - James Halt
 
