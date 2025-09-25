@@ -7,7 +7,7 @@ An online U-Fund system built in Java **24** and ___ _replace with other platfor
 
 - Tommy Bell
 - Nolan York!
-- Brayden Poma
+- Brayden Castro !
 - James Halt
 
 
