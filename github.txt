@@ -1,3 +1,28 @@
+In the main branch:
+
+
+    commit ec7365c3ce2e764fd1235a5dcf9a15006941b3a8
+Author: JHalt06 <jamesgeorgehalt@gmail.com>
+Date:   Thu Sep 25 17:42:32 2025 -0400
+
+    my 1st commit
+
+commit 93626d76373a5f6f6946abe701ca15d569900739
+Author: Tommy2 <tjb435tjb@gmail.com>
+Date:   Tue Sep 23 18:34:50 2025 -0400
+
+    Readme update
+
+commit dab580a5e583b82f0dbfd1c36df3b7aa2cdcdcaf
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Thu Sep 18 03:59:58 2025 +0000
+
+    Initial commit
+
+
+In sprint-1-dev branch:
+
+
 commit 75c7adbf74c1481d9a2de5b990806b0a9a41b18b
 Author: Brayden Castro <bc3825@rit.edu>
 Date:   Thu Sep 25 16:12:25 2025 -0400
