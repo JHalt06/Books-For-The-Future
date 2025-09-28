@@ -4,7 +4,7 @@ public class Need {
 
     private long id;
     private String name; 
-    private int quanity;
+    private int quantity;
     private double fundingAmount;
 
     public Need(){}
@@ -12,7 +12,7 @@ public class Need {
     public Need(Long id, String name, int quantity, double fundingAmount){
         this.id = id;
         this.name = name;
-        this.quanity = quantity;
+        this.quantity = quantity;
         this.fundingAmount = fundingAmount;
     }
 
@@ -32,12 +32,12 @@ public class Need {
         this.name = name;
     }
 
-    public int getQuanity() {
-        return quanity;
+    public int getquantity() {
+        return quantity;
     }
 
-    public void setQuanity(int quanity) {
-        this.quanity = quanity;
+    public void setquantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getFundingAmount() {
