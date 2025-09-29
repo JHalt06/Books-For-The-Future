@@ -22,6 +22,7 @@ public class FileCupboardDAO implements CupBoardDAO {
     public FileCupboardDAO(String filePath) throws IOException{
         this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
+        loadCupboard();
     }
 
     /**
@@ -50,11 +51,38 @@ public class FileCupboardDAO implements CupBoardDAO {
 
     /**
      * Checks wheather a Need with the specified name exists in the cupboard inventory
+     * @param name the name of the Need to check
+     * @return true if a need with the same name exist, false otherwise. 
      */
     @Override
     public boolean needExistByName(String name) {
        return cupboard.hasNeedByName(name);
     }
+
+    /**
+     * Loads the cupboard data from the file, or initialize a new cupboard if the files doesn't exist
+     * @throws IOExceptiom if an error occurs while reading the file 
+     */
+    private void loadCupboard() throws IOException{
+        if(file.exists()){
+            this.cupboard = objectMapper.readValue(file, Cupboard.class);
+        }
+        else{
+            this.cupboard = new Cupboard();
+            saveCupboard();
+            
+        }
+    }
+
+    /**
+     * Saves the current cupboard data to a JSON file.
+     * @throws IOException if an error occurs while writng the file. 
+     */
+    private void saveCupboard() throws IOException{
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
+    }
+
+
 
     
 
