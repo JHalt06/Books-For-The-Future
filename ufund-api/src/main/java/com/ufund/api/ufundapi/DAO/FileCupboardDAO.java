@@ -13,13 +13,16 @@ import com.ufund.api.ufundapi.Model.Need;
 public class FileCupboardDAO implements CupBoardDAO {
 
     private final ObjectMapper objectMapper;
-    private  File file;
+    private  final File file;
     private Cupboard cupboard;
 
-    @Value("${cupboard.filepath:data/cupboard.json}")
-    private String filePath;
+    /**
+     * 
+     * @param filePath Path to the JSON file use for persistance. 
+     * @throws IOException if an error occurs during file read/write 
+     */
 
-    public FileCupboardDAO(String filePath) throws IOException{
+    public FileCupboardDAO(@Value("${cupboard.filepath:data/cupboard.json}")String filePath) throws IOException{
         this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
         loadCupboard();
@@ -45,6 +48,7 @@ public class FileCupboardDAO implements CupBoardDAO {
 
         //add to cupboard and save
         cupboard.addNeed(need);
+        saveCupboard();
 
         return need; 
     }
