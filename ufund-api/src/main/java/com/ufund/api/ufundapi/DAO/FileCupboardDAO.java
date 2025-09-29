@@ -2,6 +2,7 @@ package com.ufund.api.ufundapi.DAO;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -24,9 +25,18 @@ public class FileCupboardDAO implements CupBoardDAO {
     }
 
     @Override
-    public Need addNeed(Need need) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addNeed'");
+    public synchronized Need addNeed(Need need) throws IOException {
+        if(needExistByName(need.getName())){
+            throw new IllegalArgumentException("Need with this name already exists.");
+        }
+        List<Need> needs = cupboard.getInventory();
+        long newID = needs.size() + 1;
+        need.setId(newID);
+
+        //add to cupboard and save
+        cupboard.addNeed(need);
+
+        return need; 
     }
 
     /**
