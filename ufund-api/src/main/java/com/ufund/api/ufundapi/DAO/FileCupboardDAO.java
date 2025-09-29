@@ -24,11 +24,20 @@ public class FileCupboardDAO implements CupBoardDAO {
         this.file = new File(filePath);
     }
 
+    /**
+     * Adds a new need to the cupboard inventory if it doesnt already exists 
+     * Assigns a new ID and persist the change to file. 
+     * @param need the Need object to add.
+     * @return the created Need with assigned ID.
+     * @throws IOException if the cupboard cannot be saved. 
+     * @Throws IllegalArgumentException if a Need with same name already exists. 
+     */
     @Override
     public synchronized Need addNeed(Need need) throws IOException {
         if(needExistByName(need.getName())){
             throw new IllegalArgumentException("Need with this name already exists.");
         }
+        //assign new ID(incremntal)
         List<Need> needs = cupboard.getInventory();
         long newID = needs.size() + 1;
         need.setId(newID);
