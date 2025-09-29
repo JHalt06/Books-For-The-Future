@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/cupboard")
-public class CupboardContoller {
+public class CupboardController {
 
     //Constructor injection of DAO
     private final CupboardDAO cupboardDAO;
-    private static final Logger LOG = Logger.getLogger(CupboardContoller.class.getName());
+    private static final Logger LOG = Logger.getLogger(CupboardController.class.getName());
 
-    public CupboardContoller(CupboardDAO cupboardDAO) {
+    public CupboardController(CupboardDAO cupboardDAO) {
         this.cupboardDAO = cupboardDAO;
     }
     
@@ -41,7 +41,7 @@ public class CupboardContoller {
             }
             Need createNeed = cupboardDAO.addNeed(need);
             
-            return new ResponseEntity<>(createNeed, HttpStatus.OK);
+            return new ResponseEntity<>(createNeed, HttpStatus.CREATED);
             
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);

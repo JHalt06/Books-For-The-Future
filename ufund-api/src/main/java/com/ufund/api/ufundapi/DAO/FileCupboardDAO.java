@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
 
+@Repository
 public class FileCupboardDAO implements CupboardDAO {
 
     private final ObjectMapper objectMapper;
@@ -43,12 +45,16 @@ public class FileCupboardDAO implements CupboardDAO {
         }
         //assign new ID(incremntal)
         List<Need> needs = cupboard.getInventory();
-        long newID = needs.size() + 1;
+        long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) +1;
         need.setId(newID);
 
         //add to cupboard and save
         cupboard.addNeed(need);
         saveCupboard();
+
+        System.out.println("New need added: " + need.getName() + "(ID " +
+         need.getId() +" )");
+         System.out.println("Total items in inventory: " + cupboard.getInventory().size());
 
         return need; 
     }
@@ -65,15 +71,17 @@ public class FileCupboardDAO implements CupboardDAO {
 
     /**
      * Loads the cupboard data from the file, or initialize a new cupboard if the files doesn't exist
-     * @throws IOExceptiom if an error occurs while reading the file 
+     * @throws IOException if an error occurs while reading the file 
      */
     private void loadCupboard() throws IOException{
         if(file.exists()){
             this.cupboard = objectMapper.readValue(file, Cupboard.class);
+            System.out.println("Cupboard loaded from file: " + file.getPath());
         }
         else{
             this.cupboard = new Cupboard();
             saveCupboard();
+            System.out.println("New Cupboard created and save:  " + file.getPath());
             
         }
     }
