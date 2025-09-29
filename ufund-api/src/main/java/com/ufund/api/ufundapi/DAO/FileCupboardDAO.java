@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
 
-public class FileCupboardDAO implements CupBoardDAO {
+public class FileCupboardDAO implements CupboardDAO {
 
     private final ObjectMapper objectMapper;
     private  final File file;

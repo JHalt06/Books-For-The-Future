@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.ufund.api.ufundapi.Model.Need;
 
-public interface CupBoardDAO {
+public interface CupboardDAO {
 
     Need addNeed(Need need) throws IOException;
     
