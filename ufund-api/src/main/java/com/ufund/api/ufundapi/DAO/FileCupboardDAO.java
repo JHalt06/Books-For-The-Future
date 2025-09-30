@@ -66,8 +66,8 @@ public class FileCupboardDAO implements CupboardDAO {
         saveCupboard();
 
         System.out.println("New need added: " + need.getName() + "(ID " +
-         need.getId() +" )");
-         System.out.println("Total items in inventory: " + cupboard.getInventory().size());
+            need.getId() +" )");
+        System.out.println("Total items in inventory: " + cupboard.getInventory().size());
 
         return need; 
     }
@@ -79,7 +79,7 @@ public class FileCupboardDAO implements CupboardDAO {
      */
     @Override
     public boolean needExistByName(String name) {
-       return cupboard.hasNeedByName(name);
+        return cupboard.hasNeedByName(name);
     }
 
     /**
@@ -89,7 +89,7 @@ public class FileCupboardDAO implements CupboardDAO {
      */
     @Override
     public List<Need> getNeedByName(String name) {
-       return cupboard.getNeedByName(name);
+        return cupboard.getNeedByName(name);
     }
 
     /**
@@ -117,10 +117,14 @@ public class FileCupboardDAO implements CupboardDAO {
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
     }
 
+    @Override
+    public Need getNeedByID(String id) {
+        for (Need need : cupboard.getInventory()) {
+            if (need.getId().equals(Long.valueOf(id))) {
+                return need;
+            }
+        }
+        return null;
+    }
 
-
-    
-
-
-    
 }

@@ -12,4 +12,6 @@ public interface CupboardDAO {
     boolean needExistByName(String name);
 
     List<Need> getNeedByName(String name);
+
+    Need getNeedByID(String id);
 }

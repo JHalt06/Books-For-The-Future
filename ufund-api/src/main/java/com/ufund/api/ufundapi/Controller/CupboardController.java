@@ -53,9 +53,9 @@ public class CupboardController {
         }
     }
 
-    @GetMapping("/needs/{query}")
+    @GetMapping("/needs/?q={query}")
     public ResponseEntity<Object> searchNeeds(@RequestBody String query){
-        LOG.info("GET /cupboard/needs/" + query);
+        LOG.info("GET /cupboard/needs/?q=" + query);
         try {
             List<Need> needs = cupboardDAO.getNeedByName(query);
             if (!needs.isEmpty()) {
@@ -68,6 +68,17 @@ public class CupboardController {
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/needs/{id}")
+    public ResponseEntity<Object> getNeed(@RequestBody String id){
+        LOG.info("GET /cupboard/needs/" + id);
+        Need need = cupboardDAO.getNeedByID(id);
+        if (need != null) {
+            return new ResponseEntity<>(need, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -123,6 +123,5 @@ public class FileCupboardDAOTest {
         List<Need> actual = reloadDAO.getNeedByName("Markers");
 
         assertEquals(actual.isEmpty(), true);
-
     }
 }
