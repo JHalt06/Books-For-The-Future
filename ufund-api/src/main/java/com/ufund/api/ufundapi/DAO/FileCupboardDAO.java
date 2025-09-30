@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +19,12 @@ public class FileCupboardDAO implements CupboardDAO {
     private  final File file;
     private Cupboard cupboard;
 
-    public FileCupboardDAO(ObjectMapper objectMapper, File file, Cupboard cupboard) {
+    @Autowired
+    public FileCupboardDAO(ObjectMapper objectMapper,
+        @Value("${cupboard.filepath:data/cupboard.json}") String filePath) throws IOException {
         this.objectMapper = objectMapper;
-        this.file = file;
-        this.cupboard = cupboard;
+        this.file = new File(filePath);
+        loadCupboard();
     }
 
     /**
@@ -170,9 +173,13 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public boolean updateNeed(long id, String name) {
         List<Need> lst = cupboard.getInventory();
-        Need old = getNeedByID(String.valueOf(id));
-        Need newneed = new Need(name, old.getquantity(), old.getFundingAmount());
-        cupboard.addNeed(newneed);
+        if (getNeedByID(String.valueOf(id)) != null) {
+            Need old = getNeedByID(String.valueOf(id));
+            Need newneed = new Need(name, old.getquantity(), old.getFundingAmount());
+            cupboard.addNeed(newneed);
+            return true;
+        }
+        return false; 
     }
 
 }
