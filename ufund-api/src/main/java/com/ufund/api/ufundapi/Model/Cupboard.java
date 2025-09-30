@@ -22,6 +22,10 @@ public class Cupboard {
         this.inventory.add(need);
     }
 
+    public void removeNeed(Need need){
+        this.inventory.remove(need);
+    }
+
     public boolean hasNeedByName(String name){
             return inventory.stream().anyMatch(n-> 
             n.getName().equalsIgnoreCase(name));

@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufund.api.ufundapi.DAO.CupboardDAO;
@@ -55,29 +58,35 @@ public class CupboardController {
         }
     }
 
-    @PostMapping("/needs/{id}")
-    public ResponseEntity<Object> updateNeed(@RequestBody String id, @RequestBody String name){
+    @PutMapping("/needs/{id}")
+    public ResponseEntity<Object> updateNeed(@PathVariable long id, @RequestBody Need updatedNeed){
         LOG.info("PUT /cupboard/needs/" + id);
-        if (cupboardDAO.getNeedByID(id) != null) {
-            try {
-                List<Need> lst = cupboardDAO.getCupboard().getInventory();
-                Need old = cupboardDAO.getNeedByID(id);
-                Need newneed = new Need(name, old.getquantity(), old.getFundingAmount());
-                cupboardDAO.addNeed(newneed);
-                return new ResponseEntity<>(newneed, HttpStatus.OK);
-            } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
+        Need old = cupboardDAO.getNeedByID(String.valueOf(id));
+        if (old != null) {
+            if (updatedNeed.getName() != null) {
+                old.setName(updatedNeed.getName());
+            }
+            if (updatedNeed.getquantity() > 0) {
+                old.setquantity(updatedNeed.getquantity());
+            }
+            if (updatedNeed.getFundingAmount() > 0) {
+                old.setFundingAmount(updatedNeed.getFundingAmount());
+            }
+
+            if (cupboardDAO.updateNeed(updatedNeed)) {
+                return new ResponseEntity<>(old, HttpStatus.OK);
+            } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/needs/?q={query}")
-    public ResponseEntity<Object> searchNeeds(@RequestBody String query){
-        LOG.info("GET /cupboard/needs/?q=" + query);
+    @GetMapping("/needs")
+    public ResponseEntity<Object> searchNeeds(@RequestParam String q){
+        LOG.info("GET /cupboard/needs/?q=" + q);
         try {
-            List<Need> needs = cupboardDAO.getNeedByName(query);
+            List<Need> needs = cupboardDAO.getNeedByName(q);
             if (!needs.isEmpty()) {
                 return new ResponseEntity<>(needs, HttpStatus.OK);
             } else if (needs.isEmpty()) {
@@ -92,7 +101,7 @@ public class CupboardController {
     }
 
     @GetMapping("/needs/{id}")
-    public ResponseEntity<Object> getNeed(@RequestBody String id){
+    public ResponseEntity<Object> getNeed(@PathVariable String id){
         LOG.info("GET /cupboard/needs/" + id);
         Need need = cupboardDAO.getNeedByID(id);
         if (need != null) {
@@ -121,7 +130,7 @@ public class CupboardController {
      * @throws IOException if an error occurs while deleting the need.
      */
     @DeleteMapping("/cupboard/{id}") //{id} is a path variable, Spring will extract this part of the URL and pass it into the method
-    public ResponseEntity<Void> deleteNeed(long id) throws IOException{
+    public ResponseEntity<Void> deleteNeed(@PathVariable long id) throws IOException{
         boolean deleted = cupboardDAO.deleteNeed(id);
         if(deleted){
             return ResponseEntity.noContent().build(); //204 No Content, this means that the id was found and is now deleted, delete successful.

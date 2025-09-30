@@ -20,6 +20,6 @@ public interface CupboardDAO {
 
     Need getNeedByID(String id);
 
-    boolean updateNeed(long id, String name);
+    boolean updateNeed(Need updatedNeed);
 
 }
