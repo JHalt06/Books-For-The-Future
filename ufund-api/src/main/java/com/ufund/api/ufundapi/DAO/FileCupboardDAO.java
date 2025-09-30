@@ -29,6 +29,13 @@ public class FileCupboardDAO implements CupboardDAO {
         this.file = new File(filePath);
         loadCupboard();
     }
+
+    /**
+     * Purpose of Unit test 
+     * @param filePath Path to the JSON file use for persistance. 
+     * @param objectMapper reading the JSON file 
+     * @throws IOException if an error occurs during file read/write 
+     */
     public FileCupboardDAO(String filePath,ObjectMapper objectMapper) throws IOException{
         this.objectMapper = objectMapper;
         this.file = new File(filePath);
@@ -73,6 +80,16 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public boolean needExistByName(String name) {
        return cupboard.hasNeedByName(name);
+    }
+
+    /**
+     * Checks wheather a Need containing the specified query exists in the cupboard inventory
+     * @param query the query to search for needs with
+     * @return the list of needs if any exist, else an empty list.
+     */
+    @Override
+    public List<Need> getNeedByName(String name) {
+       return cupboard.getNeedByName(name);
     }
 
     /**

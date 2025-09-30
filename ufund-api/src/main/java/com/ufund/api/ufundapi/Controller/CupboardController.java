@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,25 @@ public class CupboardController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/needs/{query}")
+    public ResponseEntity<Object> searchNeeds(@RequestBody String query){
+        LOG.info("GET /cupboard/needs/" + query);
+        try {
+            List<Need> needs = cupboardDAO.getNeedByName(query);
+            if (!needs.isEmpty()) {
+                return new ResponseEntity<>(needs, HttpStatus.OK);
+            } else if (needs.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                throw new IOException("Invalid search request.");
+            }
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     /**
      * Returns all products in the cupboard as a list

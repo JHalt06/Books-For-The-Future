@@ -7,6 +7,7 @@ public class Need {
     private int quantity;
     private double fundingAmount;
 
+    public Need(){}
     public Need(String name, int quantity, double fundingAmount){
         this.name = name;
         this.quantity = quantity;
