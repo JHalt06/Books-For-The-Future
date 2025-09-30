@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufund.api.ufundapi.DAO.CupboardDAO;
+import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
 
 
@@ -53,6 +55,24 @@ public class CupboardController {
         }
     }
 
+    @PostMapping("/needs/{id}")
+    public ResponseEntity<Object> updateNeed(@RequestBody String id, @RequestBody String name){
+        LOG.info("PUT /cupboard/needs/" + id);
+        if (cupboardDAO.getNeedByID(id) != null) {
+            try {
+                List<Need> lst = cupboardDAO.getCupboard().getInventory();
+                Need old = cupboardDAO.getNeedByID(id);
+                Need newneed = new Need(name, old.getquantity(), old.getFundingAmount());
+                cupboardDAO.addNeed(newneed);
+                return new ResponseEntity<>(newneed, HttpStatus.OK);
+            } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @GetMapping("/needs/?q={query}")
     public ResponseEntity<Object> searchNeeds(@RequestBody String query){
         LOG.info("GET /cupboard/needs/?q=" + query);
@@ -79,6 +99,35 @@ public class CupboardController {
             return new ResponseEntity<>(need, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    /**
+     * Returns all products in the cupboard as a list
+     * @throws IOException if an error occurs while getting the cupboard, getCupboard()
+     */
+    @GetMapping("/cupboard")
+    public ResponseEntity<List<Need>> getCupboard() throws IOException{
+    //Fetch all cupboard items (needs)
+        Cupboard cupboard = cupboardDAO.getCupboard(); //fetch
+        List<Need> products = cupboard.getInventory();//get the List<Need> directly
+        return ResponseEntity.ok(products); //returns 200, even if it is an empty list. The fetch was successful
+    }
+
+
+    /**
+     * Deletes a need by the ID of the product to delete
+     * @throws IOException if an error occurs while deleting the need.
+     */
+    @DeleteMapping("/cupboard/{id}") //{id} is a path variable, Spring will extract this part of the URL and pass it into the method
+    public ResponseEntity<Void> deleteNeed(long id) throws IOException{
+        boolean deleted = cupboardDAO.deleteNeed(id);
+        if(deleted){
+            return ResponseEntity.noContent().build(); //204 No Content, this means that the id was found and is now deleted, delete successful.
+        }
+        else{
+            return ResponseEntity.notFound().build(); //404 Not Found, could not find that id. That id does not exist
         }
     }
 
