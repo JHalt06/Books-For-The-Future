@@ -70,6 +70,16 @@ public class FileCupboardDAO implements CupboardDAO {
     }
 
     /**
+     * Checks wheather a Need containing the specified query exists in the cupboard inventory
+     * @param query the query to search for needs with
+     * @return the list of needs if any exist, else an empty list.
+     */
+    @Override
+    public List<Need> getNeedByName(String name) {
+       return cupboard.getNeedByName(name);
+    }
+
+    /**
      * Loads the cupboard data from the file, or initialize a new cupboard if the files doesn't exist
      * @throws IOException if an error occurs while reading the file 
      */
