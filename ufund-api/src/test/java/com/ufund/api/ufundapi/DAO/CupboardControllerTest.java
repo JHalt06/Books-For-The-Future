@@ -48,6 +48,12 @@ public class CupboardControllerTest {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'needExistByName'");
         }
+
+        @Override
+        public List<Need> getNeedByName(String name) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getNeedByName'");
+        }
     }
     
     @BeforeEach
