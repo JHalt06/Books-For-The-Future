@@ -2,12 +2,16 @@ package com.ufund.api.ufundapi.Model;
 
 public class Need {
 
-    private long id;
+    private Long id;
     private String name; 
     private int quantity;
     private double fundingAmount;
 
-    public Need(){}
+    public Need(String name, int quantity, double fundingAmount){
+        this.name = name;
+        this.quantity = quantity;
+        this.fundingAmount = fundingAmount;
+    }
 
     public Need(Long id, String name, int quantity, double fundingAmount){
         this.id = id;
@@ -16,11 +20,11 @@ public class Need {
         this.fundingAmount = fundingAmount;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
