@@ -29,6 +29,12 @@ public class FileCupboardDAO implements CupboardDAO {
         this.file = new File(filePath);
         loadCupboard();
     }
+    public FileCupboardDAO(String filePath,ObjectMapper objectMapper) throws IOException{
+        this.objectMapper = objectMapper;
+        this.file = new File(filePath);
+        loadCupboard();
+    }
+
 
     /**
      * Adds a new need to the cupboard inventory if it doesnt already exists 
@@ -84,7 +90,7 @@ public class FileCupboardDAO implements CupboardDAO {
      * @throws IOException if an error occurs while reading the file 
      */
     private void loadCupboard() throws IOException{
-        if(file.exists()){
+        if(file.exists() && file.length() > 0){
             this.cupboard = objectMapper.readValue(file, Cupboard.class);
             System.out.println("Cupboard loaded from file: " + file.getPath());
         }
