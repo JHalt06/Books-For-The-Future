@@ -49,7 +49,7 @@ public class FileCupboardDAO implements CupboardDAO {
         if(needExistByName(need.getName())){
             throw new IllegalArgumentException("Need with this name already exists.");
         }
-        //assign new ID(incremntal)
+        //assign new ID(incremental)
         List<Need> needs = cupboard.getInventory();
         long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) +1;
         need.setId(newID);
@@ -66,7 +66,7 @@ public class FileCupboardDAO implements CupboardDAO {
     }
 
     /**
-     * Checks wheather a Need with the specified name exists in the cupboard inventory
+     * Checks whether a Need with the specified name exists in the cupboard inventory
      * @param name the name of the Need to check
      * @return true if a need with the same name exist, false otherwise. 
      */
@@ -94,13 +94,41 @@ public class FileCupboardDAO implements CupboardDAO {
 
     /**
      * Saves the current cupboard data to a JSON file.
-     * @throws IOException if an error occurs while writng the file. 
+     * @throws IOException if an error occurs while writing the file. 
      */
     private void saveCupboard() throws IOException{
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
     }
 
 
+    /**
+     * Returns the latest cupboard
+     * @throws IOException if an error occurs while loading the cupboard.
+     */
+    @Override
+    public synchronized Cupboard getCupboard() throws IOException{
+        loadCupboard();//makes sure the data is the latest
+        return cupboard;
+    }
+
+    /**
+     * Searches the inventory for a specific need, if found it's deleted and saves the updated cupboard to a JSON file.
+     * @throws IOException if an error occurs saving the cupboard, saveCupboard().
+     */
+    @Override
+    public synchronized boolean deleteNeed(long id) throws IOException {
+
+        for(int i=0; i < cupboard.getInventory().size(); i++){
+            Need n = cupboard.getInventory().get(i);
+            if(n.getId() == id){
+                cupboard.getInventory().remove(i); //removes by the index
+                saveCupboard(); //Saves the current cupboard data to a JSON file.
+                System.out.println("Need deleted: " + n.getName() + " (ID: " + n.getId() +")");
+                return true; //
+            }
+        }
+        return false; //returns false if the id cannot be found in the cupboard inventory.
+    }
 
     
 

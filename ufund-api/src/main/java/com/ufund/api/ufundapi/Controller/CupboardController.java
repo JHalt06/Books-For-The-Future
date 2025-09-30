@@ -1,17 +1,21 @@
 package com.ufund.api.ufundapi.Controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufund.api.ufundapi.DAO.CupboardDAO;
+import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
 
 
@@ -50,4 +54,33 @@ public class CupboardController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Returns all products in the cupboard as a list
+     * @throws IOException if an error occurs while getting the cupboard, getCupboard()
+     */
+    @GetMapping("/cupboard")
+    public ResponseEntity<List<Need>> getCupboard() throws IOException{
+    //Fetch all cupboard items (needs)
+        Cupboard cupboard = cupboardDAO.getCupboard(); //fetch
+        List<Need> products = cupboard.getInventory();//get the List<Need> directly
+        return ResponseEntity.ok(products); //returns 200, even if it is an empty list. The fetch was successful
+    }
+
+
+    /**
+     * Deletes a need by the ID of the product to delete
+     * @throws IOException if an error occurs while deleting the need.
+     */
+    @DeleteMapping("/cupboard/{id}") //{id} is a path variable, Spring will extract this part of the URL and pass it into the method
+    public ResponseEntity<Void> deleteNeed(long id) throws IOException{
+        boolean deleted = cupboardDAO.deleteNeed(id);
+        if(deleted){
+            return ResponseEntity.noContent().build(); //204 No Content, this means that the id was found and is now deleted, delete successful.
+        }
+        else{
+            return ResponseEntity.notFound().build(); //404 Not Found, could not find that id. That id does not exist
+        }
+    }
+
 }
