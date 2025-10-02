@@ -172,15 +172,21 @@ public class FileCupboardDAO implements CupboardDAO {
 
     @Override
     public boolean updateNeed(Need updatedNeed) {
-        List<Need> lst = cupboard.getInventory();
-        for (Need need : lst) {
-            if (need.getId().equals(updatedNeed.getId())) {
-                cupboard.removeNeed(need);
-                cupboard.addNeed(updatedNeed);
-                return true;
+        try {
+            List<Need> lst = cupboard.getInventory();
+            for (Need need : cupboard.getInventory()) {
+                if (need.getId().equals(updatedNeed.getId())) {
+                    if (updatedNeed.getName() != null) need.setName(updatedNeed.getName());
+                    if (updatedNeed.getquantity() > 0) need.setquantity(updatedNeed.getquantity());
+                    if (updatedNeed.getFundingAmount() > 0) need.setFundingAmount(updatedNeed.getFundingAmount());
+                    saveCupboard();
+                    return true;
+                }
             }
+            return false; 
+        } catch (IOException e) {
+            return false;
         }
-        return false; 
     }
 
 }

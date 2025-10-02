@@ -61,23 +61,8 @@ public class CupboardController {
     @PutMapping("/needs/{id}")
     public ResponseEntity<Object> updateNeed(@PathVariable long id, @RequestBody Need updatedNeed){
         LOG.info("PUT /cupboard/needs/" + id);
-        Need old = cupboardDAO.getNeedByID(String.valueOf(id));
-        if (old != null) {
-            if (updatedNeed.getName() != null) {
-                old.setName(updatedNeed.getName());
-            }
-            if (updatedNeed.getquantity() > 0) {
-                old.setquantity(updatedNeed.getquantity());
-            }
-            if (updatedNeed.getFundingAmount() > 0) {
-                old.setFundingAmount(updatedNeed.getFundingAmount());
-            }
-
-            if (cupboardDAO.updateNeed(updatedNeed)) {
-                return new ResponseEntity<>(old, HttpStatus.OK);
-            } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        if (cupboardDAO.updateNeed(updatedNeed)) {
+            return new ResponseEntity<>(updatedNeed, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
