@@ -9,23 +9,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ufund.api.ufundapi.Model.Cupboard;
+import com.ufund.api.ufundapi.Model.Inventory;
 import com.ufund.api.ufundapi.Model.Need;
 
 @Repository
-public class FileCupboardDAO implements CupboardDAO {
+public class FileInventoryDAO implements InventoryDAO {
 
     private final ObjectMapper objectMapper;
     private  final File file;
-    private Cupboard cupboard;
+    private Inventory inventory;
 
-    @Autowired
-    public FileCupboardDAO(ObjectMapper objectMapper,
-        @Value("${cupboard.filepath:data/cupboard.json}") String filePath) throws IOException {
-        this.objectMapper = objectMapper;
-        this.file = new File(filePath);
-        loadCupboard();
-    }
 
     /**
      * 
@@ -33,10 +26,11 @@ public class FileCupboardDAO implements CupboardDAO {
      * @throws IOException if an error occurs during file read/write 
      */
 
-    public FileCupboardDAO(@Value("${cupboard.filepath:data/cupboard.json}")String filePath) throws IOException{
+    @Autowired
+    public FileInventoryDAO(@Value("${inventory.filepath:data/inventory.json}")String filePath) throws IOException{
         this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
-        loadCupboard();
+        loadInventory();
     }
 
     /**
@@ -45,19 +39,19 @@ public class FileCupboardDAO implements CupboardDAO {
      * @param objectMapper reading the JSON file 
      * @throws IOException if an error occurs during file read/write 
      */
-    public FileCupboardDAO(String filePath,ObjectMapper objectMapper) throws IOException{
+    public FileInventoryDAO(String filePath,ObjectMapper objectMapper) throws IOException{
         this.objectMapper = objectMapper;
         this.file = new File(filePath);
-        loadCupboard();
+        loadInventory();
     }
 
 
     /**
-     * Adds a new need to the cupboard inventory if it doesnt already exists 
+     * Adds a new need to the inventory inventory if it doesnt already exists 
      * Assigns a new ID and persist the change to file. 
      * @param need the Need object to add.
      * @return the created Need with assigned ID.
-     * @throws IOException if the cupboard cannot be saved. 
+     * @throws IOException if the inventory cannot be saved. 
      * @Throws IllegalArgumentException if a Need with same name already exists. 
      */
     @Override
@@ -66,94 +60,94 @@ public class FileCupboardDAO implements CupboardDAO {
             throw new IllegalArgumentException("Need with this name already exists.");
         }
         //assign new ID(incremental)
-        List<Need> needs = cupboard.getInventory();
+        List<Need> needs = inventory.getInventory();
         long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) +1;
         need.setId(newID);
 
-        //add to cupboard and save
-        cupboard.addNeed(need);
-        saveCupboard();
+        //add to inventory and save
+        inventory.addNeed(need);
+        saveInventory();
 
         System.out.println("New need added: " + need.getName() + "(ID " +
             need.getId() +" )");
-        System.out.println("Total items in inventory: " + cupboard.getInventory().size());
+        System.out.println("Total items in inventory: " + inventory.getInventory().size());
 
         return need; 
     }
 
     /**
-     * Checks whether a Need with the specified name exists in the cupboard inventory
+     * Checks whether a Need with the specified name exists in the inventory inventory
      * @param name the name of the Need to check
      * @return true if a need with the same name exist, false otherwise. 
      */
     @Override
     public boolean needExistByName(String name) {
-        return cupboard.hasNeedByName(name);
+        return inventory.hasNeedByName(name);
     }
 
     /**
-     * Checks wheather a Need containing the specified query exists in the cupboard inventory
+     * Checks wheather a Need containing the specified query exists in the inventory inventory
      * @param query the query to search for needs with
      * @return the list of needs if any exist, else an empty list.
      */
     @Override
     public List<Need> getNeedByName(String name) {
-        return cupboard.getNeedByName(name);
+        return inventory.getNeedByName(name);
     }
 
     /**
-     * Loads the cupboard data from the file, or initialize a new cupboard if the files doesn't exist
+     * Loads the inventory data from the file, or initialize a new inventory if the files doesn't exist
      * @throws IOException if an error occurs while reading the file 
      */
-    private void loadCupboard() throws IOException{
+    private void loadInventory() throws IOException{
         if(file.exists() && file.length() > 0){
-            this.cupboard = objectMapper.readValue(file, Cupboard.class);
-            System.out.println("Cupboard loaded from file: " + file.getPath());
+            this.inventory = objectMapper.readValue(file, Inventory.class);
+            System.out.println("inventory loaded from file: " + file.getPath());
         }
         else{
-            this.cupboard = new Cupboard();
-            saveCupboard();
-            System.out.println("New Cupboard created and save:  " + file.getPath());
+            this.inventory = new Inventory();
+            saveInventory();
+            System.out.println("New inventory created and save:  " + file.getPath());
             
         }
     }
 
     /**
-     * Saves the current cupboard data to a JSON file.
+     * Saves the current inventory data to a JSON file.
      * @throws IOException if an error occurs while writing the file. 
      */
-    private void saveCupboard() throws IOException{
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
+    private void saveInventory() throws IOException{
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, inventory);
     }
 
 
     /**
-     * Returns the latest cupboard
-     * @throws IOException if an error occurs while loading the cupboard.
+     * Returns the latest inventory
+     * @throws IOException if an error occurs while loading the inventory.
      */
     @Override
-    public synchronized Cupboard getCupboard() throws IOException{
-        loadCupboard();//makes sure the data is the latest
-        return cupboard;
+    public synchronized Inventory getInventory() throws IOException{
+        loadInventory();//makes sure the data is the latest
+        return inventory;
     }
 
     /**
-     * Searches the inventory for a specific need, if found it's deleted and saves the updated cupboard to a JSON file.
-     * @throws IOException if an error occurs saving the cupboard, saveCupboard().
+     * Searches the inventory for a specific need, if found it's deleted and saves the updated inventory to a JSON file.
+     * @throws IOException if an error occurs saving the inventory, saveInventory().
      */
     @Override
     public synchronized boolean deleteNeed(long id) throws IOException {
 
-        for(int i=0; i < cupboard.getInventory().size(); i++){
-            Need n = cupboard.getInventory().get(i);
+        for(int i=0; i < inventory.getInventory().size(); i++){
+            Need n = inventory.getInventory().get(i);
             if(n.getId() == id){
-                cupboard.getInventory().remove(i); //removes by the index
-                saveCupboard(); //Saves the current cupboard data to a JSON file.
+                inventory.getInventory().remove(i); //removes by the index
+                saveInventory(); //Saves the current inventory data to a JSON file.
                 System.out.println("Need deleted: " + n.getName() + " (ID: " + n.getId() +")");
                 return true; //
             }
         }
-        return false; //returns false if the id cannot be found in the cupboard inventory.
+        return false; //returns false if the id cannot be found in the inventory inventory.
     }
 
     
@@ -162,7 +156,7 @@ public class FileCupboardDAO implements CupboardDAO {
     
     @Override
     public Need getNeedByID(String id) {
-        for (Need need : cupboard.getInventory()) {
+        for (Need need : inventory.getInventory()) {
             if (need.getId().equals(Long.valueOf(id))) {
                 return need;
             }
@@ -173,13 +167,13 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public boolean updateNeed(Need updatedNeed) {
         try {
-            List<Need> lst = cupboard.getInventory();
-            for (Need need : cupboard.getInventory()) {
+            List<Need> lst = inventory.getInventory();
+            for (Need need : inventory.getInventory()) {
                 if (need.getId().equals(updatedNeed.getId())) {
                     if (updatedNeed.getName() != null) need.setName(updatedNeed.getName());
                     if (updatedNeed.getquantity() > 0) need.setquantity(updatedNeed.getquantity());
                     if (updatedNeed.getFundingAmount() > 0) need.setFundingAmount(updatedNeed.getFundingAmount());
-                    saveCupboard();
+                    saveInventory();
                     return true;
                 }
             }

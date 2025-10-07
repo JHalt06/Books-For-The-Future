@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Need;
 
-public class FileCupboardDAOTest {
+public class FileInventoryDAOTest {
 
     private File tempfile;
     private FileCupboardDAO cupboardDAO;

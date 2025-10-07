@@ -1,14 +1,9 @@
 {
-  "id" : 1,
-  "inventory" : [ {
-    "id" : 3,
-    "name" : "Pens",
-    "quantity" : 12,
-    "fundingAmount" : 3.5
-  }, {
-    "id" : 4,
-    "name" : "Pencils",
-    "quantity" : 25,
-    "fundingAmount" : 10.0
+  "id" : 2,
+  "cupboard" : [ {
+    "id" : 1,
+    "name" : "Markers",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
   } ]
 }

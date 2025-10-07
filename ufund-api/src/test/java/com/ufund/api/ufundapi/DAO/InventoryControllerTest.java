@@ -8,25 +8,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.ufund.api.ufundapi.Controller.CupboardController;
-import com.ufund.api.ufundapi.Model.Cupboard;
+import com.ufund.api.ufundapi.Controller.InventoryController;
+import com.ufund.api.ufundapi.Model.Inventory;
 import com.ufund.api.ufundapi.Model.Need;
 
-public class CupboardControllerTest {
-    private CupboardController controller;
+public class InventoryControllerTest {
+    private InventoryController controller;
     private TestDAO dao;
-//The test setup:cannot instantiate the CupboardDAO.
-    class TestDAO implements CupboardDAO{
-        private Cupboard cupboard = new Cupboard();
+//The test setup:cannot instantiate the InventoryDAO.
+    class TestDAO implements InventoryDAO{
+        private Inventory inventory = new Inventory();
 
         @Override
-        public Cupboard getCupboard(){
-            return cupboard;
+        public Inventory getInventory(){
+            return inventory;
         }
 
         @Override
         public boolean deleteNeed(long id){
-            List<Need> inventory = cupboard.getInventory();
+            List<Need> inventory = this.inventory.getInventory();
             for (Need n : new ArrayList<>(inventory)){
                 if(n.getId() != null && n.getId().equals(id)){
                     inventory.remove(n);
@@ -59,25 +59,31 @@ public class CupboardControllerTest {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        @Override
+        public boolean updateNeed(Need updatedNeed) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'updateNeed'");
+        }
+
     }
     
     @BeforeEach
     void setup(){
         dao = new TestDAO();
-        controller = new CupboardController(dao);
+        controller = new InventoryController(dao);
     }
 //The Tests:
     @Test
-    void testGetCupboardEmpty() throws IOException{
-        List<Need> result = controller.getCupboard().getBody();
+    void testGetInventoryEmpty() throws IOException{
+        List<Need> result = controller.getInventory().getBody();
         assertEquals(0, result.size());
     }
 
     @Test
-    void testGetCupboardWithProducts() throws IOException{
-        dao.getCupboard().addNeed(new Need(1L, "Pencils", 2, 3.0));
-        dao.getCupboard().addNeed(new Need(2L, "Books", 1, 10.0));
-        List<Need> result = controller.getCupboard().getBody();
+    void testGetInventoryWithProducts() throws IOException{
+        dao.getInventory().addNeed(new Need(1L, "Pencils", 2, 3.0));
+        dao.getInventory().addNeed(new Need(2L, "Books", 1, 10.0));
+        List<Need> result = controller.getInventory().getBody();
 
         assertEquals(2, result.size());
         assertEquals("Pencils", result.get(0).getName());
@@ -86,7 +92,7 @@ public class CupboardControllerTest {
 
     @Test
     void testDeleteNeedSuccessful() throws IOException{
-        dao.getCupboard().addNeed(new Need(1L, "Pencils", 2, 3.0));
+        dao.getInventory().addNeed(new Need(1L, "Pencils", 2, 3.0));
         assertEquals(204, controller.deleteNeed(1L).getStatusCodeValue()); //is there another way of doing this?
     }
 

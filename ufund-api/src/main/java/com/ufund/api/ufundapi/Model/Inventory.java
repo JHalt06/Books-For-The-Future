@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cupboard {
+public class Inventory {
 
     private long id; 
     private List<Need> inventory;
 
-    public Cupboard(){
+    public Inventory(){
         this.id = 1L;
         this.inventory = new ArrayList<>();
 
@@ -42,5 +42,4 @@ public class Cupboard {
         return needs;
     }
 
-   
 }
