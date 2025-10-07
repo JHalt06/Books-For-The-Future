@@ -1,0 +1,14 @@
+{
+  "id" : 1,
+  "inventory" : [ {
+    "id" : 3,
+    "name" : "Pens",
+    "quantity" : 12,
+    "fundingAmount" : 3.5
+  }, {
+    "id" : 4,
+    "name" : "Pencils",
+    "quantity" : 25,
+    "fundingAmount" : 10.0
+  } ]
+}
