@@ -68,7 +68,7 @@ public class InventoryController {
     }
 
     @GetMapping("/needs")
-    public ResponseEntity<Object> searchNeeds(@RequestParam String q){
+    public ResponseEntity<List<Need>> searchNeeds(@RequestParam String q){
         LOG.info("GET /inventory/needs/?q=" + q);
         try {
             List<Need> needs = inventoryDAO.getNeedByName(q);

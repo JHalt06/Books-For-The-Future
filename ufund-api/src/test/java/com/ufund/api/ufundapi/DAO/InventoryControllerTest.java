@@ -93,4 +93,33 @@ public class InventoryControllerTest {
                 new Need(99L, "Pencils", 2, 3.0)).getStatusCode());
     }
 
+    @Test
+    void testSearchNeedsNotFound(){
+        assertEquals(HttpStatus.NOT_FOUND, controller.searchNeeds("Pens").getStatusCode());
+    }
+
+    @Test
+    void testSearchNeeds() throws IOException {
+        Need need = new Need(1L, "Pencils", 2, 3.0);
+        dao.addNeed(need);
+        ResponseEntity<List<Need>> searchResult = controller.searchNeeds("P");
+        assertEquals(HttpStatus.OK, searchResult.getStatusCode());
+        assertEquals(1, searchResult.getBody().size());
+        assertEquals("Pencils", searchResult.getBody().getFirst().getName());
+
+    }
+
+    @Test
+    void testGetNeedNotFound(){
+        assertEquals(HttpStatus.NOT_FOUND, controller.getNeed("99").getStatusCode());
+    }
+
+    @Test
+    void testGetNeed() throws IOException {
+        Need need = new Need(1L, "Pencils", 2, 3.0);
+        dao.addNeed(need);
+        ResponseEntity<Object> result = controller.getNeed("1");
+        assertEquals(HttpStatus.OK,result.getStatusCode());
+        assertEquals(need, result.getBody());
+    }
 }
