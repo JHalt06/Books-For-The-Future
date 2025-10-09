@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,12 +50,12 @@ public class InventoryControllerTest {
     @Test
     void testDeleteNeedSuccessful() throws IOException{
         dao.addNeed(new Need(1L, "Pencils", 2, 3.0));
-        assertEquals(204, controller.deleteNeed(1L).getStatusCode().value()); //is there another way of doing this?
+        assertEquals(204, controller.deleteNeed(1L).getStatusCode().value());
     }
 
     @Test
     void testDeleteNeedNotFound() throws IOException{
-        assertEquals(404, controller.deleteNeed(99L).getStatusCode().value()); //is there another way of doing this?
+        assertEquals(404, controller.deleteNeed(99L).getStatusCode().value());
     }
 
     @Test
@@ -72,6 +73,24 @@ public class InventoryControllerTest {
         assertEquals(HttpStatus.CONFLICT, createStatus);
         List<Need> needs = controller.getInventory().getBody();
         assertEquals(1, needs.size());
+    }
+
+    @Test
+    void testUpdateNeed() throws IOException {
+        Need need = new Need(1L, "Pencils", 2, 3.0);
+        dao.addNeed(need);
+        need.setName("Pens");
+        HttpStatusCode updateStatus = controller.updateNeed(1L, need).getStatusCode();
+        List<Need> needs = controller.getInventory().getBody();
+        assertEquals(HttpStatus.OK, updateStatus);
+        Need changedNeed = needs.getFirst();
+        assertEquals("Pens", changedNeed.getName());
+    }
+
+    @Test
+    void testUpdateNeedNotFound(){
+        assertEquals(HttpStatus.NOT_FOUND, controller.updateNeed(99L,
+                new Need(99L, "Pencils", 2, 3.0)).getStatusCode());
     }
 
 }
