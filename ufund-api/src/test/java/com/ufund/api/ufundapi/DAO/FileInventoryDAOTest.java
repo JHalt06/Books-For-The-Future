@@ -20,7 +20,7 @@ import com.ufund.api.ufundapi.Model.Need;
 public class FileInventoryDAOTest {
 
     private File tempfile;
-    private FileCupboardDAO cupboardDAO;
+    private FileInventoryDAO inventoryDAO;
 
     @BeforeEach
     void setup() throws IOException{
@@ -30,7 +30,7 @@ public class FileInventoryDAOTest {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        cupboardDAO = new FileCupboardDAO(tempfile.getAbsolutePath(), mapper );
+        inventoryDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper );
         //Initailize 
 
     }
@@ -38,7 +38,7 @@ public class FileInventoryDAOTest {
     @Test 
     void testAddNeed_success() throws IOException{
         Need newNeed = new Need( "Backpack", 5,12.5);
-        Need cretaeNeed = cupboardDAO.addNeed(newNeed);
+        Need cretaeNeed = inventoryDAO.addNeed(newNeed);
 
         assertNotNull(cretaeNeed);
         assertEquals("Backpack", cretaeNeed.getName());
@@ -49,12 +49,12 @@ public class FileInventoryDAOTest {
     @Test
     void testAddNeed_duplicateNameThrowsException() throws IOException{
         Need need1 = new Need("NoteBook", 10,5.0);
-        cupboardDAO.addNeed(need1);
+        inventoryDAO.addNeed(need1);
         
         Need need2 = new Need("NoteBook", 8, 4.0);
         
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            cupboardDAO.addNeed(need2);
+            inventoryDAO.addNeed(need2);
         });
 
         String expectedMessage = " Need with this name already exists";
@@ -65,22 +65,22 @@ public class FileInventoryDAOTest {
     @Test
     void testNeedExistByName() throws IOException{
         Need need = new Need("Pencils", 20, 2.5);
-        cupboardDAO.addNeed(need);
+        inventoryDAO.addNeed(need);
 
-        assertTrue(cupboardDAO.needExistByName("Pencils"));
-        assertTrue(cupboardDAO.needExistByName("pencils"));
-        assertFalse(cupboardDAO.needExistByName("Crayons"));
+        assertTrue(inventoryDAO.needExistByName("Pencils"));
+        assertTrue(inventoryDAO.needExistByName("pencils"));
+        assertFalse(inventoryDAO.needExistByName("Crayons"));
     }
 
     @Test
     void testPersistanceToFile() throws IOException{
         Need need = new Need(null, "Crayons", 12,3.5);
-        cupboardDAO.addNeed(need);
+        inventoryDAO.addNeed(need);
 
         //Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath(), mapper);
-        
+        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+
         assertTrue(reloadDAO.needExistByName("Crayons"));
     }
 
@@ -90,13 +90,13 @@ public class FileInventoryDAOTest {
         Need need2 = new Need("Pencils", 15,4.5);
         Need need3 = new Need("Markers", 10,4.5);
 
-        cupboardDAO.addNeed(need1);
-        cupboardDAO.addNeed(need2);
-        cupboardDAO.addNeed(need3);
+        inventoryDAO.addNeed(need1);
+        inventoryDAO.addNeed(need2);
+        inventoryDAO.addNeed(need3);
 
         //Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath(), mapper);
+        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
         
         List<Need> actual = reloadDAO.getNeedByName("Pen");
         ArrayList<Need> expected = new ArrayList<>();
@@ -114,12 +114,12 @@ public class FileInventoryDAOTest {
     void testSearchNeedsNoneFound() throws IOException{
         Need need1 = new Need("Pens", 12,3.5);
 
-        cupboardDAO.addNeed(need1);
+        inventoryDAO.addNeed(need1);
 
         //Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath(), mapper);
-        
+        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+
         List<Need> actual = reloadDAO.getNeedByName("Markers");
 
         assertEquals(actual.isEmpty(), true);
