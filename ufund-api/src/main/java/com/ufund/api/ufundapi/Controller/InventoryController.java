@@ -48,7 +48,7 @@ public class InventoryController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
             Need createNeed = inventoryDAO.addNeed(need);
-            String message2 ="Need cretaed successfully: " + createNeed.getName() + "(UD: " + createNeed.getId() + ")";
+            String message2 ="Need created successfully: " + createNeed.getName() + "(UD: " + createNeed.getId() + ")";
             LOG.info(message2);
             return new ResponseEntity<>(createNeed, HttpStatus.CREATED);
             

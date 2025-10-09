@@ -2,18 +2,18 @@ package com.ufund.api.ufundapi.DAO;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.ufund.api.ufundapi.Controller.InventoryController;
-import com.ufund.api.ufundapi.Model.Inventory;
 import com.ufund.api.ufundapi.Model.Need;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 
 public class InventoryControllerTest {
     private InventoryController controller;
@@ -49,12 +49,29 @@ public class InventoryControllerTest {
     @Test
     void testDeleteNeedSuccessful() throws IOException{
         dao.addNeed(new Need(1L, "Pencils", 2, 3.0));
-        assertEquals(204, controller.deleteNeed(1L).getStatusCodeValue()); //is there another way of doing this?
+        assertEquals(204, controller.deleteNeed(1L).getStatusCode().value()); //is there another way of doing this?
     }
 
     @Test
     void testDeleteNeedNotFound() throws IOException{
-        assertEquals(404, controller.deleteNeed(99L).getStatusCodeValue()); //is there another way of doing this?
+        assertEquals(404, controller.deleteNeed(99L).getStatusCode().value()); //is there another way of doing this?
+    }
+
+    @Test
+    void testCreateNewNeed() throws IOException {
+        HttpStatusCode createStatus = controller.createNeed(new Need(1L, "Pencils", 2, 3.0)).getStatusCode();
+        assertEquals(HttpStatus.CREATED, createStatus);
+        List<Need> needs = controller.getInventory().getBody();
+        assertEquals(1, needs.size());
+    }
+
+    @Test
+    void testCreateExistingNeed() throws IOException {
+        controller.createNeed(new Need(1L, "Pencils", 2, 3.0));
+        HttpStatusCode createStatus = controller.createNeed(new Need(2L, "Pencils", 2, 3.0)).getStatusCode();
+        assertEquals(HttpStatus.CONFLICT, createStatus);
+        List<Need> needs = controller.getInventory().getBody();
+        assertEquals(1, needs.size());
     }
 
 }
