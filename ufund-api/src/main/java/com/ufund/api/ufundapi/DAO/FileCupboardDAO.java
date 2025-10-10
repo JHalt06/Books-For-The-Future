@@ -68,6 +68,7 @@ public class FileCupboardDAO implements CupboardDAO {
 
     /**
      * Searches the cupboard for a specific need, if found it's deleted and saves the updated cupboard to a JSON file.
+     * @param id the id of the need to delete.
      * @throws IOException if an error occurs saving the cupboard, saveCupboard().
      */
     @Override
@@ -84,8 +85,12 @@ public class FileCupboardDAO implements CupboardDAO {
         }
         return false; //returns false if the id cannot be found in the inventory inventory.
     }
-
     
+    /**
+     * Searches the cupboard for a need that matches a given id value.
+     * @param id the id of the need to search for.
+     * @return the need with matching id if found, null otherwise.
+     */
     @Override
     public Need getNeedByID(String id) {
         for (Need need : cupboard.getCupboard()) {
@@ -99,7 +104,7 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public boolean updateNeed(Need updatedNeed) {
         try {
-            List<Need> lst = cupboard.getCupboard();
+            // List<Need> lst = cupboard.getCupboard();
             for (Need need : cupboard.getCupboard()) {
                 if (need.getId().equals(updatedNeed.getId())) {
                     if (updatedNeed.getName() != null) need.setName(updatedNeed.getName());
@@ -126,7 +131,7 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public synchronized Need addNeed(Need need) throws IOException {
         if(needExistByName(need.getName())){
-            throw new IllegalArgumentException("Need with this name already exists.");
+            throw new IllegalArgumentException("Need with this name not in");
         }
         //assign new ID(incremental)
         List<Need> needs = cupboard.getCupboard();
