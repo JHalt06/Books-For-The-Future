@@ -29,6 +29,17 @@ public class FileCupboardDAO implements CupboardDAO {
         this.file = new File(filePath);
         loadCupboard();
     }
+
+    public FileCupboardDAO() {
+        this.objectMapper = new ObjectMapper();
+        this.file = new File("data/cupboard.json");
+        try {
+            loadCupboard();
+        } catch (IOException e) {
+            System.out.println("Error loading cupboard data from cupboard.json");
+        }
+    }
+
     
         /**
      * Loads the inventory data from the file, or initialize a new inventory if the files doesn't exist

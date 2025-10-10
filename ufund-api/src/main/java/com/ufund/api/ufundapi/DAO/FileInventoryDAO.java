@@ -19,7 +19,6 @@ public class FileInventoryDAO implements InventoryDAO {
     private  final File file;
     private Inventory inventory;
 
-
     /**
      * 
      * @param filePath Path to the JSON file use for persistance. 
@@ -45,6 +44,15 @@ public class FileInventoryDAO implements InventoryDAO {
         loadInventory();
     }
 
+    public FileInventoryDAO() {
+        this.objectMapper = new ObjectMapper();
+        this.file = new File("data/inventory.json");
+        try {
+            loadInventory();
+        } catch (IOException e) {
+            System.out.println("Error loading cupboard data from inventory.json");
+        }
+    }
 
     /**
      * Adds a new need to the inventory inventory if it doesnt already exists 
@@ -55,7 +63,7 @@ public class FileInventoryDAO implements InventoryDAO {
      * @Throws IllegalArgumentException if a Need with same name already exists. 
      */
     @Override
-    public synchronized Need addNeed(Need need) throws IOException {
+    public synchronized Need addNeed(Need need) {
         if(needExistByName(need.getName())){
             throw new IllegalArgumentException("Need with this name already exists.");
         }
@@ -66,7 +74,11 @@ public class FileInventoryDAO implements InventoryDAO {
 
         //add to inventory and save
         inventory.addNeed(need);
-        saveInventory();
+        try {
+            saveInventory();
+        } catch (IOException e) {
+            System.out.println("Error adding need: " + need.getName());
+        }
 
         System.out.println("New need added: " + need.getName() + "(ID " +
             need.getId() +" )");

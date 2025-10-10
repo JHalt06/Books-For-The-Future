@@ -7,6 +7,15 @@ public class Need {
     private int quantity;
     private double fundingAmount;
 
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "cupboard_id")
+    // private Cupboard cupboard;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "inventory_id")
+    // private Inventory inventory;
+
+
     public Need(){}
     public Need(String name, int quantity, double fundingAmount){
         this.name = name;

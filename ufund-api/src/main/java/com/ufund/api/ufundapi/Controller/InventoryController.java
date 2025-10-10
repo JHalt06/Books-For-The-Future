@@ -116,6 +116,7 @@ public class InventoryController {
      */
     @DeleteMapping("/inventory/{id}") //{id} is a path variable, Spring will extract this part of the URL and pass it into the method
     public ResponseEntity<Void> deleteNeed(@PathVariable long id) throws IOException{
+        LOG.info("DELETE /cupboard/inventory/" + id);
         boolean deleted = inventoryDAO.deleteNeed(id);
         if(deleted){
             return ResponseEntity.noContent().build(); //204 No Content, this means that the id was found and is now deleted, delete successful.
