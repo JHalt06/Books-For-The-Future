@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class FileCupboardDAO implements CupboardDAO {
     private final ObjectMapper objectMapper;
     private  final File file;

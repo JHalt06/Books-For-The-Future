@@ -1,15 +1,12 @@
 package com.ufund.api.ufundapi.Controller;
 
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
@@ -50,4 +47,29 @@ public class CupboardController {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PostMapping("/needs/{id}")
+    public ResponseEntity<Need> addNeedToBasket(@PathVariable long id){
+        LOG.info("POST /cupboard/needs/" + id);
+        try {
+            Need newNeed = helperService.addNeedToBasket(id);
+            if (newNeed != null){
+                // check if need exists in basket
+                // returns need if successful
+                if (helperService.getCupboardDao().getNeedByID(String.valueOf(id)) != null && helperService.getInventoryDao().getNeedByID(String.valueOf(id)) == null){
+                    return new ResponseEntity<>(newNeed, HttpStatus.CREATED);
+                }
+            }
+            // if need exists there is a conflict
+            if(helperService.getCupboardDao().getNeedByID(String.valueOf(id)) != null){
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e){
+            LOG.log(Level.SEVERE, e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
