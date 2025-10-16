@@ -16,7 +16,7 @@ import com.ufund.api.ufundapi.Model.Need;
 public class FileInventoryDAO implements InventoryDAO {
 
     private final ObjectMapper objectMapper;
-    private  final File file;
+    private final File file;
     private Inventory inventory;
 
     /**
@@ -26,7 +26,7 @@ public class FileInventoryDAO implements InventoryDAO {
      */
 
     @Autowired
-    public FileInventoryDAO(@Value("${inventory.filepath:data/inventory.json}")String filePath) throws IOException{
+    public FileInventoryDAO(@Value("${inventory.filepath}")String filePath) throws IOException{
         this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
         loadInventory();
@@ -52,7 +52,9 @@ public class FileInventoryDAO implements InventoryDAO {
         } catch (IOException e) {
             System.out.println("Error loading cupboard data from inventory.json");
         }
+
     }
+    
 
     /**
      * Adds a new need to the inventory inventory if it doesnt already exists 
@@ -194,5 +196,5 @@ public class FileInventoryDAO implements InventoryDAO {
             return false;
         }
     }
-
 }
+

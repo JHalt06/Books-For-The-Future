@@ -18,13 +18,11 @@ public class HelperService {
     private final InventoryDAO inventoryDao = new FileInventoryDAO();
 
     public Need addNeed(Need need) {
-        if (inventoryDao.needExistByName(need.getName())) {
             try {
                 return cupboardDao.addNeed(need);
             } catch (IOException e) {
                 System.out.println("Error saving need to file");
             }
-        }
         System.out.println("Need not found inside cupboard");
         return null;
     }
@@ -50,5 +48,13 @@ public class HelperService {
         }
         System.out.println("Error getting needs from cupboard, or doesn't exist");
         return null;
+    }
+
+    public CupboardDAO getCupboardDao() {
+        return cupboardDao;
+    }
+
+    public InventoryDAO getInventoryDao() {
+        return inventoryDao;
     }
 }
