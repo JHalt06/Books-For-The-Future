@@ -23,7 +23,7 @@ public class InventoryControllerTest {
 
     @BeforeEach
     void setup() throws IOException {
-        tempfile = File.createTempFile("test-cupboard", ".json");
+        tempfile = File.createTempFile("test-cupboard", ".json"); //is this supposed to be "test-inventory?"
         tempfile.deleteOnExit(); //Auto delete after test
 
         dao = new FileInventoryDAO(tempfile.getAbsolutePath());
