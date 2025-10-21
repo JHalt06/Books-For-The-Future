@@ -2,9 +2,10 @@ package com.ufund.api.ufundapi.Service;
 
 import java.io.IOException;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ufund.api.ufundapi.DAO.FileInventoryDAO;
+import com.ufund.api.ufundapi.DAO.FileManagerDAO;
 import com.ufund.api.ufundapi.DAO.InventoryDAO;
 import com.ufund.api.ufundapi.DAO.ManagerDAO;
 import com.ufund.api.ufundapi.Model.Manager;
@@ -20,8 +21,13 @@ public class ManagerService { // also Developer/Admin?
     // all CRUD operations are contained in this file, but the logic is held in the Cupboard/Inventory.java model files
     // not sure if saveCupboard() and saveInventory() need to be in here
 
+    @Autowired
     public ManagerService(ManagerDAO managerDao){
         this.managerDao = managerDao;
+    }
+
+    public ManagerService() {
+        this.managerDao = new FileManagerDAO();
     }
 
     public boolean validateManagerLogin(String username, String password){

@@ -122,7 +122,6 @@ public class FileInventoryDAO implements InventoryDAO {
             this.inventory = new Inventory();
             saveInventory();
             System.out.println("New inventory created and save:  " + file.getPath());
-            
         }
     }
 

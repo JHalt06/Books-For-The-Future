@@ -80,6 +80,11 @@ public class CupboardControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    @Test
+    void testRemoveNeedFromBasketValid(){
+        ResponseEntity<Void> response = controller.removeNeedFromBasket(99L);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 
 
 

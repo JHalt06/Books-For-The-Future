@@ -3,12 +3,14 @@ package com.ufund.api.ufundapi.DAO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-//import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Manager;
 
+@Repository
 public class FileManagerDAO implements ManagerDAO{
     private static final String MANAGER_FILE = "data/manager.json";
     private final ObjectMapper objectMapper = new ObjectMapper();

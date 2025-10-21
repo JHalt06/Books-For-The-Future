@@ -26,7 +26,7 @@ public class FileCupboardDAO implements CupboardDAO {
      */
 
     @Autowired
-    public FileCupboardDAO(@Value("${cupboard.filepath:data/cupboard.json}")String filePath) throws IOException{
+    public FileCupboardDAO(@Value("${cupboard.filepath}")String filePath) throws IOException{
         this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
         loadCupboard();
