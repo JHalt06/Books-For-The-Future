@@ -86,6 +86,17 @@ public class HelperService {
         }
         return false; // if need not found in cupbord
     }
+    public boolean updateNeed(Need updatedNeed)throws IOException{
+        
+        try {
+            return cupboardDao.updateNeed(updatedNeed);
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+
 
     public CupboardDAO getCupboardDao() {
         return cupboardDao;
