@@ -101,4 +101,22 @@ public class CupboardController {
         }
     }
 
+    @PostMapping("/need/update")
+    public ResponseEntity<Object> updateNeed(@RequestBody Need updateNeed){
+        LOG.info("POST / cupboard/need/update" + updateNeed);
+
+        try {
+            boolean updated = helperService.updateNeed(updateNeed);
+            if(updated){
+                return new ResponseEntity<>(updateNeed, HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
