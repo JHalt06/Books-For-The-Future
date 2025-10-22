@@ -1,12 +1,12 @@
 package com.ufund.api.ufundapi.Controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -84,6 +84,29 @@ public class CupboardControllerTest {
     void testRemoveNeedFromBasketValid(){
         ResponseEntity<Void> response = controller.removeNeedFromBasket(99L);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testUpdateNeed_NOTFOUND() throws IOException{
+        Need need = new Need(998L, "pencil",1,1.0);
+        ResponseEntity<Object> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+    @Test 
+    void testUpdateNeed_Success() throws IOException{
+        Need need = new Need(null,"Laptop", 5, 1000.0);
+        Need addedNeed = helperService.addNeed(need);
+
+        Need updatedNeed = new Need(addedNeed.getId(), "Laptop Pro", 10,1200.0);
+        ResponseEntity<Object> response = controller.updateNeed(updatedNeed);
+        Need returnedNeed = (Need) response.getBody();
+        assertNotNull(returnedNeed);
+        assertEquals("Laptop Pro", returnedNeed.getName());
+        assertEquals(10,returnedNeed.getquantity());
+        assertEquals(1200.0, returnedNeed.getFundingAmount());
+
+
     }
 
 

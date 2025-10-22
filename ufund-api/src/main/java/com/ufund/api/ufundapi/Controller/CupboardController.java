@@ -103,7 +103,7 @@ public class CupboardController {
 
     @PostMapping("/need/update")
     public ResponseEntity<Object> updateNeed(@RequestBody Need updateNeed){
-        LOG.info("POST / cupboard/need/update" + updateNeed);
+        LOG.info("POST /cupboard/need/update" + updateNeed);
 
         try {
             boolean updated = helperService.updateNeed(updateNeed);
