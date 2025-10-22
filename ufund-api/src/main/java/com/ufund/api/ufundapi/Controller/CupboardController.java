@@ -62,10 +62,10 @@ public class CupboardController {
     }
 
     @PostMapping("/needs/{id}")
-    public ResponseEntity<Need> addNeedToBasket(@PathVariable long id){
+    public ResponseEntity<Need> addNeedFromBasket(@PathVariable long id){
         LOG.info("POST /cupboard/needs/" + id);
         try {
-            Need newNeed = helperService.addNeedToBasket(id);
+            Need newNeed = helperService.addNeedFromBasket(id);
             if (newNeed != null){
                 // check if need exists in basket
                 // returns need if successful

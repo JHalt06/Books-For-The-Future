@@ -1,12 +1,11 @@
 package com.ufund.api.ufundapi.Controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ public class CupboardControllerTest {
     void testCreateNeedSuccess(){
         Need need = new Need(1L, "Notepad", 10, 5.0);
         ResponseEntity<Object> response = controller.createNeed(need); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Notepad", ((Need) response.getBody()).getName());
     }
 
@@ -58,19 +57,19 @@ public class CupboardControllerTest {
 
     @Test
     void testAddNeedToBasketSuccess(){
-        Need need = new Need(1L, "Pens", 11, 2.0);
+        Need need = new Need(1L, "Sharpies", 11, 2.0);
         helperService.addNeed(need);
-        ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+        ResponseEntity<Need> response = controller.addNeedFromBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Pens", ((Need) response.getBody()).getName());
+        assertEquals("Sharpies", ((Need) response.getBody()).getName());
     }
 
     @Test
     void testAddNeedToBasketConflict() throws IOException{
         Need need = new Need(1L, "Pens", 11, 2.0);
         helperService.addNeed(need);
-        helperService.addNeedToBasket(1L); //moves to inventory
-        ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+        helperService.addNeedFromBasket(1L); //moves to inventory
+        ResponseEntity<Need> response = controller.addNeedFromBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 

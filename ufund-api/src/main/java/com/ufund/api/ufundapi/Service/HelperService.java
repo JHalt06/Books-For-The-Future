@@ -63,8 +63,8 @@ public class HelperService {
     }
 
     // Same thing but uses ID instead of name
-    public Need addNeedToBasket(long id) throws IOException {
-        //if need is already in basket then it causes conflict
+    public Need addNeedFromBasket(long id) throws IOException {
+        //if need is already in cupboard then it causes conflict
         if (cupboardDao.getNeedByID(String.valueOf(id)) != null){
             return null;
         }

@@ -1,0 +1,9 @@
+{
+  "id" : 2,
+  "cupboard" : [ {
+    "id" : 1,
+    "name" : "Markers",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
+  } ]
+}
