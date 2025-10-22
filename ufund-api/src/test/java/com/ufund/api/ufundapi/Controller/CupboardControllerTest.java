@@ -56,14 +56,25 @@ public class CupboardControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    // @Test
+    // void testAddNeedToBasketSuccess(){
+
+    //     Need need = new Need(1L, "Pens", 11, 2.0);
+    //     helperService.addNeed(need);
+    //     ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+    //     assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    //     assertEquals("Pens", ((Need) response.getBody()).getName());
+    // }
+
     @Test
-    void testAddNeedToBasketSuccess(){
-        Need need = new Need(1L, "Pens", 11, 2.0);
-        helperService.addNeed(need);
-        ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+    void testAddNeedToBasketSuccess()throws IOException{
+        Need need = new Need(1L, "Pens", 11,2.0);
+        Need addedNeed = helperService.getInventoryDao().addNeed(need);
+        ResponseEntity<Need> response = controller.addNeedToBasket(addedNeed.getId());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Pens", ((Need) response.getBody()).getName());
+        assertEquals("Pens", response.getBody().getName());
     }
+    
 
     @Test
     void testAddNeedToBasketConflict() throws IOException{

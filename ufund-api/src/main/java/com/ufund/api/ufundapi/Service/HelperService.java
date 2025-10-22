@@ -73,6 +73,7 @@ public class HelperService {
         if (needInventory != null){
             cupboardDao.addNeed(needInventory);
             inventoryDao.deleteNeed(id);
+           
             return needInventory;
         }
         return null;
