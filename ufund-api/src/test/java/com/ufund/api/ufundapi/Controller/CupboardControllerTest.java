@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,14 +56,25 @@ public class CupboardControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    // @Test
+    // void testAddNeedToBasketSuccess(){
+
+    //     Need need = new Need(1L, "Pens", 11, 2.0);
+    //     helperService.addNeed(need);
+    //     ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+    //     assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    //     assertEquals("Pens", ((Need) response.getBody()).getName());
+    // }
+
     @Test
-    void testAddNeedToBasketSuccess(){
-        Need need = new Need(1L, "Sharpies", 11, 2.0);
-        helperService.addNeed(need);
-        ResponseEntity<Need> response = controller.addNeedFromBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
+    void testAddNeedToBasketSuccess()throws IOException{
+        Need need = new Need(1L, "Pens", 11,2.0);
+        Need addedNeed = helperService.getInventoryDao().addNeed(need);
+        ResponseEntity<Need> response = controller.addNeedToBasket(addedNeed.getId());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Sharpies", ((Need) response.getBody()).getName());
+        assertEquals("Pens", response.getBody().getName());
     }
+    
 
     @Test
     void testAddNeedToBasketConflict() throws IOException{
@@ -83,6 +95,29 @@ public class CupboardControllerTest {
     void testRemoveNeedFromBasketValid(){
         ResponseEntity<Void> response = controller.removeNeedFromBasket(99L);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void testUpdateNeed_NOTFOUND() throws IOException{
+        Need need = new Need(998L, "pencil",1,1.0);
+        ResponseEntity<Object> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+    @Test 
+    void testUpdateNeed_Success() throws IOException{
+        Need need = new Need(null,"Laptop", 5, 1000.0);
+        Need addedNeed = helperService.addNeed(need);
+
+        Need updatedNeed = new Need(addedNeed.getId(), "Laptop Pro", 10,1200.0);
+        ResponseEntity<Object> response = controller.updateNeed(updatedNeed);
+        Need returnedNeed = (Need) response.getBody();
+        assertNotNull(returnedNeed);
+        assertEquals("Laptop Pro", returnedNeed.getName());
+        assertEquals(10,returnedNeed.getquantity());
+        assertEquals(1200.0, returnedNeed.getFundingAmount());
+
+
     }
 
 

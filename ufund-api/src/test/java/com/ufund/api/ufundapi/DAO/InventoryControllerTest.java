@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.ufund.api.ufundapi.Controller.InventoryController;
+import com.ufund.api.ufundapi.DAO.InventoryDAO;
 import com.ufund.api.ufundapi.Model.Need;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
