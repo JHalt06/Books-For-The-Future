@@ -1,18 +1,13 @@
 package com.ufund.api.ufundapi.Controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
@@ -83,6 +78,13 @@ public class CupboardController {
             LOG.log(Level.SEVERE, e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/needs/search")
+    public ResponseEntity<List<Need>> searchNeedsByName(@RequestParam String name) {
+        LOG.info("GET /cupboard/needs/search?name=" + name);
+        List<Need> needs = helperService.searchNeedsByName(name);
+        return new ResponseEntity<>(needs, HttpStatus.OK);
     }
 
     @DeleteMapping("/needs/{id}")

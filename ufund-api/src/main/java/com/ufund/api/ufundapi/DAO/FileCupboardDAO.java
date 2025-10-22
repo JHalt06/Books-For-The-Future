@@ -177,7 +177,8 @@ public class FileCupboardDAO implements CupboardDAO {
      * @return the list of needs if any exist, else an empty list.
      */
     @Override
-    public List<Need> getNeedByName(String name) {
+    public List<Need> getNeedByName(String name) throws IOException {
+        loadCupboard();
         return cupboard.getNeedByName(name);
     }
 }

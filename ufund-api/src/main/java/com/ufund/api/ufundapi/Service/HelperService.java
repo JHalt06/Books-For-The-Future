@@ -1,6 +1,7 @@
 package com.ufund.api.ufundapi.Service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,15 @@ public class HelperService {
         }
         System.out.println("Error getting needs from cupboard, or doesn't exist");
         return null;
+    }
+
+    public List<Need> searchNeedsByName(String name) {
+        try {
+            return cupboardDao.getNeedByName(name);
+        } catch (IOException e) {
+            System.out.println("Error searching for needs by name.");
+            return Collections.emptyList();
+        }
     }
 
     // Same thing but uses ID instead of name
