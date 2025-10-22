@@ -45,7 +45,7 @@ public class CupboardControllerTest {
     void testCreateNeedSuccess(){
         Need need = new Need(1L, "Notepad", 10, 5.0);
         ResponseEntity<Object> response = controller.createNeed(need); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Notepad", ((Need) response.getBody()).getName());
     }
 
