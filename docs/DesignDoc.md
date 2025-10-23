@@ -9,20 +9,24 @@ geometry: margin=1in
 > and appear in the generated PDF in italics but do so only **after** all team members agree that the requirements for that section and current Sprint have been met. **Do not** delete future Sprint expectations._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: Team 06 Fantastech4
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Nolan York
+  * Tommy Bell
+  * James Halt
+  * Brayden Castro
 
 ## Executive Summary
-
-This is a summary of the project.
+This project is a web-based platform for managing school supplies and school supplies needs efficiently. It supports helpers by organizing and tracking items (Needs)
+for through a centralized system. The goal is to streamline school supply allocation, prevent errors, and provide visibility into available and required supplies.
 
 ### Purpose
 >  _**[Sprint 2 & 4]** Provide a very brief statement about the project and the most
 > important user group and user goals._
+
+The purpose of this project is to provide users wuth a centralized, and friendly to use application for managing school supplies allocation. The primary users, helpers,
+can easily lorganize baskets for needed supplies, while the secondary users, admins, can monitor and validate activities. The system helps reduce manual tracking,
+prevent errors, and makes communication between helpers and admins easier and quicker.
 
 ### Glossary and Acronyms
 > _**[Sprint 2 & 4]** Provide a table of terms and acronyms._
@@ -30,6 +34,10 @@ This is a summary of the project.
 | Term | Definition |
 |------|------------|
 | SPA | Single Page |
+| REST | Representational State Transfer |
+| MVP | Minimum Viable Product |
+| Basket | A collection of Needs |
+| Need | An item requested by a helper | 
 
 
 ## Requirements
@@ -42,6 +50,11 @@ This section describes the features of the application.
 
 ### Definition of MVP
 > _**[Sprint 2 & 4]** Provide a simple description of the Minimum Viable Product._
+The MVP of this project:
+1. User management
+2. Creation, viewing, anf management of school supplies basket (Funding baskets)
+3. Finalization to lock completed baskets. 
+4. Interface that allows for smooth navigation and interaction. 
 
 ### MVP Features
 >  _**[Sprint 4]** Provide a list of top-level Epics and/or Stories of the MVP._
@@ -60,6 +73,10 @@ This section describes the application domain.
 > can discuss the more important domain entities and their relationship
 > to each other._
 
+The main entities and relationships of the project:
+1. Helper: Primary user, can manage their own basket and Needs.
+2. Funding Basket: Group of needs asscoiated with a helper.
+3. Need: Individual resource item with description, quantity, and other metadata.
 
 ## Architecture and Design
 
@@ -130,6 +147,12 @@ This section describes the web interface and flow; this is how the user views an
 > _**[Sprint 2, 3 & 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
 > Tier above._
+Core classes:
+  FundingBasket
+  Cupboard
+  Inventory
+  Manager
+  Need -stores item details
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
@@ -141,6 +164,23 @@ This section describes the web interface and flow; this is how the user views an
 > _**[Sprint 1]** Name and describe the initial OO Principles that your team has considered in support of your design (and implementation) for this first Sprint._
 
 > _**[Sprint 2, 3 & 4]** Will eventually address upto **4 key OO Principles** in your final design. Follow guidance in augmenting those completed in previous Sprints as indicated to you by instructor. Be sure to include any diagrams (or clearly refer to ones elsewhere in your Tier sections above) to support your claims._
+
+1. Separation of Conserns (SoC)
+    Front-End  
+      All user interaction and request handling logic is isolocated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
+    Business Logic
+      Contrains all core application logic, such as validations.
+    Data Access (DAO)
+      Responsible solely for CRUD operations and persistence. Handle reading/writing to JSON files. These files are unaware of how the data is used in business logic.
+
+2. Single Responsibility Principle (SRP)
+    Controller Classes:
+      UsersController only handle HTTP requests related to users, nothing else. 
+    DAO classes:
+      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
+
+
+
 
 > _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
@@ -174,3 +214,22 @@ This section describes the web interface and flow; this is how the user views an
 
 ## Ongoing Rationale
 >_**[Sprint 1, 2, 3 & 4]** Throughout the project, provide a time stamp **(yyyy/mm/dd): Sprint # and description** of any _**mayor**_ team decisions or design milestones/changes and corresponding justification._
+
+(2025/10/10) Sprint 2: Working on now:
+Tommy: Edit needs in Cupboard, Search needs in cupboard user stories
+James: Admin logic, modify funding basket user stories
+Nolan: Refactoring, Populate/remove/browse needs in cupboard user stories
+Brayden: Checkout needs to funding basket, edit needs in cupboard user stories
+Working on next:
+Tommy: User stories in progress
+James: Researching, User stories in progress
+Nolan: User stories that are in progress
+Brayden: User stories that are in progress
+BLOCKERS:
+Tommy: N/A
+James: Funding basket creation
+Nolan: Need to refactor before everyone continues
+Brayden: Funding basket creation
+
+() Sprint #: 
+

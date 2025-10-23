@@ -5,5 +5,10 @@
     "name" : "Markers",
     "quantity" : 100,
     "fundingAmount" : 50.0
+  }, {
+    "id" : 2,
+    "name" : "Notepads",
+    "quantity" : 50,
+    "fundingAmount" : 20.0
   } ]
 }

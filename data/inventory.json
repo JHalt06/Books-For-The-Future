@@ -10,5 +10,10 @@
     "name" : "Pencils",
     "quantity" : 90,
     "fundingAmount" : 10.0
+  }, {
+    "id" : 5,
+    "name" : "Markers",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
   } ]
 }
