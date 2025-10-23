@@ -41,13 +41,13 @@ public class ManagerService { // also Developer/Admin?
     }
 
 
-    public Need findNeedById(String id) {
+    public Need findNeedById(long id) {
         return inventoryDao.getNeedByID(id);
     }
 
-    public boolean deleteNeed(String id) {
+    public boolean deleteNeed(Long id) {
         try {
-            return inventoryDao.deleteNeed(Long.parseLong(id));
+            return inventoryDao.deleteNeed(id);
         } catch (NumberFormatException | IOException nfE) {
             return false;
         }

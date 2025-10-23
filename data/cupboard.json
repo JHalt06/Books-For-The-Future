@@ -1,14 +1,66 @@
 {
   "id" : 2,
   "cupboard" : [ {
+    "id" : 1,
+    "name" : "Markers",
+    "quantity" : 100,
+    "fundingAmount" : 51.0
+  }, {
     "id" : 2,
-    "name" : "Notepads",
-    "quantity" : 50,
+    "name" : "Dictionaries",
+    "quantity" : 100,
+    "fundingAmount" : 26.0
+  }, {
+    "id" : 3,
+    "name" : "Crayons",
+    "quantity" : 100,
     "fundingAmount" : 20.0
   }, {
+<<<<<<< HEAD
     "id" : 3,
     "name" : "Pencils",
     "quantity" : 150,
     "fundingAmount" : 25.0
+=======
+    "id" : 4,
+    "name" : "Red Balloons",
+    "quantity" : 1001,
+    "fundingAmount" : 10.0
+  }, {
+    "id" : 6,
+    "name" : "Staplers",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 7,
+    "name" : "Staples",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 8,
+    "name" : "Colored Paper",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 9,
+    "name" : "Colored Pencils",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 10,
+    "name" : "Blocks",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 11,
+    "name" : "Hot Dogs",
+    "quantity" : 900,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 12,
+    "name" : "Scotch Tape",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+>>>>>>> 4760b4e0656f735ec89a100fb4e119e061447682
   } ]
 }

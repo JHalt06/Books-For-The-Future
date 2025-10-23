@@ -42,7 +42,7 @@ public class HelperService {
 
     public boolean removeNeed(Need need) {
         System.out.println("HelperService.removeNeed called with Need " + need);
-        Need existingNeedInCupboard =cupboardDao.getNeedByID(String.valueOf(need.getId()));
+        Need existingNeedInCupboard =cupboardDao.getNeedByID(need.getId());
         System.out.println("Existing need found " + existingNeedInCupboard);
         if (existingNeedInCupboard != null) {
              System.out.println("Need exists in cupboard with name: " + need.getName());
@@ -84,13 +84,13 @@ public class HelperService {
     }
 
     // Same thing but uses ID instead of name
-    public Need addNeedToBasket(long id) throws IOException {
-        //if need is already in basket then it causes conflict
-        if (cupboardDao.getNeedByID(String.valueOf(id)) != null){
+    public Need addNeedFromBasket(long id) throws IOException {
+        //if need is already in cupboard then it causes conflict
+        if (cupboardDao.getNeedByID(id) != null){
             return null;
         }
 
-        Need needInventory = inventoryDao.getNeedByID(String.valueOf(id));
+        Need needInventory = inventoryDao.getNeedByID(id);
         if (needInventory != null){
             cupboardDao.addNeed(needInventory);
             inventoryDao.deleteNeed(id);
@@ -101,16 +101,16 @@ public class HelperService {
     }
 
     public boolean removeNeedFromBasket(long id) throws IOException {
-        Need needFromCupboard = cupboardDao.getNeedByID(String.valueOf(id));
+        Need needFromCupboard = cupboardDao.getNeedByID(id);
         if (needFromCupboard != null) {
             inventoryDao.addNeed(needFromCupboard);
             return cupboardDao.deleteNeed(id);
         }
         return false; // if need not found in cupbord
     }
+
     public boolean updateNeed(Need updatedNeed) throws IOException{
         return cupboardDao.updateNeed(updatedNeed);
-       
     }
 
 
@@ -121,5 +121,14 @@ public class HelperService {
 
     public InventoryDAO getInventoryDao() {
         return inventoryDao;
+    }
+
+    public void checkoutNeed(int id, double fundingAmount) throws IOException, IllegalAccessException {
+        if (fundingAmount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
+        Need need = this.cupboardDao.getNeedByID(id);
+        need.setFundingAmount(need.getFundingAmount() + fundingAmount);
+        updateNeed(need);
     }
 }

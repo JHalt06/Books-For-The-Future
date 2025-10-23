@@ -1,0 +1,15 @@
+<div >
+    <button (click)="modalService.hideModal()"><span>close</span></button>
+    <h2>{{this.mode}} Need</h2>
+    <form #updateForm="ngForm" (ngSubmit)="submit(updateForm.value)">
+        <div>
+            <span>Name </span>
+            <input type="text" name="name" [(ngModel)]="needCopy.name">
+        </div>
+        <div>
+            <span>Funding Goal </span>
+            <input type="number" name="quantity" [(ngModel)]="needCopy.quantity">
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
