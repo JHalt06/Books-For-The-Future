@@ -1,14 +1,29 @@
 {
   "id" : 1,
   "inventory" : [ {
-    "id" : 3,
-    "name" : "Pens",
-    "quantity" : 12,
-    "fundingAmount" : 3.5
-  }, {
-    "id" : 4,
-    "name" : "Red Balloons",
+    "id" : 1,
+    "name" : "Markers",
     "quantity" : 100,
-    "fundingAmount" : 10.0
+    "fundingAmount" : 50.0
+  }, {
+    "id" : 6,
+    "name" : "MarkerTest1761244854267",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
+  }, {
+    "id" : 7,
+    "name" : "MarkerTest1761246019755",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
+  }, {
+    "id" : 8,
+    "name" : "MarkerTest1761246380506",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
+  }, {
+    "id" : 9,
+    "name" : "MarkerTest1761246827661",
+    "quantity" : 100,
+    "fundingAmount" : 50.0
   } ]
 }

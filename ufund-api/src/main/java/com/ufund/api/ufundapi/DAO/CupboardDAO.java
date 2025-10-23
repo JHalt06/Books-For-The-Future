@@ -11,7 +11,7 @@ public interface CupboardDAO {
     
     boolean needExistByName(String name);
 
-    List<Need> getNeedByName(String name);
+    List<Need> getNeedByName(String name) throws IOException;
 
     Cupboard getCupboard() throws IOException; 
 

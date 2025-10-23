@@ -98,7 +98,7 @@ public class FileCupboardDAO implements CupboardDAO {
      */
     @Override
     public synchronized boolean deleteNeed(long id) throws IOException {
-
+        System.out.println("CupboardDAO.deleteNeed called with ID:" + id );
         for(int i=0; i < cupboard.getCupboard().size(); i++){
             Need n = cupboard.getCupboard().get(i);
             if(n.getId() == id){
@@ -108,6 +108,7 @@ public class FileCupboardDAO implements CupboardDAO {
                 return true; //
             }
         }
+        System.out.println("No need found with ID: " + id);
         return false; //returns false if the id cannot be found in the inventory inventory.
     }
     
@@ -170,9 +171,11 @@ public class FileCupboardDAO implements CupboardDAO {
             throw new IllegalArgumentException("Need with this name not in");
         }
         //assign new ID(incremental)
-        List<Need> needs = cupboard.getCupboard();
-        long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) +1;
-        need.setId(newID);
+        if (need.getId() == null) {
+            List<Need> needs = cupboard.getCupboard();
+            long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) + 1;
+            need.setId(newID);
+        }
 
         cupboard.addNeed(need);
         saveCupboard();
@@ -200,7 +203,8 @@ public class FileCupboardDAO implements CupboardDAO {
      * @return the list of needs if any exist, else an empty list.
      */
     @Override
-    public List<Need> getNeedByName(String name) {
+    public List<Need> getNeedByName(String name) throws IOException {
+        loadCupboard();
         return cupboard.getNeedByName(name);
     }
 
