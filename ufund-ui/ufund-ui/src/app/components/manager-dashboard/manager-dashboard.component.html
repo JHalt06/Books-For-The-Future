@@ -1,0 +1,13 @@
+<div >
+    @if ((authService.getCurrentUserObj() | async)?.role === UserRole.MANAGER) {
+        <h1>Admin Dashboard</h1>
+
+        <div >
+            <h3>Hello Admin!</h3>
+        </div>
+
+    } @else {
+        <h1>Unauthorized</h1>
+        <span>This page requires you to be logged in as an admin! <a routerLink="/login">Log In</a></span>
+    }
+</div>

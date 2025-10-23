@@ -16,10 +16,12 @@ import com.ufund.api.ufundapi.DAO.FileCupboardDAO;
 import com.ufund.api.ufundapi.DAO.FileInventoryDAO;
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
+import com.ufund.api.ufundapi.Service.ManagerService;
 
 public class CupboardControllerTest {
     private CupboardController controller;
     private HelperService helperService;
+    private ManagerService managerService;
     private File cupboardFile;
     private File inventoryFile;
 
@@ -31,7 +33,8 @@ public class CupboardControllerTest {
         inventoryFile.deleteOnExit();
 
         helperService = new HelperService(new FileCupboardDAO(cupboardFile.getAbsolutePath()), new FileInventoryDAO(inventoryFile.getAbsolutePath())); //???
-        controller = new CupboardController(helperService);
+        managerService = new ManagerService();
+        controller = new CupboardController(helperService, managerService);
     }
 
     @Test
@@ -70,7 +73,7 @@ public class CupboardControllerTest {
     void testAddNeedToBasketSuccess()throws IOException{
         Need need = new Need(1L, "Pens", 11,2.0);
         Need addedNeed = helperService.getInventoryDao().addNeed(need);
-        ResponseEntity<Need> response = controller.addNeedToBasket(addedNeed.getId());
+        ResponseEntity<Need> response = controller.addNeedFromBasket(addedNeed.getId());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Pens", response.getBody().getName());
     }

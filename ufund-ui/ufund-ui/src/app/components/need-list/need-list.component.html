@@ -1,0 +1,27 @@
+<div >
+    <div *ngFor="let need of visibleNeeds" class="needEntry">
+        <div [routerLink]="'/need/' + need.id" class="clickable">
+                <div class="left">
+                    <span class="needName">{{need.name}}</span>
+                </div>
+            </div>
+
+            <div class="prog">
+                <span>{{need.fundingAmount.toLocaleString()}} / {{need.quantity.toLocaleString()}} ({{((need.fundingAmount / need.quantity) * 100).toFixed(0)}}%)</span>
+                <progress [value]="need.fundingAmount" [max]="need.quantity"></progress>
+            </div>
+        
+
+        <div *ngIf="actionArea" class="actionArea">
+            <ng-container [ngTemplateOutlet]="actionArea" [ngTemplateOutletContext]="{$implicit: need}"/>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="itemsPerPage !== Infinity" >
+    <button [disabled]="!(currentPage !== 0)" (click)="firstPage()"><span>first page</span></button>
+    <button [disabled]="!(currentPage > 0)" (click)="decrementPage()"><span>back</span></button>
+    <span>Page {{currentPage + 1}} of {{totalPages}}</span>
+    <button [disabled]="!(currentPage < totalPages - 1)" (click)="incrementPage()"><span>forward</span></button>
+    <button [disabled]="!(currentPage !== totalPages - 1)" (click)="lastPage()"><span>last page</span></button>
+</div>

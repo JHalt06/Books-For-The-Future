@@ -112,14 +112,14 @@ public class InventoryControllerTest {
 
     @Test
     void testGetNeedNotFound(){
-        assertEquals(HttpStatus.NOT_FOUND, controller.getNeed("99").getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, controller.getNeed(99).getStatusCode());
     }
 
     @Test
     void testGetNeed() throws IOException {
         Need need = new Need(1L, "Pencils", 2, 3.0);
         dao.addNeed(need);
-        ResponseEntity<Object> result = controller.getNeed("1");
+        ResponseEntity<Need> result = controller.getNeed(1);
         assertEquals(HttpStatus.OK,result.getStatusCode());
         assertEquals(need, result.getBody());
     }

@@ -1,0 +1,6 @@
+<div >
+    <h1>Login</h1>
+    <input class="form-input" placeholder="Username" type="text" #username (keydown.enter)="login(username.value, password.value)">
+    <input class="form-input" placeholder="Password" type="password" #password (keydown.enter)="login(username.value, password.value)">
+    <button type="button" (click)="login(username.value, password.value)">Login</button>
+</div>

@@ -153,6 +153,7 @@ public class FileInventoryDAO implements InventoryDAO {
 
         for(int i=0; i < inventory.getInventory().size(); i++){
             Need n = inventory.getInventory().get(i);
+            System.out.println("Comparing n.getId()=" + n.getId() + " (" + n.getId().getClass() + ") vs id=" + id);
             if(n.getId() == id){
                 inventory.getInventory().remove(i); //removes by the index
                 saveInventory(); //Saves the current inventory data to a JSON file.
@@ -168,9 +169,9 @@ public class FileInventoryDAO implements InventoryDAO {
 
     
     @Override
-    public Need getNeedByID(String id) {
+    public Need getNeedByID(long id) {
         for (Need need : inventory.getInventory()) {
-            if (need.getId().equals(Long.valueOf(id))) {
+            if (need.getId() == id) {
                 return need;
             }
         }

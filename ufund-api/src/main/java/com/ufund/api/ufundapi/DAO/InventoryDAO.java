@@ -18,7 +18,7 @@ public interface InventoryDAO {
 
     boolean deleteNeed(long id) throws IOException;//
 
-    Need getNeedByID(String id);
+    Need getNeedByID(long id);
 
     boolean updateNeed(Need updatedNeed);
 
