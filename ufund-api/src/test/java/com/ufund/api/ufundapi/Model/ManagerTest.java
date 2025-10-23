@@ -6,32 +6,43 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 public class ManagerTest {
-    
+
     @Test
     void testDefaultConstructor(){
-        Manager m = new Manager();
-        assertNull(m.getUsername());
-        assertNull(m.getPassword());
+        Manager manager = new Manager();
+        assertNull(manager.getUsername());
+        assertNull(manager.getPassword());
+    }
+    @Test
+    void testParamterizedConstructor(){
+        Manager manager = new Manager("Admin", "Lego1945");
+        assertEquals("Admin", manager.getUsername());
+        assertEquals("Lego1945", manager.getPassword());
+    }
+    @Test
+    void testSetUsername(){
+        Manager manager = new Manager();
+        manager.setUsername("Kreekcraft");
+        assertEquals("Kreekcraft", manager.getUsername());
     }
 
     @Test
-    void testParameterizedConstructor(){
-        Manager m = new Manager("admin", "pass123");
-        assertEquals("admin", m.getUsername());
-        assertEquals("pass123", m.getPassword());
+    void testSetPassword(){
+         Manager manager = new Manager();
+         manager.setPassword("HomeBoy798");
+         assertEquals("HomeBoy798", manager.getPassword());
     }
 
     @Test
-    void testSetUsernameAndGetUsername(){
-        Manager m = new Manager();
-        m.setUsername("user1");
-        assertEquals("user1", m.getUsername());
+    void testUpdateFields(){
+         Manager manager = new Manager("Initailx" ,"InitalY");
+         manager.setUsername("Update1");
+         manager.setPassword("Update2");
+
+         assertEquals("Update1", manager.getUsername());
+         assertEquals("Update2", manager.getPassword());
+
     }
 
-    @Test
-    void testSetPasswordAndGetPassword(){
-        Manager m = new Manager();
-        m.setPassword("secret");
-        assertEquals("secret", m.getPassword());
-    }
+
 }

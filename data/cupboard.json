@@ -1,11 +1,14 @@
 {
   "id" : 2,
   "cupboard" : [ {
+<<<<<<< HEAD
     "id" : 1,
     "name" : "Markers",
     "quantity" : 100,
     "fundingAmount" : 50.0
   }, {
+=======
+>>>>>>> ce2c4d8bb437a7d8ab15440f325c7f087587fe9e
     "id" : 2,
     "name" : "Notepads",
     "quantity" : 50,

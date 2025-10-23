@@ -41,15 +41,26 @@ public class HelperService {
     }
 
     public boolean removeNeed(Need need) {
-        if (cupboardDao.needExistByName(need.getName())) {
+        System.out.println("HelperService.removeNeed called with Need " + need);
+        Need existingNeedInCupboard =cupboardDao.getNeedByID(String.valueOf(need.getId()));
+        System.out.println("Existing need found " + existingNeedInCupboard);
+        if (existingNeedInCupboard != null) {
+             System.out.println("Need exists in cupboard with name: " + need.getName());
             try {
-                inventoryDao.addNeed(need);
-                return cupboardDao.deleteNeed(need.getId());
+                if (!inventoryDao.needExistByName(existingNeedInCupboard.getName())) {
+                    inventoryDao.addNeed(existingNeedInCupboard);
+                }
+                boolean deleted =  cupboardDao.deleteNeed(existingNeedInCupboard.getId());
+                System.out.println("Need deleted from cupboard: " + deleted);
+                return deleted;
             } catch (IOException e) {
-                System.out.println("Error saving need to file");
+                System.out.println("Error saving need to file" + e.getMessage());
             }
         }
-        System.out.println("Need not found inside cupboard");
+        else{
+            System.out.println("Need not found inside cupboard");
+            }
+       
         return false;
     }
 
