@@ -42,13 +42,15 @@ public class HelperService {
 
     public boolean removeNeed(Need need) {
         System.out.println("HelperService.removeNeed called with Need " + need);
-        Need existingNeed =cupboardDao.getNeedByID(String.valueOf(need.getId()));
-        System.out.println("Existing need found " + existingNeed);
-        if (existingNeed != null) {
+        Need existingNeedInCupboard =cupboardDao.getNeedByID(String.valueOf(need.getId()));
+        System.out.println("Existing need found " + existingNeedInCupboard);
+        if (existingNeedInCupboard != null) {
              System.out.println("Need exists in cupboard with name: " + need.getName());
             try {
-                inventoryDao.addNeed(existingNeed);
-                boolean deleted =  cupboardDao.deleteNeed(existingNeed.getId());
+                if (!inventoryDao.needExistByName(existingNeedInCupboard.getName())) {
+                    inventoryDao.addNeed(existingNeedInCupboard);
+                }
+                boolean deleted =  cupboardDao.deleteNeed(existingNeedInCupboard.getId());
                 System.out.println("Need deleted from cupboard: " + deleted);
                 return deleted;
             } catch (IOException e) {

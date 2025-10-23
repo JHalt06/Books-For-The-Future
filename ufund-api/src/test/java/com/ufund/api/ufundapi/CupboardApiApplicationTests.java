@@ -6,9 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ufund.api.ufundapi.DAO.CupboardDAO;
+import com.ufund.api.ufundapi.DAO.InventoryDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +42,26 @@ class CupboardApiApplicationTests {
 	@Autowired
 	private CupboardController cupboardController;
 
-	// NOTE: You have to manually add/delete the data your unit tests create/destroy after they run,
-	// I'm not sure how to go about resetting each database file after each test
-	void setUp() {
-		// eventually, should setup and seed the database with data to reset it after each unit test
+	@Autowired
+	private InventoryDAO inventoryDAO;
+
+	@Autowired
+	private CupboardDAO cupboardDAO;
+
+	@BeforeEach
+	public void setUp() throws IOException {
+		List<Need> inventoryNeeds = new ArrayList<>(inventoryDAO.getInventory().getInventory());
+		for (Need need : inventoryNeeds) {
+			inventoryDAO.deleteNeed(need.getId());
+		}
+		List<Need> cupboardNeeds = new ArrayList<>(cupboardDAO.getCupboard().getCupboard());
+		for (Need need : cupboardNeeds) {
+			cupboardDAO.deleteNeed(need.getId());
+		}
+
+		// add predictable data for tests
+		inventoryDAO.addNeed(new Need(1L, "Markers", 100, 50.0));
+		cupboardDAO.addNeed(new Need(2L, "Notepads", 50, 20.0));
 	}
 
 	
@@ -64,70 +85,66 @@ class CupboardApiApplicationTests {
 	void testGetCupboard() throws Exception {
 		String url = getBaseURL() + "/cupboard/needs";
 			ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-			assertTrue(response.getBody().contains("Markers"));
 			assertEquals(HttpStatus.OK, response.getStatusCode());
+			assertTrue(response.getBody().contains("Notepads"));
+			assertFalse(response.getBody().contains("Markers"));
 	}
-
-	// @Test
-	// void testRemoveNeedsFromCupboard() throws Exception {
-	// 	HttpHeaders headers = new HttpHeaders();
-    //     headers.set("Content-Type", "application/json");
-
-    //     String requestBody = "{\"id\":1,\"name\":\"Markers\",\"quantity\":100,\"fundingAmount\":50.0}"; 
-    //     HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-	// 	// Delete item from cupboard
-	// 	ResponseEntity<String> result = this.restTemplate.exchange("http://localhost:8080/cupboard/need", HttpMethod.DELETE, requestEntity, String.class);
-		
-	// 	// Get inventory contents
-	// 	String inventory = this.restTemplate.getForObject("http://localhost:" + 8080 + "/inventory",
-	// 			String.class);
-
-	// 	// Get cupboard contents
-	// 	String cupboard = this.restTemplate.getForObject("http://localhost:" + 8080 + "/cupboard/needs",
-	// 			String.class);
-		
-	// 	assertTrue(inventory.contains("Markers"));
-	// 	assertTrue(!cupboard.contains("Markers"));
-	// 	assertTrue(result.getStatusCode() == HttpStatus.OK);
-	// }
 
 	@Test
-	void testRemoveNeedsFromCupboard() throws Exception{
-		String uniqueName = "MarkerTest" + System.currentTimeMillis();
-		Need need = new Need(null,uniqueName,100,50.0);
-		ResponseEntity<Need> addedResponse = restTemplate.postForEntity(getBaseURL() + 
-		"/cupboard/need", need, Need.class);
-		
-		assertEquals(HttpStatus.CREATED, addedResponse.getStatusCode() );
-		assertNotNull(addedResponse.getBody());
-
-
-		Need addedNeed = addedResponse.getBody();
-		assertNotNull(addedNeed);
-		Long assignedId = addedNeed.getId();
-		
-		
-		String url = getBaseURL() + "/cupboard/need";
+	void testRemoveNeedsFromCupboard() throws Exception {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		
-		String requestBody = String.format("{\"id\":%d,\"name\":\"%s\",\"quantity\":100,\"fundingAmount\":50.0}", 
-		assignedId, uniqueName);
+		headers.set("Content-Type", "application/json");
+
+		// removing "Notepads" (ID 2) which is in the cupboard from the setup
+		String requestBody = "{\"id\":2,\"name\":\"Notepads\",\"quantity\":50,\"fundingAmount\":20.0}";
 		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
-		ResponseEntity<String> deleteResponse = restTemplate.exchange(url, HttpMethod.DELETE,requestEntity,String.class);
-		assertEquals(HttpStatus.NO_CONTENT, deleteResponse.getStatusCode());
+		// DELETE request to remove the item from the cupboard
+		ResponseEntity<String> result = this.restTemplate.exchange(
+				getBaseURL() + "/cupboard/need",
+				HttpMethod.DELETE,
+				requestEntity,
+				String.class
+		);
 
-		String inventory = restTemplate.getForObject(getBaseURL() + "/inventory", String.class);
-		String cupboard = restTemplate.getForObject(getBaseURL() + "/cupboard/needs", String.class);
+		// check if request was successful
+		assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
 
-		
-		assertTrue(inventory.contains(uniqueName));
-		assertFalse(cupboard.contains(uniqueName));
-		
+		// verify state
+		String inventory = this.restTemplate.getForObject(getBaseURL() + "/inventory", String.class);
+		String cupboard = this.restTemplate.getForObject(getBaseURL() + "/cupboard/needs", String.class);
 
+		assertTrue(inventory.contains("Notepads"));
+		assertFalse(cupboard.contains("Notepads"));
 	}
+
+	@Test
+	void testAddNeedToCupboard() throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/json");
+
+		// create a new need to add to the cupboard
+		String requestBody = "{\"name\":\"Pencils\",\"quantity\":150,\"fundingAmount\":25.0}";
+		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+		// POST request to add the new item
+		ResponseEntity<String> response = this.restTemplate.exchange(
+				getBaseURL() + "/cupboard/need",
+				HttpMethod.POST,
+				requestEntity,
+				String.class
+		);
+
+		// verify the created successfully
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+		// verift state
+		String cupboard = this.restTemplate.getForObject(getBaseURL() + "/cupboard/needs", String.class);
+
+		assertTrue(cupboard.contains("Pencils"));
+	}
+}
+
 	// private Long extractIdFromJSON(String json){
 	// 	Pattern pattern = Pattern.compile("\"id\"\\s*:\\s*(\\d+)");
 	// 	Matcher matcher =pattern.matcher(json);
@@ -141,39 +158,3 @@ class CupboardApiApplicationTests {
 
 
 
-
-	// @Test
-	// void testAddNeedToCupboard() throws Exception {
-	// 	HttpHeaders headers = new HttpHeaders();
-    //     headers.set("Content-Type", "application/json");
-
-    //     String requestBody = "{\"id\":2,\"name\":\"Notepads\",\"quantity\":50,\"fundingAmount\":20.0}"; 
-    //     HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-	// 	// Add item to cupboard
-	// 	ResponseEntity<String> re = this.restTemplate.exchange("http://localhost:8080/cupboard/need", HttpMethod.POST, requestEntity, String.class);
-
-	// 	// Get cupboard contents
-	// 	String cupboard = this.restTemplate.getForObject("http://localhost:" + 8080 + "/cupboard/needs",
-	// 			String.class);
-		
-	// 	assertTrue(cupboard.contains("Notepads"));
-	// 	assertTrue(re.getStatusCode() == HttpStatus.CREATED);
-	// }
-
-	// @Test
-	// void testAddNeedToCupboard() throws Exception{
-	// 	String url = getBaseURL() + "/cupboard/needs";
-	// 	HttpHeaders headers = new HttpHeaders();
-	// 	headers.setContentType(MediaType.APPLICATION_JSON);
-	// 	String requestBody = "{\"id\":2,\"name\":\"Notepads\",\"quantity\":50,\"fundingAmount\":20.0}"; 
-	// 	HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-	// 	ResponseEntity<String> postResponse = restTemplate.exchange(url, HttpMethod.POST,requestEntity,String.class);
-	// 	String cupboard = restTemplate.getForObject(getBaseURL() + "/cupboard/needs", String.class);
-
-	// 	assertTrue(cupboard.contains("Notepads"));
-	// 	assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-
-	// }
-}

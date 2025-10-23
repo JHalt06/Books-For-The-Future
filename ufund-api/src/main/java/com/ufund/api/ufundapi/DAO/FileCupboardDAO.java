@@ -148,9 +148,11 @@ public class FileCupboardDAO implements CupboardDAO {
             throw new IllegalArgumentException("Need with this name not in");
         }
         //assign new ID(incremental)
-        List<Need> needs = cupboard.getCupboard();
-        long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) +1;
-        need.setId(newID);
+        if (need.getId() == null) {
+            List<Need> needs = cupboard.getCupboard();
+            long newID = needs.stream().mapToLong(Need::getId).max().orElse(0L) + 1;
+            need.setId(newID);
+        }
 
         cupboard.addNeed(need);
         saveCupboard();

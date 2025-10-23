@@ -51,18 +51,13 @@ public class CupboardController {
         
         try {
             boolean removed = helperService.removeNeed(need);
-            LOG.info("HelperServiceremoveNeed returned: " + removed);
+            LOG.info("HelperService.removeNeed returned: " + removed);
             if(removed){
-                return ResponseEntity.noContent().build();
-
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             else{
-                return ResponseEntity.notFound().build();
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            // if (helperService.removeNeed(need) == true) {
-            //     return ResponseEntity.noContent().build();
-            // }
-            // return ResponseEntity.notFound().build();
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Exception removing need: " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
