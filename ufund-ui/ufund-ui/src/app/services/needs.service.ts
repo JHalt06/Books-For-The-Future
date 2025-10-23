@@ -16,11 +16,6 @@ export class NeedsService {
     return this.http.get<Need[]>(`${this.baseUrl}/cupboard/needs`);
   }
 
-  // For managers - get all needs for management
-  getAllNeeds(): Observable<Need[]> {
-    return this.http.get<Need[]>(`${this.baseUrl}/cupboard/needs`);
-  }
-
   searchNeeds(query: string): Observable<Need[]> {
     return this.http.get<Need[]>(`${this.baseUrl}/needs?q=${query}`);
   }
@@ -31,6 +26,10 @@ export class NeedsService {
 
   updateNeed(need: Need): Observable<Need> {
     return this.http.post<Need>(`${this.baseUrl}/cupboard/need/update`, need);
+  }
+  
+  getAllNeeds(): Observable<Need[]> {
+    return this.http.get<Need[]>(`${this.baseUrl}/cupboard/needs`);
   }
 
   deleteNeed(id: number): Observable<void> {

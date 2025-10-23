@@ -1,5 +1,5 @@
 <div >
-    @if ((authService.getCurrentUserObj() | async)?.role === UserRole.MANAGER) {
+    @if ((authService.getCurrentUserObj() | async)?.role === role.MANAGER) {
         <h1>Admin Dashboard</h1>
 
         <div >

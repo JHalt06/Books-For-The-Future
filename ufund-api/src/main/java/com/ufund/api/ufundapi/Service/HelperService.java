@@ -42,7 +42,7 @@ public class HelperService {
 
     public boolean removeNeed(Need need) {
         System.out.println("HelperService.removeNeed called with Need " + need);
-        Need existingNeedInCupboard =cupboardDao.getNeedByID(String.valueOf(need.getId()));
+        Need existingNeedInCupboard =cupboardDao.getNeedByID(need.getId());
         System.out.println("Existing need found " + existingNeedInCupboard);
         if (existingNeedInCupboard != null) {
              System.out.println("Need exists in cupboard with name: " + need.getName());
@@ -108,7 +108,7 @@ public class HelperService {
         }
         return false; // if need not found in cupbord
     }
-    
+
     public boolean updateNeed(Need updatedNeed) throws IOException{
         return cupboardDao.updateNeed(updatedNeed);
     }
