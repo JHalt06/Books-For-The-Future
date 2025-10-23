@@ -15,6 +15,9 @@ public class FileManagerDAO implements ManagerDAO{
     private static final String MANAGER_FILE = "data/manager.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    public FileManagerDAO() {
+    }
+
     @Override
     public Manager getManager() throws IOException {
         File file = new File(MANAGER_FILE);

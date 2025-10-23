@@ -2,15 +2,17 @@ package com.ufund.api.ufundapi.DAO;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
-import org.springframework.stereotype.Repository;
+import com.ufund.api.ufundapi.Service.HelperService;
 
 @Repository
 public class FileCupboardDAO implements CupboardDAO {
@@ -65,7 +67,18 @@ public class FileCupboardDAO implements CupboardDAO {
      * @throws IOException if an error occurs while writing the file. 
      */
     private void saveCupboard() throws IOException{
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
+        System.out.println("Saving cupboard instance: " + cupboard);
+    System.out.println("Cupboard contents before save:");
+    for (Need n : cupboard.getCupboard()) {
+        System.out.println(" - ID: " + n.getId() + ", Name: " + n.getName() + ", Qty: " + n.getquantity());
+    }
+
+    objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, cupboard);
+    System.out.println("Cupboard contents after save:");
+    for (Need n : cupboard.getCupboard()) {
+        System.out.println(" - ID: " + n.getId() + ", Name: " + n.getName() + ", Qty: " + n.getquantity());
+    }
+    System.out.println("Saved to: " + file.getAbsolutePath());
     }
 
 
@@ -75,7 +88,6 @@ public class FileCupboardDAO implements CupboardDAO {
      */
     @Override
     public synchronized Cupboard getCupboard() throws IOException{
-        loadCupboard();//makes sure the data is the latest
         return cupboard;
     }
 
@@ -106,9 +118,9 @@ public class FileCupboardDAO implements CupboardDAO {
      * @return the need with matching id if found, null otherwise.
      */
     @Override
-    public Need getNeedByID(String id) {
+    public Need getNeedByID(long id) {
         for (Need need : cupboard.getCupboard()) {
-            if (need.getId().equals(Long.valueOf(id))) {
+            if (need.getId() == id) {
                 return need;
             }
         }
@@ -120,10 +132,21 @@ public class FileCupboardDAO implements CupboardDAO {
         try {
             // List<Need> lst = cupboard.getCupboard();
             for (Need need : cupboard.getCupboard()) {
-                if (need.getId().equals(updatedNeed.getId())) {
-                    if (updatedNeed.getName() != null) need.setName(updatedNeed.getName());
-                    if (updatedNeed.getquantity() > 0) need.setquantity(updatedNeed.getquantity());
-                    if (updatedNeed.getFundingAmount() > 0) need.setFundingAmount(updatedNeed.getFundingAmount());
+                if (need.getId().longValue() == updatedNeed.getId().longValue()) {
+                    System.out.println("need found!");
+                    System.out.println(updatedNeed.getName());
+                    System.out.println(Integer.valueOf(updatedNeed.getquantity()));
+
+                    if (updatedNeed.getName() != null) {
+                        need.setName(updatedNeed.getName());
+                        System.out.println("Changed name to " + need.getName());
+                    }
+                    if (updatedNeed.getquantity() > 0) {
+                        need.setquantity(updatedNeed.getquantity());
+                        System.out.println("Changed quantity to " + need.getquantity());
+                    }
+                    
+                    System.out.println("Updating cupboard instance: " + cupboard.getCupboard());
                     saveCupboard();
                     return true;
                 }
@@ -183,5 +206,13 @@ public class FileCupboardDAO implements CupboardDAO {
     public List<Need> getNeedByName(String name) throws IOException {
         loadCupboard();
         return cupboard.getNeedByName(name);
+    }
+
+    @Override
+    public Need[] searchNeeds(String q) {
+        Need[] arr = (Need[]) cupboard.getCupboard().toArray();
+        return Arrays.stream(arr)
+                .filter(i -> i.getName().toLowerCase().contains(q.toLowerCase()))
+                .toArray(Need[]::new);
     }
 }

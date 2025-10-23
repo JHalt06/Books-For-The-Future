@@ -58,7 +58,7 @@ public class InventoryController {
         }
     }
 
-    @PutMapping("/needs/{id}")
+    @PutMapping("/inventory/needs/{id}")
     public ResponseEntity<Object> updateNeed(@PathVariable long id, @RequestBody Need updatedNeed){
         LOG.info("PUT /inventory/needs/" + id);
         if (inventoryDAO.updateNeed(updatedNeed)) {
@@ -85,13 +85,15 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/needs/{id}")
-    public ResponseEntity<Object> getNeed(@PathVariable String id){
-        LOG.info("GET /inventory/needs/" + id);
+    @GetMapping("/inventory/{id}")
+    public ResponseEntity<Need> getNeed(@PathVariable long id){
+        LOG.info("GET /inventory/" + id);
         Need need = inventoryDAO.getNeedByID(id);
         if (need != null) {
+            System.out.println(need);
             return new ResponseEntity<>(need, HttpStatus.OK);
         } else {
+            System.out.println("need not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

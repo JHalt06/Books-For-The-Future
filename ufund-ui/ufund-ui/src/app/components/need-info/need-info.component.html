@@ -1,0 +1,43 @@
+<ng-template #warn>
+    <div *ngIf="!this.warned" class="accountWarn">
+        <h1>Not Logged in!</h1>
+        <p>To contribute to needs you must be logged in!</p>
+        <div>
+            <button (click)="modalService.hideModal(); this.router.navigate(['/login'], {queryParams: {redir: this.router.url}});">Log In</button>
+            <button (click) = "modalService.hideModal(); warned = true">Continue Anyway</button>
+        </div>
+    </div>
+</ng-template>
+
+<div (mouseenter)="!warned && (!usersService.isHelper() && !usersService.isManager()) ? modalService.showModal(warn) : null">
+    @if (need) {
+
+        <h1>{{need.name}}</h1>
+        <div class="prog">
+            <progress [value]="need.fundingAmount" [max]="need.quantity"></progress>
+            <span>This goal is <strong>{{(((need.fundingAmount)*100) / (need.quantity)).toFixed(0)}}%</strong> complete!</span>
+        </div>
+
+        <span><strong>Target Goal:</strong> {{need.quantity.toLocaleString()}} </span>
+
+        <span><strong>Amount Currently Collected:</strong> {{need.fundingAmount.toLocaleString()}}</span>
+
+        <div class="actionArea">
+            <button *ngIf="usersService.isHelper()" (click)="add(need)" [disabled]="usersService.inBasket(usersService.getBasket() | async, need)">
+                <span class="icon">{{usersService.inBasket(usersService.getBasket() | async, need)? "check": "add" }}</span>Add To Basket
+            </button>
+            <ng-template #edit>
+                <app-need-edit [mode]="'Edit'" *ngIf="need" [need]="need" (refreshNeedList)="ngOnInit()"></app-need-edit>
+            </ng-template>
+            <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
+                <span class="icon">edit</span>Edit Need
+            </button>
+            <button *ngIf="usersService.isManager()" (click)="delete(need!.id)" >
+                <span class="icon">delete</span>Delete Need
+            </button>
+        </div>
+    } @else {
+        <h1>Need not found</h1>
+        <span>The requested need does not exist. <a routerLink="/cupboard">Browse the cupboard</a></span>
+    }
+</div>

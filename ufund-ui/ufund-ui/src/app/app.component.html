@@ -1,0 +1,21 @@
+<div id="scroll">
+    <div id="header">
+        <div>
+            <a routerLink="/">
+                <h1>Books for the Future</h1>
+            </a>
+        </div>
+        <div>
+            <a [class]="location.path() == '/dashboard' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.MANAGER" routerLink="/dashboard">Dashboard</a>
+            <a [class]="location.path() == '/cupboard' ? 'current' : ''" routerLink="/cupboard">Cupboard</a>
+            <a [class]="location.path() == '/basket' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.HELPER" routerLink="/basket">Basket</a>
+            <button *ngIf="currentUser | async" (click)="logout()">Log Out</button>
+            <button *ngIf="!(currentUser | async)" (click)="login()">Log In</button>
+        </div>
+    </div>
+    
+    <router-outlet />
+</div>
+<div *ngIf="modalService.getModalBehaviorSubject() | async" class="modal">
+    <ng-container [ngTemplateOutlet]="modalService.getModalBehaviorSubject() | async" />
+</div>

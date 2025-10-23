@@ -87,6 +87,16 @@
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>default-prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<!-- This property might be needed in some older versions or specific scenarios -->
+								<haltOnFailure>false</haltOnFailure>
+							</configuration>
+					</execution>
 					<!-- attached to Maven test phase -->
 					<execution>
 						<id>report</id>

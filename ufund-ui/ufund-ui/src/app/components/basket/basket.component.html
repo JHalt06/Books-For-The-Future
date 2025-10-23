@@ -1,0 +1,37 @@
+<div>
+    @if ((authService.getCurrentUserObj() | async)?.role === UserRole.HELPER) {
+        <h1>Funding Basket</h1>
+        <ng-template [ngIf]="(usersService.getBasket() | async)?.length">
+            <ng-template let-need #NLActions>
+                <input type="number" placeholder="Quantity" min="1" [id]="need?.id" class="donation" (input)="onInput($event)">
+                <button class="removeNeed" (click)="this.usersService.removeNeed(need.id)">
+                    <span class="icon">delete</span>Remove from Basket
+                </button>
+            </ng-template>
+            <ng-container *ngIf="(usersService.getBasket() | async) as basket">
+                <app-need-list
+                    [itemsPerPage]="Infinity"
+                    [uid]="1"
+                    [actionArea]="NLActions"
+                    [needs]="basket"
+                />
+            </ng-container>
+            <br>
+            <div id="footer">
+                <button class="button2" title="checkout" (click)="checkout()">Checkout</button>
+                <div id="totals">
+                    <ul>
+                        <li id="running-total">Current amount of funding : {{fundingTotal | async}}</li>
+                        <li id="physicalNeeds" *ngFor="let need of physicalTotal">{{need}}</li>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
+        <div *ngIf="!usersService.getBasket().getValue().length">
+            <span>There are no needs in your basket! </span><a routerLink="/cupboard">Browse the cupboard</a>
+        </div>
+    } @else {
+        <h1>Unauthorized</h1>
+        <span>This page requires you to be logged in as a user! <a routerLink="/login">Log In</a></span>
+    }
+</div>
