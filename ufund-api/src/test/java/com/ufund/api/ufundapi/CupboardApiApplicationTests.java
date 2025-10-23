@@ -128,14 +128,7 @@ class CupboardApiApplicationTests {
 		
 
 	}
-	// private Long extractIdFromJSON(String json){
-	// 	Pattern pattern = Pattern.compile("\"id\"\\s*:\\s*(\\d+)");
-	// 	Matcher matcher =pattern.matcher(json);
-	// 	if(matcher.find()){
-	// 		return Long.parseLong(matcher.group(1));
-	// 	}
-	// 	return null;
-	// }
+	
 
 
 
