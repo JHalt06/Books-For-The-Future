@@ -1,7 +1,7 @@
 package com.ufund.api.ufundapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,16 +33,27 @@ class CupboardApiApplicationTests {
 		// eventually, should setup and seed the database with data to reset it after each unit test
 	}
 
+	private String getBaseURL(){
+		return "http://localhost:" + port;
+	}
+
 	@Test
 	void contextLoads() {
 		assertTrue(cupboardController != null);
 	}
 
+	// @Test
+	// void testGetCupboard() throws Exception {
+	// 	ResponseEntity<String> expected = this.restTemplate.getForEntity("http://localhost:" + 8080 + "/cupboard/needs",String.class);
+	// 	assertTrue((expected.getBody()).contains("Markers") == true);
+	// 	assertTrue(expected.getStatusCode() == HttpStatus.OK);
+	// }
 	@Test
 	void testGetCupboard() throws Exception {
-		ResponseEntity<String> expected = this.restTemplate.getForEntity("http://localhost:" + 8080 + "/cupboard/needs",String.class);
-		assertTrue((expected.getBody()).contains("Markers") == true);
-		assertTrue(expected.getStatusCode() == HttpStatus.OK);
+		String url = getBaseURL() + "/cupboard/needs";
+			ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+			assertTrue(response.getBody().contains("Markers"));
+			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	@Test
