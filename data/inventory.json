@@ -1,17 +1,7 @@
 {
   "id" : 1,
   "inventory" : [ {
-    "id" : 3,
-    "name" : "Pens",
-    "quantity" : 12,
-    "fundingAmount" : 3.5
-  }, {
-    "id" : 4,
-    "name" : "Pencils",
-    "quantity" : 90,
-    "fundingAmount" : 10.0
-  }, {
-    "id" : 5,
+    "id" : 1,
     "name" : "Markers",
     "quantity" : 100,
     "fundingAmount" : 50.0
@@ -33,21 +23,6 @@
   }, {
     "id" : 9,
     "name" : "MarkerTest1761246827661",
-    "quantity" : 100,
-    "fundingAmount" : 50.0
-  }, {
-    "id" : 10,
-    "name" : "MarkerTest1761246908895",
-    "quantity" : 100,
-    "fundingAmount" : 50.0
-  }, {
-    "id" : 11,
-    "name" : "MarkerTest1761248803047",
-    "quantity" : 100,
-    "fundingAmount" : 50.0
-  }, {
-    "id" : 12,
-    "name" : "MarkerTest1761249751054",
     "quantity" : 100,
     "fundingAmount" : 50.0
   } ]
