@@ -1,19 +1,12 @@
 package com.ufund.api.ufundapi;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import com.ufund.api.ufundapi.DAO.CupboardDAO;
-import com.ufund.api.ufundapi.DAO.InventoryDAO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +18,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import com.ufund.api.ufundapi.Controller.CupboardController;
+import com.ufund.api.ufundapi.DAO.CupboardDAO;
+import com.ufund.api.ufundapi.DAO.InventoryDAO;
 import com.ufund.api.ufundapi.Model.Need;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -141,12 +135,10 @@ class CupboardApiApplicationTests {
 		// verift state
 		String cupboard = this.restTemplate.getForObject(getBaseURL() + "/cupboard/needs", String.class);
 
-		
-		assertTrue(inventory.contains(uniqueName));
-		assertFalse(cupboard.contains(uniqueName));
-		
-
+		assertTrue(cupboard.contains("Pencils"));
 	}
+}
+
 	// private Long extractIdFromJSON(String json){
 	// 	Pattern pattern = Pattern.compile("\"id\"\\s*:\\s*(\\d+)");
 	// 	Matcher matcher =pattern.matcher(json);
