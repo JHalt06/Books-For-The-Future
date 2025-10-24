@@ -30,7 +30,7 @@ public class FundingBasketTest {
         
         FundingBasket basket = new FundingBasket("Helper1", intialNeeds);
 
-        assertEquals("Helper2", basket.getHelperName());
+        assertEquals("Helper1", basket.getHelperName());
         assertEquals(2, basket.getNeeds().size());
         assertEquals("Pens", basket.getNeeds().get(0).getName());
         assertEquals("Pencils", basket.getNeeds().get(1).getName());

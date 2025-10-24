@@ -2,6 +2,7 @@ package com.ufund.api.ufundapi.Service;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufund.api.ufundapi.DAO.UserDAO;
@@ -13,6 +14,7 @@ public class UserService {
     final HelperService helperService;
     final ManagerService managerService;
 
+    @Autowired
     public UserService(UserDAO userDao, HelperService helperService, ManagerService managerService) {
         this.userDAO = userDao;
         this.helperService = helperService;
