@@ -1,11 +1,6 @@
 {
   "id" : 2,
   "cupboard" : [ {
-    "id" : 1,
-    "name" : "Markers",
-    "quantity" : 100,
-    "fundingAmount" : 51.0
-  }, {
     "id" : 2,
     "name" : "Dictionaries",
     "quantity" : 100,
@@ -14,14 +9,8 @@
     "id" : 3,
     "name" : "Crayons",
     "quantity" : 100,
-    "fundingAmount" : 20.0
+    "fundingAmount" : 62.0
   }, {
-<<<<<<< HEAD
-    "id" : 3,
-    "name" : "Pencils",
-    "quantity" : 150,
-    "fundingAmount" : 25.0
-=======
     "id" : 4,
     "name" : "Red Balloons",
     "quantity" : 1001,
@@ -61,6 +50,15 @@
     "name" : "Scotch Tape",
     "quantity" : 100,
     "fundingAmount" : 0.0
->>>>>>> 4760b4e0656f735ec89a100fb4e119e061447682
+  }, {
+    "id" : 13,
+    "name" : "Lincoln Logs",
+    "quantity" : 400,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 14,
+    "name" : "Cupcakes",
+    "quantity" : 50,
+    "fundingAmount" : 0.0
   } ]
 }
