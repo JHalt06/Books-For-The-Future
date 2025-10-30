@@ -3,7 +3,6 @@ package com.ufund.api.ufundapi.Controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,26 +16,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
-import com.ufund.api.ufundapi.Service.ManagerService;
 
 @RestController
 @RequestMapping("/cupboard")
 public class CupboardController {
     private final HelperService helperService;
-    private final ManagerService managerService;
-    // private final CupboardDAO cupboardDao;
-
     private static final Logger LOG = Logger.getLogger(CupboardController.class.getName());
 
-    public CupboardController(HelperService helperService, ManagerService managerService) {
-        // this.cupboardDao = cupboardDao;
+    public CupboardController(HelperService helperService) {
         this.helperService = helperService;
-        this.managerService = managerService;
     }
 
     @PostMapping("/need")
@@ -85,46 +77,6 @@ public class CupboardController {
             return new ResponseEntity<>(helperService.getNeeds(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @PostMapping("/needs/{id}") // this needs to be addNeedToBasket
-    public ResponseEntity<Need> addNeedFromBasket(@PathVariable long id){
-        LOG.info("POST /cupboard/needs/" + id);
-        try {
-            Need newNeed = helperService.addNeedFromBasket(id);
-            if (newNeed != null){
-                // check if need exists in basket
-                // returns need if successful
-                if (helperService.getCupboardDao().getNeedByID(id) != null && helperService.getInventoryDao().getNeedByID(id) == null){
-                    return new ResponseEntity<>(newNeed, HttpStatus.CREATED);
-                }
-            }
-            // if need exists there is a conflict
-            if(helperService.getCupboardDao().getNeedByID(id) != null){
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IOException e){
-            LOG.log(Level.SEVERE, e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/checkout/{id}")
-    public ResponseEntity<Void> removeNeedFromBasket(@PathVariable long id){
-        LOG.info("DELETE /cupboard/checkout/" + id);
-        try {
-            boolean removed = helperService.removeNeedFromBasket(id);
-            if (removed) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/?name={q}")
@@ -188,6 +140,7 @@ public class CupboardController {
 
         try {
             boolean updated = helperService.updateNeed(updateNeed);
+            System.out.println(helperService.getNeeds());
             if(updated){
                 return new ResponseEntity<>(updateNeed, HttpStatus.OK);
             }

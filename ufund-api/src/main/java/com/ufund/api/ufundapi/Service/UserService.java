@@ -11,14 +11,10 @@ import com.ufund.api.ufundapi.Model.User;
 @Service
 public class UserService {
     private final UserDAO userDAO;
-    final HelperService helperService;
-    final ManagerService managerService;
 
     @Autowired
-    public UserService(UserDAO userDao, HelperService helperService, ManagerService managerService) {
+    public UserService(UserDAO userDao) {
         this.userDAO = userDao;
-        this.helperService = helperService;
-        this.managerService = managerService;
     }
 
     /**

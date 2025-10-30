@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.Cupboard;
 import com.ufund.api.ufundapi.Model.Need;
-import com.ufund.api.ufundapi.Service.HelperService;
 
 @Repository
 public class FileCupboardDAO implements CupboardDAO {
@@ -130,7 +129,6 @@ public class FileCupboardDAO implements CupboardDAO {
     @Override
     public boolean updateNeed(Need updatedNeed) {
         try {
-            // List<Need> lst = cupboard.getCupboard();
             for (Need need : cupboard.getCupboard()) {
                 if (need.getId().longValue() == updatedNeed.getId().longValue()) {
                     System.out.println("need found!");

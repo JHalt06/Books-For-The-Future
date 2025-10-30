@@ -1,9 +1,4 @@
 {
   "id" : 1,
-  "inventory" : [ {
-    "id" : 1,
-    "name" : "Markers",
-    "quantity" : 100,
-    "fundingAmount" : 50.0
-  } ]
+  "inventory" : [ ]
 }

@@ -9,25 +9,20 @@ import org.springframework.stereotype.Service;
 
 import com.ufund.api.ufundapi.DAO.CupboardDAO;
 import com.ufund.api.ufundapi.DAO.FileCupboardDAO;
-import com.ufund.api.ufundapi.DAO.FileInventoryDAO;
-import com.ufund.api.ufundapi.DAO.InventoryDAO;
 import com.ufund.api.ufundapi.Model.Need;
 
 @Service
 public class HelperService {
     //helper CRUD operations
     private final CupboardDAO cupboardDao;
-    private final InventoryDAO inventoryDao;
 
     @Autowired
-    public HelperService(CupboardDAO cupboardDAO, InventoryDAO inventoryDAO){
-        this.cupboardDao = cupboardDAO;
-        this.inventoryDao = inventoryDAO;
-    }
-
     public HelperService(){
         this.cupboardDao = new FileCupboardDAO();
-        this.inventoryDao = new FileInventoryDAO();
+    }
+
+    public HelperService(String filepath) throws IOException{
+        this.cupboardDao = new FileCupboardDAO(filepath);
     }
 
     public Need addNeed(Need need) {
@@ -42,14 +37,11 @@ public class HelperService {
 
     public boolean removeNeed(Need need) {
         System.out.println("HelperService.removeNeed called with Need " + need);
-        Need existingNeedInCupboard =cupboardDao.getNeedByID(need.getId());
+        Need existingNeedInCupboard = cupboardDao.getNeedByID(need.getId());
         System.out.println("Existing need found " + existingNeedInCupboard);
         if (existingNeedInCupboard != null) {
              System.out.println("Need exists in cupboard with name: " + need.getName());
             try {
-                if (!inventoryDao.needExistByName(existingNeedInCupboard.getName())) {
-                    inventoryDao.addNeed(existingNeedInCupboard);
-                }
                 boolean deleted =  cupboardDao.deleteNeed(existingNeedInCupboard.getId());
                 System.out.println("Need deleted from cupboard: " + deleted);
                 return deleted;
@@ -83,44 +75,12 @@ public class HelperService {
         }
     }
 
-    // Same thing but uses ID instead of name
-    public Need addNeedFromBasket(long id) throws IOException {
-        //if need is already in cupboard then it causes conflict
-        if (cupboardDao.getNeedByID(id) != null){
-            return null;
-        }
-
-        Need needInventory = inventoryDao.getNeedByID(id);
-        if (needInventory != null){
-            cupboardDao.addNeed(needInventory);
-            inventoryDao.deleteNeed(id);
-           
-            return needInventory;
-        }
-        return null;
-    }
-
-    public boolean removeNeedFromBasket(long id) throws IOException {
-        Need needFromCupboard = cupboardDao.getNeedByID(id);
-        if (needFromCupboard != null) {
-            inventoryDao.addNeed(needFromCupboard);
-            return cupboardDao.deleteNeed(id);
-        }
-        return false; // if need not found in cupbord
-    }
-
     public boolean updateNeed(Need updatedNeed) throws IOException{
         return cupboardDao.updateNeed(updatedNeed);
     }
 
-
-
     public CupboardDAO getCupboardDao() {
         return cupboardDao;
-    }
-
-    public InventoryDAO getInventoryDao() {
-        return inventoryDao;
     }
 
     public void checkoutNeed(int id, double fundingAmount) throws IOException, IllegalAccessException {

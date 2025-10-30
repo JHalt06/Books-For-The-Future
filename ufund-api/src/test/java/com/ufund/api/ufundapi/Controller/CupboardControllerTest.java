@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ufund.api.ufundapi.DAO.FileCupboardDAO;
-import com.ufund.api.ufundapi.DAO.FileInventoryDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ufund.api.ufundapi.DAO.UserFileDAO;
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
-import com.ufund.api.ufundapi.Service.ManagerService;
+import com.ufund.api.ufundapi.Service.UserService;
 
 public class CupboardControllerTest {
     private CupboardController controller;
     private HelperService helperService;
-    private ManagerService managerService;
+    private UserService userService;
     private File cupboardFile;
     private File inventoryFile;
 
@@ -32,16 +32,16 @@ public class CupboardControllerTest {
         cupboardFile.deleteOnExit();
         inventoryFile.deleteOnExit();
 
-        helperService = new HelperService(new FileCupboardDAO(cupboardFile.getAbsolutePath()), new FileInventoryDAO(inventoryFile.getAbsolutePath())); //???
-        managerService = new ManagerService();
-        controller = new CupboardController(helperService, managerService);
+        helperService = new HelperService(cupboardFile.getPath());
+        userService = new UserService(new UserFileDAO("../data/users.json", new ObjectMapper()));
+        controller = new CupboardController(helperService);
     }
 
     @Test
     void testBrowseNeedsEmpty(){
         ResponseEntity<Object> response = controller.browseNeeds();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(((List<?>) response.getBody()).isEmpty()); //????
+        assertTrue(((List<?>) response.getBody()).isEmpty());
     }
 
     @Test
@@ -59,47 +59,6 @@ public class CupboardControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
-    // @Test
-    // void testAddNeedToBasketSuccess(){
-
-    //     Need need = new Need(1L, "Pens", 11, 2.0);
-    //     helperService.addNeed(need);
-    //     ResponseEntity<Need> response = controller.addNeedToBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
-    //     assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    //     assertEquals("Pens", ((Need) response.getBody()).getName());
-    // }
-
-    @Test
-    void testAddNeedToBasketSuccess()throws IOException{
-        Need need = new Need(1L, "Pens", 11,2.0);
-        Need addedNeed = helperService.getInventoryDao().addNeed(need);
-        ResponseEntity<Need> response = controller.addNeedFromBasket(addedNeed.getId());
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Pens", response.getBody().getName());
-    }
-    
-
-    @Test
-    void testAddNeedToBasketConflict() throws IOException{
-        Need need = new Need(1L, "Pens", 11, 2.0);
-        helperService.addNeed(need);
-        helperService.addNeedFromBasket(1L); //moves to inventory
-        ResponseEntity<Need> response = controller.addNeedFromBasket(1L); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-    }
-
-    @Test
-    void testRemoveNeedFromBasketNotFound(){
-        ResponseEntity<Void> response = controller.removeNeedFromBasket(99L);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    void testRemoveNeedFromBasketValid(){
-        ResponseEntity<Void> response = controller.removeNeedFromBasket(99L);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
     @Test
     void testUpdateNeed_NOTFOUND() throws IOException{
         Need need = new Need(998L, "pencil",1,1.0);
@@ -109,10 +68,10 @@ public class CupboardControllerTest {
     }
     @Test 
     void testUpdateNeed_Success() throws IOException{
-        Need need = new Need(null,"Laptop", 5, 1000.0);
+        Need need = new Need("Laptop", 5, 1000.0);
         Need addedNeed = helperService.addNeed(need);
 
-        Need updatedNeed = new Need(addedNeed.getId(), "Laptop Pro", 10,1200.0);
+        Need updatedNeed = new Need(1L, "Laptop Pro", 10,1200.0);
         ResponseEntity<Object> response = controller.updateNeed(updatedNeed);
         Need returnedNeed = (Need) response.getBody();
         assertNotNull(returnedNeed);
@@ -122,12 +81,5 @@ public class CupboardControllerTest {
 
 
     }
-
-
-
-
-
-
-
 
 }

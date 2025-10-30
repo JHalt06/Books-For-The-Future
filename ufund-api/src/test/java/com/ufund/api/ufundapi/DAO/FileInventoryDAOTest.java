@@ -20,7 +20,7 @@ import com.ufund.api.ufundapi.Model.Need;
 public class FileInventoryDAOTest {
 
     private File tempfile;
-    private FileInventoryDAO cupboardDAO;
+    private FileCupboardDAO cupboardDAO;
 
     @BeforeEach
     void setup() throws IOException {
@@ -28,9 +28,7 @@ public class FileInventoryDAOTest {
         tempfile = File.createTempFile("test-cupboard", ".json");
         tempfile.deleteOnExit(); // Auto delete after test
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        cupboardDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        cupboardDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
         // Initailize
 
     }
@@ -80,7 +78,7 @@ public class FileInventoryDAOTest {
 
         // Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
 
         assertTrue(reloadDAO.needExistByName("Crayons"));
     }
@@ -96,8 +94,7 @@ public class FileInventoryDAOTest {
         cupboardDAO.addNeed(need3);
 
         // Recreate DAO using same file path
-        ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
 
         List<Need> actual = reloadDAO.getNeedByName("Pen");
         ArrayList<Need> expected = new ArrayList<>();
@@ -118,7 +115,7 @@ public class FileInventoryDAOTest {
 
         // Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
 
         List<Need> actual = reloadDAO.getNeedByName("Markers");
 
