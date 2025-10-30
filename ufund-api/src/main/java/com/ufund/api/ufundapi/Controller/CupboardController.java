@@ -97,17 +97,15 @@ public class CupboardController {
         }
     }
 
-
+    /**
+     * Checks out one or more needs in a provided list.
+     * @param needs List of need/header info in Map<String,Integer> format, where the key is a placeholder "needID" : id & "quantity" : quantity
+     * @return
+     */
     @PutMapping("/checkout")
     public ResponseEntity<Object> checkoutNeed(@RequestBody List<Map<String,Integer>> needs){
         LOG.info("PUT /cupboard/checkout" + needs);
         try {
-            // for (Map<String, Integer> map : needs) {
-            //     int id = map.get("needID");
-            //     if (helperService.getCupboardDao().getNeedByID(id) == null) {
-            //         return new ResponseEntity<>("One or more needs are invalid, please refresh.", HttpStatus.BAD_REQUEST);
-            //     }
-            // }
             for (Map<String, Integer> map : needs) {
                 int id = map.get("needID");
 

@@ -1,12 +1,16 @@
 package com.ufund.api.ufundapi.Controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -82,4 +86,31 @@ public class CupboardControllerTest {
 
     }
 
+    @Test
+    void testCheckoutNeed_Valid() throws IOException{
+        Need need = new Need(998L, "Test Tubes",50,1.0);
+        helperService.addNeed(need);
+        List<Map<String, Integer>> needs = new ArrayList<>();
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put("needID", need.getId().intValue());
+        map.put("quantity", 20);
+        needs.add(map);
+
+        ResponseEntity<Object> response = controller.checkoutNeed(needs);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testCheckoutNeed_InvalidBAD() throws IOException{
+        Need need = new Need(998L, "Test Tubes",50,1.0);
+        helperService.addNeed(need);
+        List<Map<String, Integer>> needs = new ArrayList<>();
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put("needID", 997);
+        map.put("quantity", 20);
+        needs.add(map);
+
+        ResponseEntity<Object> response = controller.checkoutNeed(needs);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
 }
