@@ -24,7 +24,7 @@ public class AuthService {
      */
     public User login(String username, String password) throws IllegalAccessException, IOException {
         var user = userService.getUser(username);
-        if (user == null) {
+        if (user == null || !user.getPassword().equals(password)) {
             throw new IllegalAccessException("Incorrect username or password");
         }
         return user;

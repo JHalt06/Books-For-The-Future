@@ -11,6 +11,7 @@ import {AuthService} from '../../services/auth.service';
 })
 
 export class LoginComponent {
+    loginFailed = false
 
     constructor(
         protected usersService: UsersService,
@@ -20,17 +21,18 @@ export class LoginComponent {
     ) {}
 
     login(username: string | null, password: string | null) {
+        this.loginFailed = false;
         let next = '/dashboard'
         console.log(`Login req, user : pass ${username} ${password}`)
         if (!username || !password) {
-          return;
+            return;
         }
-
         this.authService.login(username, password).then(() => {
             this.router.navigate([next]);
             localStorage.setItem("credential", JSON.stringify({username: username, password: password}))
             
         }).catch(ex => {
+            this.loginFailed = true;
             console.log(ex)
         })
     }
