@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {UsersService} from '../../services/users.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import { UserRole } from '../../models/user.model';
 
 @Component({
     selector: 'app-login',
@@ -22,12 +23,15 @@ export class LoginComponent {
 
     login(username: string | null, password: string | null) {
         this.loginFailed = false;
-        let next = '/dashboard'
+        let next = '/'
         console.log(`Login req, user : pass ${username} ${password}`)
         if (!username || !password) {
             return;
         }
         this.authService.login(username, password).then(() => {
+            if (this.authService.getCurrentUser()?.role == UserRole.MANAGER) {
+                next = '/dashboard'
+            }
             this.router.navigate([next]);
             localStorage.setItem("credential", JSON.stringify({username: username, password: password}))
             
