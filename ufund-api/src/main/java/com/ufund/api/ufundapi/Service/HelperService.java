@@ -21,6 +21,10 @@ public class HelperService {
         this.cupboardDao = new FileCupboardDAO();
     }
 
+    public HelperService(FileCupboardDAO dao){
+        this.cupboardDao = dao;
+    }
+
     public HelperService(String filepath) throws IOException{
         this.cupboardDao = new FileCupboardDAO(filepath);
     }

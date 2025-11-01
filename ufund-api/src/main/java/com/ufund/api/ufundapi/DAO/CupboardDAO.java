@@ -21,5 +21,5 @@ public interface CupboardDAO {
 
     boolean updateNeed(Need updatedNeed);
 
-    Need[] searchNeeds(String q);
+    Need[] searchNeeds(String q) throws IOException;
 }

@@ -2,7 +2,6 @@ package com.ufund.api.ufundapi.DAO;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,10 +206,9 @@ public class FileCupboardDAO implements CupboardDAO {
     }
 
     @Override
-    public Need[] searchNeeds(String q) {
-        Need[] arr = (Need[]) cupboard.getCupboard().toArray();
-        return Arrays.stream(arr)
-                .filter(i -> i.getName().toLowerCase().contains(q.toLowerCase()))
-                .toArray(Need[]::new);
+    public Need[] searchNeeds(String q) throws IOException {
+        return cupboard.getCupboard().stream()
+            .filter(i -> i.getName().toLowerCase().contains(q.toLowerCase()))
+            .toArray(Need[]::new);
     }
 }

@@ -119,10 +119,7 @@ public class CupboardController {
                 helperService.checkoutNeed(needID, checkoutAmount);
                 }
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            LOG.log(Level.WARNING, e.getLocalizedMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IllegalAccessException e) {
+        }    catch (IllegalArgumentException | IllegalAccessException e) {
             LOG.log(Level.WARNING, e.getLocalizedMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (IOException e) {
@@ -152,7 +149,7 @@ public class CupboardController {
     }
 
     @PutMapping("/needs/{id}")
-    public ResponseEntity<Object> updateNeedById(@PathVariable long id, @RequestBody Need need){
+    public ResponseEntity<Object> updateNeedById(@PathVariable long id, @RequestBody Need need) {
         LOG.info("PUT /needs/" + id);
         try {
             boolean updated = helperService.updateNeed(need);

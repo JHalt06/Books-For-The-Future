@@ -66,4 +66,8 @@ public class UserService {
         }
         return userDAO.updateUser(user);
     }
+
+    public User createUser(String username, String password) throws IOException {
+        return userDAO.createUser(username, password);
+    }
 }

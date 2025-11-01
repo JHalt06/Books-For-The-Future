@@ -1,6 +1,7 @@
 package com.ufund.api.ufundapi.Controller;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +58,28 @@ public class UserController {
         } catch (IllegalArgumentException ex) {
             LOG.log(Level.WARNING, ex.getLocalizedMessage());
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, ex.getLocalizedMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Object> createUser(@RequestBody Map<String, String> params) {
+        LOG.log(Level.INFO, "POST /users "+ params.toString());
+        String username = params.get("username");
+        String password = params.get("password");
+
+        try {
+            User user = userService.createUser(username, password);
+            if (user != null) {
+                return new ResponseEntity<>(user, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        } catch (IllegalArgumentException ex) {
+            LOG.log(Level.WARNING, ex.getLocalizedMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, ex.getLocalizedMessage());
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

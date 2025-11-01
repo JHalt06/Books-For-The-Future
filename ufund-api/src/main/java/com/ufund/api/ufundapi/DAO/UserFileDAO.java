@@ -2,6 +2,7 @@ package com.ufund.api.ufundapi.DAO;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.Model.User;
+import com.ufund.api.ufundapi.Model.User.UserRole;
 
 @Repository
 public class UserFileDAO implements UserDAO {
@@ -96,6 +98,19 @@ public class UserFileDAO implements UserDAO {
             } else {
                 return null;
             }
+        }
+    }
+
+    @Override
+    public User createUser(String username, String password) throws IOException {
+        synchronized (users) {
+            if (users.containsKey(username)) {
+                return null;
+            }
+            User newUser = new User(username, password, new ArrayList<>(), UserRole.HELPER);
+            users.put(username, newUser);
+            saveUsers();
+            return newUser;
         }
     }
 }
