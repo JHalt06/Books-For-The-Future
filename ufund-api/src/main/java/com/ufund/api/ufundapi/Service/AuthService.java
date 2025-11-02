@@ -15,6 +15,9 @@ public class AuthService {
     public AuthService(UserService userService) {
         this.userService = userService;
     }
+
+    
+
     /**
      * Attempts to log in to the UFund service given a username and password.
      *
