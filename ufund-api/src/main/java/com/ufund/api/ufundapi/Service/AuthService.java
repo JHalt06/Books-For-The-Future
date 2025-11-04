@@ -22,12 +22,28 @@ public class AuthService {
      * @param password The password of the user logging in.
      * @return true or throws IllegalAccessException depending on success of the attempt.
      */
+    
     public User login(String username, String password) throws IllegalAccessException, IOException {
-        var user = userService.getUser(username);
-        if (user == null) {
-            throw new IllegalAccessException("Incorrect username or password");
+        User user = userService.getUser(username);
+
+        if(user == null){
+            //create a new helper user if username doesnt exist
+            User newUser = User.create(username, password);
+            userService.createUser(newUser.getUsername(), newUser.getPassword());
+            return newUser;
         }
+
+        if(!user.getPassword().equals(password)){
+            throw new IllegalAccessError("Incorrect Password");
+
+        }
+
         return user;
+        // var user = userService.getUser(username);
+        // if (user == null) {
+        //     throw new IllegalAccessException("Incorrect username or password");
+        // }
+        // return user;
     }
 }
 
