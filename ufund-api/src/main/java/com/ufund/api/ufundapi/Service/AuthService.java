@@ -26,24 +26,23 @@ public class AuthService {
     public User login(String username, String password) throws IllegalAccessException, IOException {
         User user = userService.getUser(username);
 
-        if(user == null){
-            //create a new helper user if username doesnt exist
+        if(user != null){
+            if(user.getPassword().equals(password)){
+                return user;
+            }
+            else{
+                throw new IllegalAccessError("Incorrect Passowrd");
+            }
+        }
+
+        if(!username.equalsIgnoreCase("admin")){
             User newUser = User.create(username, password);
-            userService.createUser(newUser.getUsername(), newUser.getPassword());
-            return newUser;
-        }
-
-        if(!user.getPassword().equals(password)){
-            throw new IllegalAccessError("Incorrect Password");
+            return userService.createUser(newUser.getUsername(), newUser.getPassword());
 
         }
-
-        return user;
-        // var user = userService.getUser(username);
-        // if (user == null) {
-        //     throw new IllegalAccessException("Incorrect username or password");
-        // }
-        // return user;
+        throw new IllegalAccessException("Username not allowed or already exists");
+        
+        
     }
 }
 
