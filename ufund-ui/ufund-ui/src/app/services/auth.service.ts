@@ -17,16 +17,25 @@ export class AuthService {
     private injector: Injector
   ) {}
 
-  async login(username: string, password: string) {
-    let res = this.http.post<User>(`${this.userUrl}`, {'username': username, 'password': password},
-      {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    })
-    let u = await firstValueFrom(res);
-    this.currentUser.next(u);
+  async login(username: string, password:string): Promise<User>{
+      const res = this.http.post<User>(`${this.userUrl}`, {username,password}, {
+        headers:{'content-type':'application/json'}
+      });
+      const u = await firstValueFrom(res);
+      this.currentUser.next(u);
+      return u;
   }
+
+  // async login(username: string, password: string) {
+  //   let res = this.http.post<User>(`${this.userUrl}`, {'username': username, 'password': password},
+  //     {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //     })
+  //   })
+  //   let u = await firstValueFrom(res);
+  //   this.currentUser.next(u);
+  // }
 
   async restoreLogin(username: string) {
         const userService = this.injector.get(UsersService);

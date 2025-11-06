@@ -60,5 +60,10 @@
     "name" : "Cupcakes",
     "quantity" : 50,
     "fundingAmount" : 0.0
+  }, {
+    "id" : 15,
+    "name" : "Notebooks",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
   } ]
 }

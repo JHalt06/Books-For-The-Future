@@ -31,12 +31,13 @@ public class AuthService {
                 return user;
             }
             else{
-                throw new IllegalAccessError("Incorrect Passowrd");
+                throw new IllegalAccessException("Incorrect Passowrd");
             }
         }
 
         if(!username.equalsIgnoreCase("admin")){
             User newUser = User.create(username, password);
+            
             return userService.createUser(newUser.getUsername(), newUser.getPassword());
 
         }
