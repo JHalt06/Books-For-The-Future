@@ -7,6 +7,9 @@ import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
 import { ModalService } from '../../services/modal.service';
 
+import { HttpClient } from '@angular/common/http';
+import { interval, Subscription } from 'rxjs';
+
 @Component({
     selector: 'app-cupboard',
     standalone: false,
@@ -19,9 +22,15 @@ export class CupboardComponent implements OnInit {
     @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
     needs: Need[] = [];
     searchResults: Need[] = [];
+    unreadCount: number = 0;
+    notifications: string[] = [];
+    showNotifications: boolean = false;
+    private pollSub?: Subscription; //Represents a disposable resource
+
 itemsPerPage: any;
 
     constructor(
+      private http: HttpClient, //added for notification
       private cupboardService: CupboardService,
       private authService: AuthService,
       protected usersService: UsersService,
@@ -29,7 +38,12 @@ itemsPerPage: any;
     ) {}
 
     ngOnInit(): void {
-      this.refresh()
+      // this.refresh()
+      this.startNotificationPolling();
+    }
+
+    ngOnDestroy(): void {
+      this.pollSub?.unsubscribe(); //takes no argument and just disposes the resource held by the subscription.
     }
 
     refresh() {
@@ -39,6 +53,37 @@ itemsPerPage: any;
       });
       this.searchForm.nativeElement.form?.reset()
     }
+
+    startNotificationPolling(){
+      this.pollSub = interval(10000).subscribe(() => {
+        this.http.get<string[]>('http://localhost:8080/notifications').subscribe({
+          next: (notifications) => {
+            this.unreadCount = notifications.length;
+          },
+          error: (err) => console.error('Notification pool failed', err)
+        });
+      });
+    }
+
+    toggleNotifications(){
+      if (!this.showNotifications){
+        this.http.get<string[]>('http://localhost:8080/notifications').subscribe({
+          next: (messages) => {
+            this.notifications = messages;
+            this.showNotifications = true;
+          },
+          error: (err) => console.error('Failed to load notifications', err)
+        });
+      }
+      else{
+        this.showNotifications = false;
+        this.notifications = [];
+      }
+      // this.http.delete('http://localhost:8080/notifications/clear').subscribe(() => {
+      this.unreadCount = 0;
+      // });
+    }
+
 
     //might need to be async
     search(search: any) {

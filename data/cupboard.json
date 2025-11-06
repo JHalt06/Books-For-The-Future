@@ -60,5 +60,10 @@
     "name" : "Cupcakes",
     "quantity" : 50,
     "fundingAmount" : 0.0
+  }, {
+    "id" : 15,
+    "name" : "tester",
+    "quantity" : 1,
+    "fundingAmount" : 0.0
   } ]
 }
