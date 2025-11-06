@@ -1,36 +1,36 @@
 <div id="box">
-    <div id="header">
-        <h1> Cupboard </h1>
-        <ng-template #create>
-            <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
-        </ng-template>
-        <button *ngIf="usersService.isManager()" class="button2" (click)="modalService.showModal(create)">Create Need</button>
-    </div>
-
-    <div id="header2">
-        <div id="searchArea">
-            <form id="search-form">
-                <input type="text" name="search" class="wide-input sort-scheme" placeholder="Search in {{needs.length}} needs..." (input)="search(searchForm.value)" #searchForm>
-                <input type="reset" value="Clear" (click)="search(null)"> <br>
-            </form>
-        </div>
-    </div>
-    <h2 *ngIf="searchResults.length == needs.length"> All Needs </h2>
-    <h2 *ngIf="searchResults.length == 0"> No Results Found </h2>
-
-    <ng-template let-need #NLActions>
-        <button *ngIf="usersService.isHelper()" (click)="addToBasket(need)" [disabled]="usersService.inBasket(usersService.getBasket() | async, need)">
-            Add To Basket
-        </button>
-        <ng-template #edit>
-            <app-need-edit *ngIf="need" [mode]="'Edit'" [need]="need" (refreshNeedList)="refresh()"></app-need-edit>
-        </ng-template>
-        <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
-            Edit Need
-        </button>
-        <button *ngIf="usersService.isManager()" (click)="deleteNeed(need.id)" >
-            Delete Need
-        </button>
+  <div id="header">
+    <h1> Cupboard </h1>
+    <ng-template #create>
+      <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
     </ng-template>
-    <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
+    <button *ngIf="usersService.isManager()" class="button2" (click)="modalService.showModal(create)">Create Need</button>
+  </div>
+
+  <div id="header2">
+    <div id="searchArea">
+      <form id="search-form" (submit)="$event.preventDefault()">
+        <input type="text" name="search" class="wide-input sort-scheme" placeholder="Search in {{needs.length}} needs..." (input)="onSearch(searchForm.value)" #searchForm>
+        <input type="reset" value="Clear" (click)="clearSearch()"> <br>
+      </form>
+    </div>
+  </div>
+  <h2 *ngIf="searchResults.length === needs.length && searchForm.value === ''"> All Needs </h2>
+  <h2 *ngIf="searchResults.length === 0 && searchForm.value !== ''"> No Results Found </h2>
+
+  <ng-template let-need #NLActions>
+    <button *ngIf="usersService.isHelper()" (click)="addToBasket(need)" [disabled]="usersService.inBasket(usersService.getBasket() | async, need)">
+      Add To Basket
+    </button>
+    <ng-template #edit>
+      <app-need-edit *ngIf="need" [mode]="'Edit'" [need]="need" (refreshNeedList)="refresh()"></app-need-edit>
+    </ng-template>
+    <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
+      Edit Need
+    </button>
+    <button *ngIf="usersService.isManager()" (click)="deleteNeed(need.id)" >
+      Delete Need
+    </button>
+  </ng-template>
+  <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
 </div>

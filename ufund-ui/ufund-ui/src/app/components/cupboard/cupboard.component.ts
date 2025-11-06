@@ -8,75 +8,90 @@ import {UsersService} from '../../services/users.service';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
-    selector: 'app-cupboard',
-    standalone: false,
-    templateUrl: './cupboard.component.html',
-    styleUrl: './cupboard.component.css'
+  selector: 'app-cupboard',
+  standalone: false,
+  templateUrl: './cupboard.component.html',
+  styleUrl: './cupboard.component.css'
 })
 export class CupboardComponent implements OnInit {
 
-    @ViewChild("needList") needList?: NeedListComponent
-    @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
-    needs: Need[] = [];
-    searchResults: Need[] = [];
-itemsPerPage: any;
+  @ViewChild("needList") needList?: NeedListComponent
+  @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
+  needs: Need[] = [];
+  searchResults: Need[] = [];
+  itemsPerPage: any;
 
-    constructor(
-      private cupboardService: CupboardService,
-      private authService: AuthService,
-      protected usersService: UsersService,
-      protected modalService: ModalService,
-    ) {}
+  constructor(
+    private cupboardService: CupboardService,
+    private authService: AuthService,
+    protected usersService: UsersService,
+    protected modalService: ModalService,
+  ) {}
 
-    ngOnInit(): void {
-      this.refresh()
-    }
+  ngOnInit(): void {
+    this.refresh()
+  }
 
-    refresh() {
-      this.cupboardService.getNeeds().subscribe(n => {
-        this.needs = n;
-        this.searchResults = n;
-      });
+  refresh() {
+    this.cupboardService.getNeeds().subscribe(n => {
+      this.needs = n;
+      this.searchResults = n;
+    });
+    if (this.searchForm) {
       this.searchForm.nativeElement.form?.reset()
     }
+  }
 
-    //might need to be async
-    search(search: any) {
-      if (search) {
-        console.log("IF BLOCK")
-        this.cupboardService.searchNeeds(search).subscribe((n) => {
-            this.searchResults = n;
-        });
-      } else {
-        this.searchResults = this.needs;
+  onSearch(query: string | null) {
+    if (query && query.trim() !== '') {
+      this.cupboardService.searchNeeds(query).subscribe({
+        next: (n) => {
+          this.searchResults = n;
+        },
+        error: (err) => {
+          // If the API returns 404 (Not Found), it means no results.
+          if (err.status === 404 || err.status === 200) { // Some APIs might return 200 with empty array for no results
+            this.searchResults = [];
+          }
+        }
+      });
+    } else {
+      this.searchResults = this.needs;
+    }
+  }
+
+  clearSearch() {
+    if(this.searchForm) {
+      this.searchForm.nativeElement.value = '';
+    }
+    this.searchResults = this.needs;
+  }
+
+  deleteNeed(id : number) {
+    this.cupboardService.deleteNeed(id)
+      .pipe(catchError((ex, _) => {
+        return of()
+      }))
+      .subscribe(() => {
+        this.refresh();
+      })
+  }
+
+  addToBasket(need: Need) {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      if (!currentUser.basket.includes(need.id)) {
+        currentUser.basket.push(need.id);
+        this.usersService.updateUser(currentUser)
+          .pipe(catchError((err, _) =>  {
+            return of();
+          }))
+          .subscribe(() => {
+            this.usersService.refreshBasket();
+          });
       }
     }
+  }
 
-    deleteNeed(id : number) {
-      this.cupboardService.deleteNeed(id)
-        .pipe(catchError((ex, _) => {
-            return of()
-        }))
-        .subscribe(() => {
-            this.refresh();
-        })
-    }
-
-    addToBasket(need: Need) {
-      const currentUser = this.authService.getCurrentUser();
-      if (currentUser) {
-        if (!currentUser.basket.includes(need.id)) {
-          currentUser.basket.push(need.id);
-          this.usersService.updateUser(currentUser)
-            .pipe(catchError((err, _) =>  {
-              return of();
-            }))
-            .subscribe(() => {
-              this.usersService.refreshBasket();
-            });
-        }
-      } 
-    }
-
-    protected readonly Object = Object;
+  protected readonly Object = Object;
 }
