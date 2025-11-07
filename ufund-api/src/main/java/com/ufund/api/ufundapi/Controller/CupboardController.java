@@ -160,9 +160,11 @@ public class CupboardController {
     @PutMapping("/needs/{id}")
     public ResponseEntity<Object> updateNeedById(@PathVariable long id, @RequestBody Need need) {
         LOG.info("PUT /needs/" + id);
+        Need old_need = need;
         try {
             boolean updated = helperService.updateNeed(need);
             if(updated){
+                notificationService.sendNotification("Need had been updated: " + old_need.getName() + " has been updated to: " + need.getName()+ " (Funding Goal: " + need.getquantity() + ")");
                 return new ResponseEntity<>(need, HttpStatus.OK);
             }
             else{
