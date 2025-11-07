@@ -20,8 +20,6 @@ public class AuthService {
         this.authDAO = authDAO;
     }
 
-    
-
     /**
      * Attempts to log in to the UFund service given a username and password.
      *

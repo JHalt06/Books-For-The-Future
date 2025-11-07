@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,7 @@ public class FileAuthDAO implements AuthDAO {
     private final ObjectMapper objectMapper;
     private final String filename;
 
+    @Autowired
     public FileAuthDAO(ObjectMapper objectMapper, @Value("${auths.filepath}") String filename) throws IOException {
         this.auths = new HashMap<>();
         this.objectMapper = objectMapper;

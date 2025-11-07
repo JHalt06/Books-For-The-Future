@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ufund.api.ufundapi.DAO.FileAuthDAO;
 import com.ufund.api.ufundapi.DAO.UserFileDAO;
 import com.ufund.api.ufundapi.Model.User;
@@ -36,10 +37,16 @@ public class AuthControllerTest {
         authsFile = File.createTempFile("test-auths", ".json");
 
         Files.writeString(userFile.toPath(), "[]");
+        Files.writeString(authsFile.toPath(), "[]");
         userFile.deleteOnExit();
+        authsFile.deleteOnExit();
+        
+        ObjectMapper objMapper = new ObjectMapper();
+        objMapper.registerModule(new JavaTimeModule());
 
         UserFileDAO userDAO = new UserFileDAO(userFile.getAbsolutePath(), new ObjectMapper());
-        FileAuthDAO authDAO = new FileAuthDAO(new ObjectMapper(), authsFile.getAbsolutePath());
+        FileAuthDAO authDAO = new FileAuthDAO(objMapper, authsFile.getAbsolutePath());
+
         userService = new UserService(userDAO);
         authService = new AuthService(userService, authDAO);
         controller = new AuthController(authService);

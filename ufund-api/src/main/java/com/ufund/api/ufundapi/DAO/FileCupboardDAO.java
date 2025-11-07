@@ -14,6 +14,7 @@ import com.ufund.api.ufundapi.Model.Need;
 
 @Repository
 public class FileCupboardDAO implements CupboardDAO {
+    @Autowired
     private final ObjectMapper objectMapper;
     private  final File file;
     private Cupboard cupboard;
@@ -27,8 +28,8 @@ public class FileCupboardDAO implements CupboardDAO {
 
     @Autowired
     public FileCupboardDAO(@Value("${cupboard.filepath}")String filePath) throws IOException{
-        this.objectMapper = new ObjectMapper();
         this.file = new File(filePath);
+        this.objectMapper = new ObjectMapper();
         loadCupboard();
     }
 
