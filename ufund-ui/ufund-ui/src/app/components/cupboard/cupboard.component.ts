@@ -50,6 +50,7 @@ itemsPerPage: any;
 
     refresh() {
       this.loadNeeds();
+    }
   @ViewChild("needList") needList?: NeedListComponent
   @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
   needs: Need[] = [];

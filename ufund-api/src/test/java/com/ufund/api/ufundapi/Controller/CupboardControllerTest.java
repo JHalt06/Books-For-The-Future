@@ -25,11 +25,13 @@ import com.ufund.api.ufundapi.DAO.FileCupboardDAO;
 import com.ufund.api.ufundapi.DAO.UserFileDAO;
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
+import com.ufund.api.ufundapi.Service.NotificationService;
 import com.ufund.api.ufundapi.Service.UserService;
 
 public class CupboardControllerTest {
     private CupboardController controller;
     private HelperService helperService;
+    private NotificationService notificationService;
     private UserService userService;
     private File cupboardFile;
     private File inventoryFile;
@@ -43,7 +45,8 @@ public class CupboardControllerTest {
 
         helperService = new HelperService(cupboardFile.getPath());
         userService = new UserService(new UserFileDAO("../data/users.json", new ObjectMapper()));
-        controller = new CupboardController(helperService);
+        
+        controller = new CupboardController(helperService, notificationService);
     }
 
     @Test
@@ -168,7 +171,8 @@ public class CupboardControllerTest {
     @Test
     void testUpdateNeed_IOEXCEPTION() throws IOException{
         HelperService hs = mock(HelperService.class);
-        CupboardController cc = new CupboardController(hs);
+        NotificationService ns = new NotificationService();
+        CupboardController cc = new CupboardController(hs, ns);
 
         Need updatedNeed = new Need(99L, "Laptop Pro", 10,1200.0);
 
@@ -218,7 +222,8 @@ public class CupboardControllerTest {
     void testSearchNeeds_IOEXCEPTION() throws IOException{
         FileCupboardDAO mockDao = mock(FileCupboardDAO.class);
         HelperService hs = new HelperService(mockDao);
-        CupboardController cc = new CupboardController(hs);
+        NotificationService ns = new NotificationService();
+        CupboardController cc = new CupboardController(hs, ns);
 
         doThrow(new IOException("Simulated error"))
             .when(mockDao)
@@ -265,7 +270,8 @@ public class CupboardControllerTest {
     void testRemoveNeed_IOEXCEPTION() throws IOException{
         FileCupboardDAO mockDao = mock(FileCupboardDAO.class);
         HelperService hs = new HelperService(mockDao);
-        CupboardController cc = new CupboardController(hs);
+        NotificationService ns = new NotificationService();
+        CupboardController cc = new CupboardController(hs, ns);
 
         doThrow(new IOException("Simulated error"))
             .when(mockDao)

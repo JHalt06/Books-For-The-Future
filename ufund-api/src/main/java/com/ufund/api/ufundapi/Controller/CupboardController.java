@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -185,7 +186,7 @@ public class CupboardController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/filter")
     public ResponseEntity<List<Need>> getNeeds(@RequestParam(required = false) String filter) {
         List<Need> allNeeds = helperService.getNeeds();
         
@@ -217,4 +218,4 @@ public class CupboardController {
     
 
 }
-}
+
