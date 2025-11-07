@@ -1,4 +1,44 @@
 <div id="box">
+    <div id="header">
+        <h1> Cupboard </h1>
+<!-- The notification-bell -->
+        <div class="notification" (click)="toggleNotifications()">
+            <div class="notification-bell">
+                <span class="bell"></span>
+            </div>
+            <span *ngIf="unreadCount > 0" class="notification-count">{{ unreadCount }}</span>
+            <div class="notification-list" *ngIf="showNotifications">
+                <div *ngFor="let note of notifications">
+                    {{ note }}
+                </div>
+            </div>
+        </div>
+<!-- The Create Need button -->
+        <ng-template #create>
+            <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
+        </ng-template>
+        <button *ngIf="usersService.isManager()" class="button2" (click)="modalService.showModal(create)">Create Need</button>
+    </div>
+
+    <div class="filter-container">
+        <label for="filter">Filter by:</label>
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+            <option value="">All Needs</option>
+            <option value="highestQuantity">Highest Quantity</option>
+            <option value="lowestQuantity">Lowest Quantity</option>
+            <option value="fundingGoal">Funding Goal</option>
+            <!-- <option value="Az"> Alphabetical A-Z</option>
+            <option value="Az"> Alphabetical Z-A</option> -->
+        </select>
+    </div>
+
+    <div id="header2">
+        <div id="searchArea">
+            <form id="search-form">
+                <input type="text" name="search" class="wide-input sort-scheme" placeholder="Search in {{needs.length}} needs..." (input)="search(searchForm.value)" #searchForm>
+                <input type="reset" value="Clear" (click)="search(null)"> <br>
+            </form>
+        </div>
   <div id="header">
     <h1> Cupboard </h1>
     <ng-template #create>
@@ -25,6 +65,8 @@
     <ng-template #edit>
       <app-need-edit *ngIf="need" [mode]="'Edit'" [need]="need" (refreshNeedList)="refresh()"></app-need-edit>
     </ng-template>
+    <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
+</div>
     <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
       Edit Need
     </button>

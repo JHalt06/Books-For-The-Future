@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
+import com.ufund.api.ufundapi.Service.NotificationService;
 
 @RestController
 @RequestMapping("/cupboard")
+@CrossOrigin(origins = "http://localhost:4200") //for communication with frontend.
 public class CupboardController {
     private final HelperService helperService;
+    private final NotificationService notificationService;
     private static final Logger LOG = Logger.getLogger(CupboardController.class.getName());
 
-    public CupboardController(HelperService helperService) {
+    public CupboardController(HelperService helperService, NotificationService notificationService) {
         this.helperService = helperService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/need")
@@ -40,6 +44,7 @@ public class CupboardController {
         }
         Need addedNeed = helperService.addNeed(need);
         if(addedNeed != null){
+            notificationService.sendNotification("A new need has been added: " + addedNeed.getName() + " (Funding Goal: " + addedNeed.getquantity() +")" );
             return new ResponseEntity<>(addedNeed, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,7 +55,8 @@ public class CupboardController {
     @DeleteMapping("/need")
     public ResponseEntity<Object> removeNeed(@RequestBody Need need){
         LOG.info("DELETE /cupboard/need" + need);
-        if (helperService.removeNeed(need) == true) {
+        if (helperService.removeNeed(need)) {
+            notificationService.sendNotification("A need has been deleted: " + need.getName());
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
@@ -60,7 +66,11 @@ public class CupboardController {
     public ResponseEntity<Object> removeNeed(@PathVariable long id){
         LOG.info("DELETE /needs/" + id);
         try {
+            Need need = helperService.getCupboardDao().getNeedByID(id);
             if (helperService.getCupboardDao().deleteNeed(id)) {
+                if(need != null){
+                    notificationService.sendNotification("A need has been deleted: " + need.getName());
+                }
                 return ResponseEntity.noContent().build();
             }
         } catch (IOException e) {
@@ -131,6 +141,7 @@ public class CupboardController {
             boolean updated = helperService.updateNeed(updateNeed);
             System.out.println(helperService.getNeeds());
             if(updated){
+                notificationService.sendNotification("Need had been updated: " + updateNeed.getName());
                 return new ResponseEntity<>(updateNeed, HttpStatus.OK);
             }
             else{
@@ -145,9 +156,11 @@ public class CupboardController {
     @PutMapping("/needs/{id}")
     public ResponseEntity<Object> updateNeedById(@PathVariable long id, @RequestBody Need need) {
         LOG.info("PUT /needs/" + id);
+        Need old_need = need;
         try {
             boolean updated = helperService.updateNeed(need);
             if(updated){
+                notificationService.sendNotification("Need had been updated: " + old_need.getName() + " has been updated to: " + need.getName()+ " (Funding Goal: " + need.getquantity() + ")");
                 return new ResponseEntity<>(need, HttpStatus.OK);
             }
             else{
@@ -172,4 +185,36 @@ public class CupboardController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Need>> getNeeds(@RequestParam(required = false) String filter) {
+        List<Need> allNeeds = helperService.getNeeds();
+        
+        if(allNeeds == null || allNeeds.isEmpty()){
+            return new ResponseEntity<>(List.of(), HttpStatus.OK); //List.of() - Returns an unmodifiable list containing zero elements.
+        }
+        //if filter logic is provided
+        if(filter != null && !filter.isEmpty()){
+            switch(filter){
+                case "highestQuantity":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Integer.compare(b.getquantity(), a.getquantity())).toList();
+                    break;
+                case "lowestQuantity":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Integer.compare(a.getquantity(), b.getquantity())).toList();
+                    break;
+                case "fundingGoal":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Double.compare(b.getFundingAmount(), a.getFundingAmount())).toList();
+                    break;
+                default:
+                    break; //just return unfiltered list for an unknown filter type.
+                    
+            }
+        }
+        return new ResponseEntity<>(allNeeds, HttpStatus.OK);
+    }
+    
+
+}
 }
