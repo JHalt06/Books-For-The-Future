@@ -80,6 +80,10 @@ public class User {
         this.password = other.password;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     @Override
     public String toString() {
         return "Username: " + this.username + "Role: " + this.role + ", Basket: " + this.basket;

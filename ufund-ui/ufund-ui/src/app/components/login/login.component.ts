@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {UsersService} from '../../services/users.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import { UserRole } from '../../models/user.model';
 
 @Component({
     selector: 'app-login',
@@ -11,6 +12,7 @@ import {AuthService} from '../../services/auth.service';
 })
 
 export class LoginComponent {
+    loginFailed = false
 
     constructor(
         protected usersService: UsersService,
@@ -20,29 +22,21 @@ export class LoginComponent {
     ) {}
 
     login(username: string | null, password: string | null) {
-        // if(!username || !password) return;
-        // this.authService.login(username,password).then(user => {
-        //     let next = user.role === 'HELPER' ? '/cupboard' : '/manager-dashboard';
-        //     this.router.navigate([next]); 
-
-        //     localStorage.setItem("credential", JSON.stringify({username, password}));
-        // })
-        // .catch(err => {
-        //     console.log(err);
-
-        //     alert('Incorrect username or password');
-        // })
-        let next = '/dashboard'
+        this.loginFailed = false;
+        let next = '/'
         console.log(`Login req, user : pass ${username} ${password}`)
         if (!username || !password) {
-          return;
+            return;
         }
-
         this.authService.login(username, password).then(() => {
+            if (this.authService.getCurrentUser()?.role == UserRole.MANAGER) {
+                next = '/dashboard'
+            }
             this.router.navigate([next]);
             localStorage.setItem("credential", JSON.stringify({username: username, password: password}))
             
         }).catch(ex => {
+            this.loginFailed = true;
             console.log(ex)
         })
     }

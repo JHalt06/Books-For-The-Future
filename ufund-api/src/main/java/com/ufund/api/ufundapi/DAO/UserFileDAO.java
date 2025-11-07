@@ -29,12 +29,23 @@ public class UserFileDAO implements UserDAO {
 
     /**
      * Loads the users from the file
-     * @throws IOException If an error occurs while reading the file 
+     * @throws IOException If an error occurs while reading the file
      */
     private void loadUsers() throws IOException {
         users.clear();
 
-        User[] usersArray = objectMapper.readValue(new File(filename), User[].class);
+        File file = new File(filename);
+        if (!file.exists()) {
+            // If the file does not exist, check if the directory exists.
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs(); // Create the 'data' directory if it doesn't exist.
+            }
+            // Create the file with an empty JSON array.
+            objectMapper.writeValue(file, new User[0]);
+        }
+
+        User[] usersArray = objectMapper.readValue(file, User[].class);
 
         for (User user : usersArray) {
             users.put(user.getUsername(), user);
@@ -43,7 +54,7 @@ public class UserFileDAO implements UserDAO {
 
     /**
      * Saves the users to users.json
-     * @throws IOException If an error occurs while reading the file 
+     * @throws IOException If an error occurs while reading the file
      */
     private void saveUsers() throws IOException {
         objectMapper.writeValue(new File(filename), users.values());
@@ -114,4 +125,3 @@ public class UserFileDAO implements UserDAO {
         }
     }
 }
-
