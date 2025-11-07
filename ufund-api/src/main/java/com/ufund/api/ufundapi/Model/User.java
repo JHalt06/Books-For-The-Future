@@ -48,6 +48,7 @@ public class User {
     public String getUsername() {
         return username;
     }
+   
 
     /**
      * Adds a need ID of a given need to the user's basket.

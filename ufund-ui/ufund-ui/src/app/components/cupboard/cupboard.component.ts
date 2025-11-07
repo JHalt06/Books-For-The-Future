@@ -26,9 +26,8 @@ export class CupboardComponent implements OnInit {
     notifications: string[] = [];
     showNotifications: boolean = false;
     private pollSub?: Subscription; //Represents a disposable resource
+    itemsPerPage: any;
 
-itemsPerPage: any;
-//!!!!!!!
     constructor(
       private http: HttpClient,
       private cupboardService: CupboardService,
@@ -40,7 +39,6 @@ itemsPerPage: any;
     ngOnInit(): void {
       this.loadNeeds()
       // this.refresh()
-      // this.refresh()
       this.startNotificationPolling();
     }
 
@@ -49,6 +47,7 @@ itemsPerPage: any;
     }
 
     refresh() {
+<<<<<<< HEAD
       this.loadNeeds();
     }
   @ViewChild("needList") needList?: NeedListComponent
@@ -79,9 +78,32 @@ itemsPerPage: any;
       //   this.needs = n;
       //   this.searchResults = n;
       // });
+=======
+      this.cupboardService.getNeeds().subscribe(n => {
+        this.needs = n;
+        this.searchResults = n;
+      });
+      if (this.searchForm) {
+        this.searchForm.nativeElement.form?.reset()
+      }
+>>>>>>> f0f66e6909a18bc3c91cec3a57243eff23cdb183
     }
 
-    loadNeeds(): void {
+    // refresh() {
+    //   this.loadNeeds();
+    //   @ViewChild("needList") needList?: NeedListComponent
+    //   @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
+    //   needs: Need[] = [];
+    //   searchResults: Need[] = [];
+    //   itemsPerPage: any;
+    // }
+
+  // ngOnInit(): void {
+  //   this.refresh()
+  // }
+
+
+  loadNeeds(): void {
       let url = 'http://localhost:8080/cupboard';
       if(this.selectedFilter) {
         url += `?filter=${this.selectedFilter}`;
@@ -97,7 +119,6 @@ itemsPerPage: any;
         }
       });
     }
-  }
 
     applyFilter(): void {
       this.loadNeeds();
@@ -144,6 +165,8 @@ itemsPerPage: any;
       } else {
         this.searchResults = this.needs;
       }
+    }
+
   onSearch(query: string | null) {
     if (query && query.trim() !== '') {
       this.cupboardService.searchNeeds(query).subscribe({

@@ -40,7 +40,7 @@
             </form>
         </div>
   <div id="header">
-    <h1> Cupboard </h1>
+    <h1> Cupboard1 </h1>
     <ng-template #create>
       <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
     </ng-template>
@@ -66,7 +66,7 @@
       <app-need-edit *ngIf="need" [mode]="'Edit'" [need]="need" (refreshNeedList)="refresh()"></app-need-edit>
     </ng-template>
     <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
-</div>
+<!-- </div> -->
     <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
       Edit Need
     </button>
