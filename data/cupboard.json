@@ -1,6 +1,11 @@
 {
   "id" : 2,
   "cupboard" : [ {
+    "id" : 1,
+    "name" : "Twinkies",
+    "quantity" : 120,
+    "fundingAmount" : 26.0
+  },{
     "id" : 2,
     "name" : "Dictionaries",
     "quantity" : 100,

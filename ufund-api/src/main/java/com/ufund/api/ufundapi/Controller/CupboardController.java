@@ -38,7 +38,7 @@ public class CupboardController {
     @PostMapping("/need")
     public ResponseEntity<Object> createNeed(@RequestBody Need need){
         LOG.info("POST /cupboard/need" + need);
-       
+
         if(helperService.getCupboardDao().needExistByName(need.getName())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -48,8 +48,8 @@ public class CupboardController {
             return new ResponseEntity<>(addedNeed, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            
-       
+
+
     }
 
     @DeleteMapping("/need")
@@ -89,18 +89,12 @@ public class CupboardController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("/?name={q}")
-    public ResponseEntity<Need[]> searchNeeds(@RequestParam String q){
-        LOG.info("GET /cupboard/needs/?name=" + q);
+    @GetMapping("")
+    public ResponseEntity<Need[]> searchNeeds(@RequestParam(name = "name") String query){
+        LOG.info("GET /cupboard/needs/?name=" + query);
         try {
-            Need[] needs = helperService.getCupboardDao().searchNeeds(q);
-            if (needs.length != 0) {
-                return new ResponseEntity<>(needs, HttpStatus.OK);
-            } else if (needs.length == 0) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else {
-                throw new IOException("Invalid search request.");
-            }
+            Need[] needs = helperService.getCupboardDao().searchNeeds(query);
+            return new ResponseEntity<>(needs, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,7 +121,7 @@ public class CupboardController {
                 int checkoutAmount = map.get("quantity");
                 System.out.println("checking out need " + needID + " " + checkoutAmount);
                 helperService.checkoutNeed(needID, checkoutAmount);
-                }
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }    catch (IllegalArgumentException | IllegalAccessException e) {
             LOG.log(Level.WARNING, e.getLocalizedMessage());
@@ -222,4 +216,5 @@ public class CupboardController {
     }
     
 
+}
 }

@@ -1,13 +1,32 @@
-<div >
-    @if ((authService.getCurrentUserObj() | async)?.role === role.MANAGER) {
-        <h1>Admin Dashboard</h1>
+<div class="dashboard-container">
+  <div *ngIf="authService.getCurrentUser()?.role === role.MANAGER; else unauthorized">
+    <h2>Manager Dashboard</h2>
 
-        <div >
-            <h3>Hello Admin!</h3>
+    <div *ngIf="stats$ | async as stats; else loading">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Users</h3>
+          <p class="stat-number">{{ stats.totalUsers }}</p>
         </div>
+        <div class="stat-card">
+          <h3>Total Needs in Cupboard</h3>
+          <p class="stat-number">{{ stats.totalNeeds }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Total Funding Collected</h3>
+          <p class="stat-number">{{ stats.totalFunding | currency }}</p>
+        </div>
+      </div>
+    </div>
 
-    } @else {
-        <h1>Unauthorized</h1>
-        <span>This page requires you to be logged in as an admin! <a routerLink="/login">Log In</a></span>
-    }
+    <ng-template #loading>
+      <p>Loading dashboard stats...</p>
+    </ng-template>
+
+  </div>
+
+  <ng-template #unauthorized>
+    <h1>Unauthorized</h1>
+    <span>This page requires you to be logged in as a manager. <a routerLink="/login">Log In</a></span>
+  </ng-template>
 </div>
