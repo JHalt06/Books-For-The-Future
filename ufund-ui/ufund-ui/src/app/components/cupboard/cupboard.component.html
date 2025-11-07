@@ -1,6 +1,19 @@
 <div id="box">
     <div id="header">
         <h1> Cupboard </h1>
+<!-- The notification-bell -->
+        <div class="notification" (click)="toggleNotifications()">
+            <div class="notification-bell">
+                <span class="bell"></span>
+            </div>
+            <span *ngIf="unreadCount > 0" class="notification-count">{{ unreadCount }}</span>
+            <div class="notification-list" *ngIf="showNotifications">
+                <div *ngFor="let note of notifications">
+                    {{ note }}
+                </div>
+            </div>
+        </div>
+<!-- The Create Need button -->
         <ng-template #create>
             <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
         </ng-template>
