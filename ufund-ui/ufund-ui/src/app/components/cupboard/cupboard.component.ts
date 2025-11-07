@@ -7,8 +7,6 @@ import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
 import { ModalService } from '../../services/modal.service';
 import { HttpClient } from '@angular/common/http';
-
-import { HttpClient } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
