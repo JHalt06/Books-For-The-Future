@@ -20,30 +20,30 @@ export class LoginComponent {
     ) {}
 
     login(username: string | null, password: string | null) {
-        if(!username || !password) return;
-        this.authService.login(username,password).then(user => {
-            let next = user.role === 'HELPER' ? '/cupboard' : '/manager-dashboard';
-            this.router.navigate([next]); 
+        // if(!username || !password) return;
+        // this.authService.login(username,password).then(user => {
+        //     let next = user.role === 'HELPER' ? '/cupboard' : '/manager-dashboard';
+        //     this.router.navigate([next]); 
 
-            localStorage.setItem("credential", JSON.stringify({username, password}));
-        })
-        .catch(err => {
-            console.log(err);
-
-            alert('Incorrect username or password');
-        })
-        // let next = '/dashboard'
-        // console.log(`Login req, user : pass ${username} ${password}`)
-        // if (!username || !password) {
-        //   return;
-        // }
-
-        // this.authService.login(username, password).then(() => {
-        //     this.router.navigate([next]);
-        //     localStorage.setItem("credential", JSON.stringify({username: username, password: password}))
-            
-        // }).catch(ex => {
-        //     console.log(ex)
+        //     localStorage.setItem("credential", JSON.stringify({username, password}));
         // })
+        // .catch(err => {
+        //     console.log(err);
+
+        //     alert('Incorrect username or password');
+        // })
+        let next = '/dashboard'
+        console.log(`Login req, user : pass ${username} ${password}`)
+        if (!username || !password) {
+          return;
+        }
+
+        this.authService.login(username, password).then(() => {
+            this.router.navigate([next]);
+            localStorage.setItem("credential", JSON.stringify({username: username, password: password}))
+            
+        }).catch(ex => {
+            console.log(ex)
+        })
     }
 }
