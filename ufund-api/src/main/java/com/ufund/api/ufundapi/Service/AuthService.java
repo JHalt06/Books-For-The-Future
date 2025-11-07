@@ -27,6 +27,7 @@ public class AuthService {
      * @param password The password of the user logging in.
      * @return true or throws IllegalAccessException depending on success of the attempt.
      */
+    
     public User login(String username, String password) throws IllegalAccessException, IOException {
         var user = userService.getUser(username);
         if (user == null || !user.getPassword().equals(password)) {

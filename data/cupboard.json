@@ -67,8 +67,8 @@
     "fundingAmount" : 0.0
   }, {
     "id" : 15,
-    "name" : "tester",
-    "quantity" : 1,
+    "name" : "Notebooks",
+    "quantity" : 100,
     "fundingAmount" : 0.0
   } ]
 }
