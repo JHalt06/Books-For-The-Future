@@ -6,6 +6,7 @@ import {NeedListComponent} from '../need-list/need-list.component';
 import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
 import { ModalService } from '../../services/modal.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-cupboard',
@@ -19,9 +20,11 @@ export class CupboardComponent implements OnInit {
     @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
     needs: Need[] = [];
     searchResults: Need[] = [];
+    selectedFilter: string = '';
 itemsPerPage: any;
 
     constructor(
+      private http: HttpClient,
       private cupboardService: CupboardService,
       private authService: AuthService,
       protected usersService: UsersService,
@@ -29,6 +32,7 @@ itemsPerPage: any;
     ) {}
 
     ngOnInit(): void {
+      this.loadNeeds()
       this.refresh()
     }
 
@@ -38,6 +42,21 @@ itemsPerPage: any;
         this.searchResults = n;
       });
       this.searchForm.nativeElement.form?.reset()
+    }
+
+    loadNeeds(): void {
+      let url = 'http://localhost:8080/cupboard';
+      if(this.selectedFilter) {
+        url +=
+      }
+
+      this.http.get<>(url).subscribe(data => {
+        this.needs = data;
+      });
+    }
+
+    applyFilter(): void {
+      this.loadNeeds();
     }
 
     //might need to be async
