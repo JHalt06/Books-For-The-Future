@@ -1,11 +1,11 @@
-:root{
+/* :root{
     --primary-color: #007BFF;
     --secondary-color: #6C757D;
     --background-color: #F8F9FA;
     --foreground-color: #212529;
     --button-color: #007BFF;
     --button-text-color: #FFFFFF;
-}
+} */
 
 #header {
     display: flex;
