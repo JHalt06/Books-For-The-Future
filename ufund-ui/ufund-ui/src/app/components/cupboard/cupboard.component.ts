@@ -6,6 +6,7 @@ import {NeedListComponent} from '../need-list/need-list.component';
 import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
 import { ModalService } from '../../services/modal.service';
+import { HttpClient } from '@angular/common/http';
 
 import { HttpClient } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
@@ -22,15 +23,16 @@ export class CupboardComponent implements OnInit {
     @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
     needs: Need[] = [];
     searchResults: Need[] = [];
+    selectedFilter: string = '';
     unreadCount: number = 0;
     notifications: string[] = [];
     showNotifications: boolean = false;
     private pollSub?: Subscription; //Represents a disposable resource
 
 itemsPerPage: any;
-
+//!!!!!!!
     constructor(
-      private http: HttpClient, //added for notification
+      private http: HttpClient,
       private cupboardService: CupboardService,
       private authService: AuthService,
       protected usersService: UsersService,
@@ -38,6 +40,8 @@ itemsPerPage: any;
     ) {}
 
     ngOnInit(): void {
+      this.loadNeeds()
+      // this.refresh()
       // this.refresh()
       this.startNotificationPolling();
     }
@@ -47,11 +51,33 @@ itemsPerPage: any;
     }
 
     refresh() {
-      this.cupboardService.getNeeds().subscribe(n => {
-        this.needs = n;
-        this.searchResults = n;
-      });
+      this.loadNeeds();
       this.searchForm.nativeElement.form?.reset()
+      // this.cupboardService.getNeeds().subscribe(n => {
+      //   this.needs = n;
+      //   this.searchResults = n;
+      // });
+    }
+
+    loadNeeds(): void {
+      let url = 'http://localhost:8080/cupboard';
+      if(this.selectedFilter) {
+        url += `?filter=${this.selectedFilter}`;
+      }
+
+      this.http.get<Need[]>(url).subscribe({
+        next: (data) => {
+          this.needs = data;
+          this.searchResults = data;
+        },
+        error: (err) => {
+          console.error('Error fetching needs:', err);
+        }
+      });
+    }
+
+    applyFilter(): void {
+      this.loadNeeds();
     }
 
     startNotificationPolling(){

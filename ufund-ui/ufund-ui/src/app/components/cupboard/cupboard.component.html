@@ -20,6 +20,18 @@
         <button *ngIf="usersService.isManager()" class="button2" (click)="modalService.showModal(create)">Create Need</button>
     </div>
 
+    <div class="filter-container">
+        <label for="filter">Filter by:</label>
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+            <option value="">All Needs</option>
+            <option value="highestQuantity">Highest Quantity</option>
+            <option value="lowestQuantity">Lowest Quantity</option>
+            <option value="fundingGoal">Funding Goal</option>
+            <!-- <option value="Az"> Alphabetical A-Z</option>
+            <option value="Az"> Alphabetical Z-A</option> -->
+        </select>
+    </div>
+
     <div id="header2">
         <div id="searchArea">
             <form id="search-form">

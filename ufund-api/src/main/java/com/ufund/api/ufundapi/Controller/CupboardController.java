@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
 import com.ufund.api.ufundapi.Service.NotificationService;
 
 @RestController
 @RequestMapping("/cupboard")
+@CrossOrigin(origins = "http://localhost:4200") //for communication with frontend.
 public class CupboardController {
     private final HelperService helperService;
     private final NotificationService notificationService;
@@ -189,6 +191,35 @@ public class CupboardController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Need>> getNeeds(@RequestParam(required = false) String filter) {
+        List<Need> allNeeds = helperService.getNeeds();
+        
+        if(allNeeds == null || allNeeds.isEmpty()){
+            return new ResponseEntity<>(List.of(), HttpStatus.OK); //List.of() - Returns an unmodifiable list containing zero elements.
+        }
+        //if filter logic is provided
+        if(filter != null && !filter.isEmpty()){
+            switch(filter){
+                case "highestQuantity":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Integer.compare(b.getquantity(), a.getquantity())).toList();
+                    break;
+                case "lowestQuantity":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Integer.compare(a.getquantity(), b.getquantity())).toList();
+                    break;
+                case "fundingGoal":
+                    allNeeds = allNeeds.stream()
+                        .sorted((a,b)-> Double.compare(b.getFundingAmount(), a.getFundingAmount())).toList();
+                    break;
+                default:
+                    break; //just return unfiltered list for an unknown filter type.
+                    
+            }
+        }
+        return new ResponseEntity<>(allNeeds, HttpStatus.OK);
+    }
     
 
 }
