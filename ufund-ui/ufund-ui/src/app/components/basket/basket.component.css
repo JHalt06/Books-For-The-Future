@@ -1,0 +1,130 @@
+:root{
+  --background-color: #e6e4df;
+  --primary-color: #007BFF;
+    --secondary-color: #d7d1c7;
+    --tertiary-color: #e0dcd4;
+    --foreground-color: #000000;
+    --highlight-color: #51c7cf;
+    --dark-highlight-color: #002f58;
+    --hover-color: #c0d5d8;
+}
+
+#basket-box{
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 1.5em;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1{
+    color: var(--dark-highlight-color);
+    font-size: 2rem;
+    margin-bottom: 1em;
+}
+
+app-need-list{
+    display: block;
+    margin-top: 1em;
+}
+.donation{
+    width: 60px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 1rem;
+    margin-right: 0.5em;
+    transition: all 0.2s ease;
+}
+
+
+.donation:focus{
+    outline: 2px solid var(--highlight-color);
+    border-color: var(--highlight-color);
+}
+
+.removeNeed{
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.removeNeed:hover{
+    background-color: var(--dark-highlight-color);
+    color: white;
+
+}
+
+button:disabled{
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+#footer{
+    margin-top: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+#footer .button2{
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    border: none;
+    transition: all 0.2s ease;
+}
+
+#footer .button2:hover{
+    background-color: var(--hover-color);
+
+}
+
+#totals ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    color: var(--dark-highlight-color);
+}
+
+#totals li{
+    margin-bottom: 0.3em;
+}
+
+div[ngIf= "!usersService.getBasket().getValue().length"]{
+
+    font-size: 1rem;
+    margin-top: 1em;
+}
+
+div[ngIf= "!usersService.getBasket().getValue().length"] a{
+    color: var(--highlight-color);
+    text-decoration: underline;
+}
+
+@media(max-width: 768px){
+    #footer{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
+    }
+    .donation{
+        width: 100%;
+    }
+    .removeNeed{
+        width: 100%;
+    }
+}

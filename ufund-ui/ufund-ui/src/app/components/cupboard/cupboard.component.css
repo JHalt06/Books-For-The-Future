@@ -1,0 +1,143 @@
+:root{
+  --background-color: #e6e4df;
+  --primary-color: #007BFF;
+    --secondary-color: #d7d1c7;
+    --tertiary-color: #e0dcd4;
+    --foreground-color: #000000;
+    --highlight-color: #51c7cf;
+    --dark-highlight-color: #002f58;
+    --hover-color: #c0d5d8;
+}
+#box{
+    max-width: 1000px;
+    margin: 2em auto;
+    padding: 1.5em;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+#header h1{
+    color: var(--dark-highlight-color);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.button2{
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button2:hover{
+    background-color: var(--hover-color);
+}
+
+.button2:disabled{
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+#header2{
+    margin-bottom: 1.5em;
+}
+
+#searchArea{
+    display: flex;
+    align-items: center;
+}
+
+#search-form{
+    display: flex;
+    gap: 0.5em;
+    width: 100%;
+}
+
+#search-form input[type="text"].wide-input{
+    flex-grow: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+}
+
+#search-form input[type="text"]:focus{
+    outline: 2px solid var(--highlight-color);
+    border-color: var(--highlight-color);
+}
+#search-form input[type="reset"]{
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+}
+
+#search-form input[type="reset"]:hover{
+    background-color: var(--hover-color);
+}
+
+h2{
+    color: var(--dark-highlight-color);
+    font-size: 1.5rem;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+app-need-list{
+    display: block;
+    margin-top: 1em;
+}
+
+button{
+    margin-left: 0.5em;
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover{
+    background-color: var(--hover-color);
+}
+
+button:disabled{
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+@media(max-width: 768px){
+    #header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
+    }
+    #search-form{
+        flex-direction: column;
+    }
+    #search-form input[type="reset"]{
+        width: 100%;
+    }
+}
+
+
