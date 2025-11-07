@@ -9,7 +9,7 @@
 
     <div class="filter-container">
         <label for="filter">Filter by:</label>
-        <select id="filter" [(ngModel)]="selectedFilter">...
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
             <option value="">All Needs</option>
             <option value="highestQuantity">Highest Quantity</option>
             <option value="lowestQuantity">Lowest Quantity</option>

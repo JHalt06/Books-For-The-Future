@@ -22,7 +22,7 @@ export class CupboardComponent implements OnInit {
     searchResults: Need[] = [];
     selectedFilter: string = '';
 itemsPerPage: any;
-
+//!!!!!!!
     constructor(
       private http: HttpClient,
       private cupboardService: CupboardService,
@@ -33,25 +33,32 @@ itemsPerPage: any;
 
     ngOnInit(): void {
       this.loadNeeds()
-      this.refresh()
+      // this.refresh()
     }
 
     refresh() {
-      this.cupboardService.getNeeds().subscribe(n => {
-        this.needs = n;
-        this.searchResults = n;
-      });
+      this.loadNeeds();
       this.searchForm.nativeElement.form?.reset()
+      // this.cupboardService.getNeeds().subscribe(n => {
+      //   this.needs = n;
+      //   this.searchResults = n;
+      // });
     }
 
     loadNeeds(): void {
       let url = 'http://localhost:8080/cupboard';
       if(this.selectedFilter) {
-        url +=
+        url += `?filter=${this.selectedFilter}`;
       }
 
-      this.http.get<>(url).subscribe(data => {
-        this.needs = data;
+      this.http.get<Need[]>(url).subscribe({
+        next: (data) => {
+          this.needs = data;
+          this.searchResults = data;
+        },
+        error: (err) => {
+          console.error('Error fetching needs:', err);
+        }
       });
     }
 
