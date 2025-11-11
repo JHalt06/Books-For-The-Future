@@ -64,15 +64,13 @@
     </button>
     <ng-template #edit>
       <app-need-edit *ngIf="need" [mode]="'Edit'" [need]="need" (refreshNeedList)="refresh()"></app-need-edit>
-    </ng-template>
-    <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
-<!-- </div> -->
-    <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
+      <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
       Edit Need
-    </button>
-    <button *ngIf="usersService.isManager()" (click)="deleteNeed(need.id)" >
-      Delete Need
-    </button>
+      </button>
+      <button *ngIf="usersService.isManager()" (click)="deleteNeed(need.id)" >
+        Delete Need
+      </button>
+    </ng-template>
   </ng-template>
   <app-need-list [uid]="0" [actionArea]="NLActions" *ngIf="searchResults.length > 0" [needs]="searchResults" [itemsPerPage]="5" #needList/>
 </div>

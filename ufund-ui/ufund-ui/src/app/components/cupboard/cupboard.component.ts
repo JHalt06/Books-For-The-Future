@@ -15,6 +15,7 @@ import { interval, Subscription } from 'rxjs';
   templateUrl: './cupboard.component.html',
   styleUrl: './cupboard.component.css'
 })
+
 export class CupboardComponent implements OnInit {
 
     @ViewChild("needList") needList?: NeedListComponent
@@ -47,38 +48,6 @@ export class CupboardComponent implements OnInit {
     }
 
     refresh() {
-<<<<<<< HEAD
-      this.loadNeeds();
-    }
-  @ViewChild("needList") needList?: NeedListComponent
-  @ViewChild("searchForm") searchForm!: ElementRef<HTMLInputElement>
-  needs: Need[] = [];
-  searchResults: Need[] = [];
-  itemsPerPage: any;
-
-  constructor(
-    private cupboardService: CupboardService,
-    private authService: AuthService,
-    protected usersService: UsersService,
-    protected modalService: ModalService,
-  ) {}
-
-  ngOnInit(): void {
-    this.refresh()
-  }
-
-  refresh() {
-    this.cupboardService.getNeeds().subscribe(n => {
-      this.needs = n;
-      this.searchResults = n;
-    });
-    if (this.searchForm) {
-      this.searchForm.nativeElement.form?.reset()
-      // this.cupboardService.getNeeds().subscribe(n => {
-      //   this.needs = n;
-      //   this.searchResults = n;
-      // });
-=======
       this.cupboardService.getNeeds().subscribe(n => {
         this.needs = n;
         this.searchResults = n;
@@ -86,7 +55,6 @@ export class CupboardComponent implements OnInit {
       if (this.searchForm) {
         this.searchForm.nativeElement.form?.reset()
       }
->>>>>>> f0f66e6909a18bc3c91cec3a57243eff23cdb183
     }
 
     // refresh() {

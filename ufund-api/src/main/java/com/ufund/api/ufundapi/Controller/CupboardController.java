@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
- 
+
 import com.ufund.api.ufundapi.Model.Need;
 import com.ufund.api.ufundapi.Service.HelperService;
 import com.ufund.api.ufundapi.Service.NotificationService;
@@ -90,7 +90,7 @@ public class CupboardController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("")
+    @GetMapping("/search")
     public ResponseEntity<Need[]> searchNeeds(@RequestParam(name = "name") String query){
         LOG.info("GET /cupboard/needs/?name=" + query);
         try {
@@ -186,7 +186,7 @@ public class CupboardController {
         }
     }
 
-    @GetMapping("/filter")
+    @GetMapping()
     public ResponseEntity<List<Need>> getNeeds(@RequestParam(required = false) String filter) {
         List<Need> allNeeds = helperService.getNeeds();
         
@@ -210,7 +210,6 @@ public class CupboardController {
                     break;
                 default:
                     break; //just return unfiltered list for an unknown filter type.
-                    
             }
         }
         return new ResponseEntity<>(allNeeds, HttpStatus.OK);

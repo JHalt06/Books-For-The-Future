@@ -28,7 +28,7 @@ export class CupboardService {
   }
 
   searchNeeds(name: String): Observable<Need[]> {
-    return this.httpClient.get<Need[]>(`http://localhost:8080/cupboard?name=${name}`, this.jsonOnlyHeader())
+    return this.httpClient.get<Need[]>(`http://localhost:8080/cupboard/search?name=${name}`, this.jsonOnlyHeader())
   }
 
   getNeed(id: number): Observable<Need> {

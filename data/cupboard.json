@@ -4,8 +4,8 @@
     "id" : 1,
     "name" : "Twinkies",
     "quantity" : 120,
-    "fundingAmount" : 26.0
-  },{
+    "fundingAmount" : 27.0
+  }, {
     "id" : 2,
     "name" : "Dictionaries",
     "quantity" : 100,
@@ -19,7 +19,7 @@
     "id" : 4,
     "name" : "Red Balloons",
     "quantity" : 1001,
-    "fundingAmount" : 10.0
+    "fundingAmount" : 15.0
   }, {
     "id" : 6,
     "name" : "Staplers",
@@ -34,12 +34,12 @@
     "id" : 8,
     "name" : "Colored Paper",
     "quantity" : 100,
-    "fundingAmount" : 0.0
+    "fundingAmount" : 2.0
   }, {
     "id" : 9,
     "name" : "Colored Pencils",
     "quantity" : 100,
-    "fundingAmount" : 0.0
+    "fundingAmount" : 1.0
   }, {
     "id" : 10,
     "name" : "Blocks",
