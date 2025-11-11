@@ -39,7 +39,7 @@
                 <input type="reset" value="Clear" (click)="search(null)"> <br>
             </form>
         </div>
-  <div id="header">
+  <!-- <div id="header">
     <h1> Cupboard1 </h1>
     <ng-template #create>
       <app-need-edit [mode]="'Create'" (refreshNeedList)="refresh()"></app-need-edit>
@@ -54,7 +54,7 @@
         <input type="reset" value="Clear" (click)="clearSearch()"> <br>
       </form>
     </div>
-  </div>
+  </div> -->
   <h2 *ngIf="searchResults.length === needs.length && searchForm.value === ''"> All Needs </h2>
   <h2 *ngIf="searchResults.length === 0 && searchForm.value !== ''"> No Results Found </h2>
 
