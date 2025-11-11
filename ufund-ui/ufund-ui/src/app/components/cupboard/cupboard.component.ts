@@ -23,10 +23,6 @@ export class CupboardComponent implements OnInit {
     needs: Need[] = [];
     searchResults: Need[] = [];
     selectedFilter: string = '';
-    unreadCount: number = 0;
-    notifications: string[] = [];
-    showNotifications: boolean = false;
-    private pollSub?: Subscription; //Represents a disposable resource
     itemsPerPage: any;
 
     constructor(
@@ -40,12 +36,8 @@ export class CupboardComponent implements OnInit {
     ngOnInit(): void {
       this.loadNeeds()
       // this.refresh()
-      this.startNotificationPolling();
     }
 
-    ngOnDestroy(): void {
-      this.pollSub?.unsubscribe(); //takes no argument and just disposes the resource held by the subscription.
-    }
 
     refresh() {
       this.cupboardService.getNeeds().subscribe(n => {
@@ -92,35 +84,6 @@ export class CupboardComponent implements OnInit {
       this.loadNeeds();
     }
 
-    startNotificationPolling(){
-      this.pollSub = interval(10000).subscribe(() => {
-        this.http.get<string[]>('http://localhost:8080/notifications').subscribe({
-          next: (notifications) => {
-            this.unreadCount = notifications.length;
-          },
-          error: (err) => console.error('Notification pool failed', err)
-        });
-      });
-    }
-
-    toggleNotifications(){
-      if (!this.showNotifications){
-        this.http.get<string[]>('http://localhost:8080/notifications').subscribe({
-          next: (messages) => {
-            this.notifications = messages;
-            this.showNotifications = true;
-          },
-          error: (err) => console.error('Failed to load notifications', err)
-        });
-      }
-      else{
-        this.showNotifications = false;
-        this.notifications = [];
-      }
-      // this.http.delete('http://localhost:8080/notifications/clear').subscribe(() => {
-      this.unreadCount = 0;
-      // });
-    }
 
 
     //might need to be async

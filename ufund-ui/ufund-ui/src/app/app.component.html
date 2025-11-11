@@ -1,21 +1,35 @@
 <div id="scroll">
-    <div id="header">
-        <div>
-            <a routerLink="/">
-                <h1>Books for the Future</h1>
-            </a>
-        </div>
-        <div>
-            <a [class]="location.path() == '/dashboard' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.MANAGER" routerLink="/dashboard">Dashboard</a>
-            <a [class]="location.path() == '/cupboard' ? 'current' : ''" routerLink="/cupboard">Cupboard</a>
-            <a [class]="location.path() == '/basket' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.HELPER" routerLink="/basket">Basket</a>
-            <button *ngIf="currentUser | async" (click)="logout()">Log Out</button>
-            <button *ngIf="!(currentUser | async)" (click)="login()">Log In</button>
-        </div>
+  <div id="header">
+    <div>
+      <a routerLink="/">
+        <h1>Books for the Future</h1>
+      </a>
     </div>
-    
-    <router-outlet />
+    <div>
+      <a [class]="location.path() == '/dashboard' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.MANAGER" routerLink="/dashboard">Dashboard</a>
+      <a [class]="location.path() == '/cupboard' ? 'current' : ''" routerLink="/cupboard">Cupboard</a>
+      <a [class]="location.path() == '/basket' ? 'current' : ''" *ngIf="(currentUser | async)?.role === role.HELPER" routerLink="/basket">Basket</a>
+
+      <!-- Notification Bell moved here -->
+      <div class="notification" (click)="toggleNotifications()" *ngIf="currentUser | async">
+        <div class="notification-bell">
+          <span class="bell"></span>
+        </div>
+        <span *ngIf="unreadCount > 0" class="notification-count">{{ unreadCount }}</span>
+        <div class="notification-list" *ngIf="showNotifications">
+          <div *ngFor="let note of notifications" class="notification-item">
+            {{ note }}
+          </div>
+        </div>
+      </div>
+
+      <button *ngIf="currentUser | async" (click)="logout()">Log Out</button>
+      <button *ngIf="!(currentUser | async)" (click)="login()">Log In</button>
+    </div>
+  </div>
+
+  <router-outlet />
 </div>
 <div *ngIf="modalService.getModalBehaviorSubject() | async" class="modal">
-    <ng-container [ngTemplateOutlet]="modalService.getModalBehaviorSubject() | async" />
+  <ng-container [ngTemplateOutlet]="modalService.getModalBehaviorSubject() | async" />
 </div>
