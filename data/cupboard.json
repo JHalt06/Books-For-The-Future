@@ -70,5 +70,10 @@
     "name" : "Notebooks",
     "quantity" : 100,
     "fundingAmount" : 0.0
+  }, {
+    "id" : 16,
+    "name" : "sticks",
+    "quantity" : 5,
+    "fundingAmount" : 0.0
   } ]
 }

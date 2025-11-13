@@ -5,7 +5,7 @@
             <ng-template let-need #NLActions>
                 <input type="number" placeholder="Quantity" min="1" [id]="need?.id" class="donation" (input)="onInput($event)">
                 <button class="removeNeed" (click)="this.usersService.removeNeed(need.id)">
-                    <span class="icon">delete</span>Remove from Basket
+                    <span class="icon"></span>Remove from Basket
                 </button>
             </ng-template>
             <ng-container *ngIf="(usersService.getBasket() | async) as basket">
