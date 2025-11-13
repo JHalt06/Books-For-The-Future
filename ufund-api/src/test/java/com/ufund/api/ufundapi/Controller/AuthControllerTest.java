@@ -36,7 +36,7 @@ public class AuthControllerTest {
         userFile = File.createTempFile("test-users", ".json");
         authsFile = File.createTempFile("test-auths", ".json");
 
-        Files.writeString(userFile.toPath(), "[]");
+        Files.writeString(userFile.toPath(), "[{\"username\":\"admin\",\"password\":\"admin\",\"basket\":[],\"role\":\"MANAGER\"}]");
         Files.writeString(authsFile.toPath(), "[]");
         userFile.deleteOnExit();
         authsFile.deleteOnExit();
@@ -74,7 +74,13 @@ public class AuthControllerTest {
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 
-    // @Test
-    // void testLogin_IOEXCEPTION() throws IOException {
-    // }
+    @Test
+    void testLogin_Admin() throws IOException {
+        HashMap<String,String> map = new HashMap<>();
+        map.put("username", "admin");
+        map.put("password", "admin");
+        
+        ResponseEntity<User> response = controller.login(map);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 }

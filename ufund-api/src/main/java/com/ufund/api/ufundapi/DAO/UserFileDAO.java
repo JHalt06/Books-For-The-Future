@@ -124,4 +124,8 @@ public class UserFileDAO implements UserDAO {
             return newUser;
         }
     }
+
+    public void loadUsersForTesting() throws IOException {
+        this.loadUsers();
+    }
 }
