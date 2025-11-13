@@ -45,6 +45,7 @@ public class CupboardControllerTest {
 
         helperService = new HelperService(cupboardFile.getPath());
         userService = new UserService(new UserFileDAO("../data/users.json", new ObjectMapper()));
+        notificationService = new NotificationService();
         
         controller = new CupboardController(helperService, notificationService);
     }

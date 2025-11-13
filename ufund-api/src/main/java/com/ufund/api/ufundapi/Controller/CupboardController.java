@@ -95,7 +95,7 @@ public class CupboardController {
         LOG.info("GET /cupboard/needs/?name=" + query);
         try {
             Need[] needs = helperService.getCupboardDao().searchNeeds(query);
-            return new ResponseEntity<>(needs, HttpStatus.OK);
+            return needs.length == 0 ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(needs, HttpStatus.OK);
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage(),e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
