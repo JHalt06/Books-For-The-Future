@@ -143,6 +143,7 @@ This section describes the web interface and flow; this is how the user views an
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
+
 Core classes:
   Authenticator
   Cupboard - 
