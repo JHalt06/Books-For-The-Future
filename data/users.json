@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+[{"username":"manager","password":"manager123","basket":[],"role":"MANAGER"},{"username":"helper","password":"helper123","basket":[8,9,4],"role":"HELPER"},{"username":"admin","password":"admin","basket":[],"role":"MANAGER"}]
+=======
 []
+>>>>>>> 4b1292db8a55049d30289f0b2bf0e6812144f6b5
