@@ -148,11 +148,12 @@ This section describes the web interface and flow; this is how the user views an
 > section will follow the same instructions that are given for the View
 > Tier above._
 Core classes:
-  FundingBasket
+  Authenticator
   Cupboard
-  Inventory
-  Manager
-  Need -stores item details
+  DashboardStats
+  Need
+  User
+
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
@@ -164,8 +165,16 @@ Core classes:
 > _**[Sprint 1]** Name and describe the initial OO Principles that your team has considered in support of your design (and implementation) for this first Sprint._
 
 > _**[Sprint 2, 3 & 4]** Will eventually address upto **4 key OO Principles** in your final design. Follow guidance in augmenting those completed in previous Sprints as indicated to you by instructor. Be sure to include any diagrams (or clearly refer to ones elsewhere in your Tier sections above) to support your claims._
+> _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
 1. Separation of Conserns (SoC)
+    Each layer of our projects architecture has a distinct role.
+      Model: Handles data and business logic (Ex: Cupboard, Item, NotifictionService)
+      Controller/ViewModel: Communicates between the frontend and backend, processing user input and organzing updates.
+      View/UFund-UI: Displays data to the user (Ex: Angular components like cupboard.component.ts)
+    This seperation od concerns allows each tier of the arhitecture to be modified independently without affecting others.
+
+    Answer from Sprint 2:
     Front-End  
       All user interaction and request handling logic is isolocated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
     Business Logic
@@ -174,15 +183,18 @@ Core classes:
       Responsible solely for CRUD operations and persistence. Handle reading/writing to JSON files. These files are unaware of how the data is used in business logic.
 
 2. Single Responsibility Principle (SRP)
-    Controller Classes:
-      UsersController only handle HTTP requests related to users, nothing else. 
-    DAO classes:
-      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
+    Each class has a it's own clear purpose:
+      For example, the Controller Classes:
+        CupboardController only handles HTTP requests related to cupboards.
+        Notification Controller is soley responsible for managing notification data.
+        NotificationService is responsible for sending notifications between the backend and frontend.
+      DAO classes:
+        Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
 
-
-
-
-> _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
+3. Low Coupling
+    Each service and controlller only interacts through clear itnerfaces (REST endpoints).
+    For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
+    This design principle allows out classes to be cohesive but still loosely connected.
 
 ## Static Code Analysis/Future Design Improvements
 > _**[Sprint 4]** With the results from the Static Code Analysis exercise, 
@@ -213,9 +225,12 @@ View the Acceptance Test Plan document for more information.
 
 >_**[Sprint 2, 3 & 4]** **Include images of your code coverage report.** If there are any anomalies, discuss
 > those._
+(___.png)
 
 ## Ongoing Rationale
 >_**[Sprint 1, 2, 3 & 4]** Throughout the project, provide a time stamp **(yyyy/mm/dd): Sprint # and description** of any _**mayor**_ team decisions or design milestones/changes and corresponding justification._
+
+Mainly on Slack
 
 (2025/10/10) Sprint 2: Working on now:
 Tommy: Edit needs in Cupboard, Search needs in cupboard user stories
@@ -233,5 +248,18 @@ James: Funding basket creation
 Nolan: Need to refactor before everyone continues
 Brayden: Funding basket creation
 
-() Sprint #: 
+(2025/11/07) Sprint 3: 
+Working on now:
+ALL: Sorting out bugs from all the merges
+Working on next:
+ALL: Testing and code coverage
+BLOCKERS:
+Tommy: N/A
+James: Filter for basket
+Nolan: N/A
+Brayden: N/A
+During Standup:
+Merged all our separate feature branches to sprint3-dev
+Worked on fixing merge conflicts and bugs that arose
+Discussed plan moving forward
 
