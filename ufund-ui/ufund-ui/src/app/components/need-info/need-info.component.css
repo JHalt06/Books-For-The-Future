@@ -1,0 +1,199 @@
+:root{
+    --background-color: #e6e4df;
+  --primary-color: #007BFF;
+    --secondary-color: #d7d1c7;
+    --tertiary-color: #e0dcd4;
+    --foreground-color: #000000;
+    --highlight-color: #51c7cf;
+    --dark-highlight-color: #002f58;
+    --hover-color: #c0d5d8;
+}
+:host{
+    display: block;
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 30px 20px;
+    min-height: 80vh;
+
+}
+
+h1{
+    color: var(--highlight-color);
+    text-align: center;
+    font-size: 26pt;
+    margin-bottom: 20px;
+}
+.prog{
+    text-align: center;
+    margin-bottom: 25px;
+
+}
+
+.prog progress{
+    width: 100%;
+    height: 18px;
+    border-radius:10px;
+    overflow: hidden;
+    appearance: none;
+
+}
+
+.prog progress::-webkit-progress-bar{
+    background-color: var(--tertiary-color);
+    border-radius: 10px;
+
+}
+.prog progress::-webkit-progress-value{
+    background-color: var(--highlight-color);
+    border-radius: 10px;
+}
+.prog progress::-moz-progress-bar{
+    background-color: var(--highlight-color);
+}
+
+.prog span{
+    display:block;
+    margin-top: 8px;
+    font-size: 13pt;
+    color: var(--foreground-color);
+}
+span{
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14pt;
+}
+
+.actionArea{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+
+}
+button{
+    background-color: var(--highlight-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14pt;
+    cursor: pointer;
+    transition: background-color 0.3s, transofrm 0.11s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+button:hover, button:focus{
+    background-color: var(--dark-highlight-color);
+    transform: scale(1.05);
+    outline: none;
+
+}
+
+button:disabled{
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+}
+button .icon{
+    font-weight: bold;
+}
+
+.actionArea button:nth-child(2){
+    background-color: var(--secondary-color);
+    color: var(--foreground-color);
+    border: 1px solid var(--highlight-color);
+}
+.actionArea button:nth-child(2):hover{
+    background-color: var(--hover-color);
+}
+
+
+.accountWarn{
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    max-width: 500px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.accountWarn h1{
+    color: var(--dark-highlight-color);
+    margin-bottom: 15px;
+
+}
+.accountWarn p{
+    font-size: 13pt;
+    margin-bottom: 20px;
+}
+.accountWarn div{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.accountWarn button{
+    background-color: var(--highlight-color);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.11s;
+
+}
+
+.accountWarn button:hover,
+.accountWarn button:focus{
+    background-color: var(--dark-highlight-color);
+    transform: scale(1.05);
+
+}
+a{
+    color: var(--highlight-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+a:hover{
+    color: var(--dark-highlight-color);
+    text-decoration: underline;
+}
+
+
+h1 + span{
+    display:block;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14pt;
+}
+
+@media(max-width:600px){
+    h1{
+        font-size: 22pt;
+    }
+    span{
+        font-size: 12pt ;
+    }
+    .actionArea{
+        flex-direction: column;
+
+    }
+    .actionArea button{
+        width: 100%;
+    }
+    .accountWarn{
+        padding: 20px 15px;
+    }
+    .accountWarn div{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+}

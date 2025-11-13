@@ -20,41 +20,40 @@ import com.ufund.api.ufundapi.Model.Need;
 public class FileInventoryDAOTest {
 
     private File tempfile;
-    private FileInventoryDAO inventoryDAO;
+    private FileCupboardDAO cupboardDAO;
 
     @BeforeEach
-    void setup() throws IOException{
-        //create a temp file for isolated data
+    void setup() throws IOException {
+        // create a temp file for isolated data
         tempfile = File.createTempFile("test-cupboard", ".json");
-        tempfile.deleteOnExit(); //Auto delete after test
+        tempfile.deleteOnExit(); // Auto delete after test
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        inventoryDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper );
-        //Initailize 
+        cupboardDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
+        // Initailize
 
     }
 
-    @Test 
-    void testAddNeed_success() throws IOException{
-        Need newNeed = new Need( "Backpack", 5,12.5);
-        Need cretaeNeed = inventoryDAO.addNeed(newNeed);
+    @Test
+    void testAddNeed_success() throws IOException {
+        Need newNeed = new Need("Backpack", 5, 12.5);
+        Need cretaeNeed = cupboardDAO.addNeed(newNeed);
 
         assertNotNull(cretaeNeed);
         assertEquals("Backpack", cretaeNeed.getName());
-        assertEquals(5,cretaeNeed.getquantity());
+        assertEquals(5, cretaeNeed.getquantity());
         assertEquals(12.5, cretaeNeed.getFundingAmount());
         assertTrue(cretaeNeed.getId() > 0);
     }
+
     @Test
-    void testAddNeed_duplicateNameThrowsException() throws IOException{
-        Need need1 = new Need("NoteBook", 10,5.0);
-        inventoryDAO.addNeed(need1);
-        
+    void testAddNeed_duplicateNameThrowsException() throws IOException {
+        Need need1 = new Need("NoteBook", 10, 5.0);
+        cupboardDAO.addNeed(need1);
+
         Need need2 = new Need("NoteBook", 8, 4.0);
-        
+
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            inventoryDAO.addNeed(need2);
+            cupboardDAO.addNeed(need2);
         });
 
         String expectedMessage = " Need with this name already exists";
@@ -63,62 +62,60 @@ public class FileInventoryDAOTest {
     }
 
     @Test
-    void testNeedExistByName() throws IOException{
+    void testNeedExistByName() throws IOException {
         Need need = new Need("Pencils", 20, 2.5);
-        inventoryDAO.addNeed(need);
+        cupboardDAO.addNeed(need);
 
-        assertTrue(inventoryDAO.needExistByName("Pencils"));
-        assertTrue(inventoryDAO.needExistByName("pencils"));
-        assertFalse(inventoryDAO.needExistByName("Crayons"));
+        assertTrue(cupboardDAO.needExistByName("Pencils"));
+        assertTrue(cupboardDAO.needExistByName("pencils"));
+        assertFalse(cupboardDAO.needExistByName("Crayons"));
     }
 
     @Test
-    void testPersistanceToFile() throws IOException{
-        Need need = new Need(null, "Crayons", 12,3.5);
-        inventoryDAO.addNeed(need);
+    void testPersistanceToFile() throws IOException {
+        Need need = new Need(null, "Crayons", 12, 3.5);
+        cupboardDAO.addNeed(need);
 
-        //Recreate DAO using same file path
+        // Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
 
         assertTrue(reloadDAO.needExistByName("Crayons"));
     }
 
     @Test
-    void testSearchNeeds() throws IOException{
-        Need need1 = new Need("Pens", 12,3.5);
-        Need need2 = new Need("Pencils", 15,4.5);
-        Need need3 = new Need("Markers", 10,4.5);
+    void testSearchNeeds() throws IOException {
+        Need need1 = new Need("Pens", 12, 3.5);
+        Need need2 = new Need("Pencils", 15, 4.5);
+        Need need3 = new Need("Markers", 10, 4.5);
 
-        inventoryDAO.addNeed(need1);
-        inventoryDAO.addNeed(need2);
-        inventoryDAO.addNeed(need3);
+        cupboardDAO.addNeed(need1);
+        cupboardDAO.addNeed(need2);
+        cupboardDAO.addNeed(need3);
 
-        //Recreate DAO using same file path
-        ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
-        
+        // Recreate DAO using same file path
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
+
         List<Need> actual = reloadDAO.getNeedByName("Pen");
         ArrayList<Need> expected = new ArrayList<>();
         expected.add(need1);
         expected.add(need2);
 
         assertIterableEquals(
-            expected.stream().map(Need::getName).toList(),
-            actual.stream().map(Need::getName).toList()
-        );
+                expected.stream().map(Need::getName).toList(),
+                actual.stream().map(Need::getName).toList());
 
     }
 
     @Test
-    void testSearchNeedsNoneFound() throws IOException{
-        Need need1 = new Need("Pens", 12,3.5);
+    void testSearchNeedsNoneFound() throws IOException {
+        Need need1 = new Need("Pens", 12, 3.5);
 
-        inventoryDAO.addNeed(need1);
+        cupboardDAO.addNeed(need1);
 
-        //Recreate DAO using same file path
+        // Recreate DAO using same file path
         ObjectMapper mapper = new ObjectMapper();
-        FileInventoryDAO reloadDAO = new FileInventoryDAO(tempfile.getAbsolutePath(), mapper);
+        FileCupboardDAO reloadDAO = new FileCupboardDAO(tempfile.getAbsolutePath());
 
         List<Need> actual = reloadDAO.getNeedByName("Markers");
 

@@ -28,6 +28,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		
 	</dependencies>
 
 	<build>
@@ -86,6 +93,16 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>default-prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<!-- This property might be needed in some older versions or specific scenarios -->
+								<haltOnFailure>false</haltOnFailure>
+							</configuration>
 					</execution>
 					<!-- attached to Maven test phase -->
 					<execution>

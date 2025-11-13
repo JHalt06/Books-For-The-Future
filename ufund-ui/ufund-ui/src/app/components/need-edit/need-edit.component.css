@@ -1,0 +1,91 @@
+:root{
+  --background-color: #e6e4df;
+  --primary-color: #007BFF;
+    --secondary-color: #d7d1c7;
+    --tertiary-color: #e0dcd4;
+    --foreground-color: #000000;
+    --highlight-color: #51c7cf;
+    --dark-highlight-color: #002f58;
+    --hover-color: #c0d5d8;
+}
+
+:host > div{
+    max-width: 500px;
+    margin: 2em auto;
+    padding: 1.5em;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:host > div>button{
+    background-color: var(--highlight-color);
+    border: none;
+    padding: 6px 12px ;
+    cursor: pointer;
+    float: right;
+    transition: all 0.2s ease;
+
+}
+:host > div>button:hover{
+    background-color: var(--hover-color);
+}
+
+h2{
+    color: var(--dark-highlight-color);
+    margin-top: 0;
+    margin-bottom: 1em;
+    font-size: 1.8rem;
+    clear: both;
+}
+
+form div{
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+form div span{
+    font-weight: bold;
+    margin-bottom: 0.3em;
+    color: var(--foreground-color);
+}
+
+form div input[type="text"],
+form div input[type="number"]{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+form input[type="submit"]{
+    background-color: var(--highlight-color);
+    color: var(--foreground-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+form input[type="submit"]:hover{
+    background-color: var(--hover-color);
+}
+
+form input[type="submit"]:disabled{
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+@media(max-width:600px){
+    :host>div{
+        margin:1em;
+        padding: 1em;
+    }
+    form input[type="submit"]{
+        width: 100%;
+    }
+}

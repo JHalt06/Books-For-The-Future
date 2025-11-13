@@ -2,8 +2,78 @@
   "id" : 2,
   "cupboard" : [ {
     "id" : 1,
-    "name" : "Markers",
+    "name" : "Twinkies",
+    "quantity" : 120,
+    "fundingAmount" : 27.0
+  }, {
+    "id" : 2,
+    "name" : "Dictionaries",
     "quantity" : 100,
-    "fundingAmount" : 50.0
+    "fundingAmount" : 26.0
+  }, {
+    "id" : 3,
+    "name" : "Crayons",
+    "quantity" : 100,
+    "fundingAmount" : 62.0
+  }, {
+    "id" : 4,
+    "name" : "Red Balloons",
+    "quantity" : 1001,
+    "fundingAmount" : 15.0
+  }, {
+    "id" : 6,
+    "name" : "Staplers",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 7,
+    "name" : "Staples",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 8,
+    "name" : "Colored Paper",
+    "quantity" : 100,
+    "fundingAmount" : 2.0
+  }, {
+    "id" : 9,
+    "name" : "Colored Pencils",
+    "quantity" : 100,
+    "fundingAmount" : 1.0
+  }, {
+    "id" : 10,
+    "name" : "Blocks",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 11,
+    "name" : "Hot Dogs",
+    "quantity" : 900,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 12,
+    "name" : "Scotch Tape",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 13,
+    "name" : "Lincoln Logs",
+    "quantity" : 400,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 14,
+    "name" : "Cupcakes",
+    "quantity" : 50,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 15,
+    "name" : "Notebooks",
+    "quantity" : 100,
+    "fundingAmount" : 0.0
+  }, {
+    "id" : 16,
+    "name" : "sticks",
+    "quantity" : 5,
+    "fundingAmount" : 0.0
   } ]
 }
