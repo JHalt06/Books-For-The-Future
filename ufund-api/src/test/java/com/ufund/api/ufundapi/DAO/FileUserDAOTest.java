@@ -45,6 +45,5 @@ public class FileUserDAOTest {
         ufd.loadUsersForTesting();
         int users = ufd.getUserCount();
         assertEquals(users, 0);
-        
     }
 }
