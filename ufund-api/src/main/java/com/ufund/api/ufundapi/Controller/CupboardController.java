@@ -189,7 +189,7 @@ public class CupboardController {
     @GetMapping()
     public ResponseEntity<List<Need>> getNeeds(@RequestParam(required = false) String filter) {
         List<Need> allNeeds = helperService.getNeeds();
-        
+
         if(allNeeds == null || allNeeds.isEmpty()){
             return new ResponseEntity<>(List.of(), HttpStatus.OK); //List.of() - Returns an unmodifiable list containing zero elements.
         }
@@ -198,15 +198,15 @@ public class CupboardController {
             switch(filter){
                 case "highestQuantity":
                     allNeeds = allNeeds.stream()
-                        .sorted((a,b)-> Integer.compare(b.getquantity(), a.getquantity())).toList();
+                            .sorted((a,b)-> Integer.compare(b.getquantity(), a.getquantity())).toList();
                     break;
                 case "lowestQuantity":
                     allNeeds = allNeeds.stream()
-                        .sorted((a,b)-> Integer.compare(a.getquantity(), b.getquantity())).toList();
+                            .sorted((a,b)-> Integer.compare(a.getquantity(), b.getquantity())).toList();
                     break;
                 case "fundingGoal":
                     allNeeds = allNeeds.stream()
-                        .sorted((a,b)-> Double.compare(b.getFundingAmount(), a.getFundingAmount())).toList();
+                            .sorted((a,b)-> Double.compare(b.getFundingAmount(), a.getFundingAmount())).toList();
                     break;
                 default:
                     break; //just return unfiltered list for an unknown filter type.
@@ -214,7 +214,6 @@ public class CupboardController {
         }
         return new ResponseEntity<>(allNeeds, HttpStatus.OK);
     }
-    
+
 
 }
-

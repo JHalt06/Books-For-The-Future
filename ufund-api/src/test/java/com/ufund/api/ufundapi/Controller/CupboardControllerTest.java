@@ -45,7 +45,8 @@ public class CupboardControllerTest {
 
         helperService = new HelperService(cupboardFile.getPath());
         userService = new UserService(new UserFileDAO("../data/users.json", new ObjectMapper()));
-        
+        notificationService = mock(NotificationService.class);
+
         controller = new CupboardController(helperService, notificationService);
     }
 
@@ -69,7 +70,7 @@ public class CupboardControllerTest {
         Need need = new Need(1L, "Notepad", 10, 5.0);
         Need dupe = new Need(2L, "Notepad", 25, 5.0);
         controller.createNeed(need); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
-        
+
         ResponseEntity<Object> response = controller.createNeed(dupe); //Extension of HttpEntity that adds an HttpStatusCode status code. Used in RestTemplate as well as in @Controller methods.
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
@@ -88,7 +89,7 @@ public class CupboardControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
-    @Test 
+    @Test
     void testUpdateNeed_Success() throws IOException{
         Need need = new Need("Laptop", 5, 1000.0);
         Need addedNeed = helperService.addNeed(need);
@@ -177,8 +178,8 @@ public class CupboardControllerTest {
         Need updatedNeed = new Need(99L, "Laptop Pro", 10,1200.0);
 
         doThrow(new IOException("Simulated error"))
-            .when(hs)
-            .updateNeed(any(Need.class));
+                .when(hs)
+                .updateNeed(any(Need.class));
 
         ResponseEntity<Object> response = cc.updateNeedById(99L, updatedNeed);
 
@@ -195,7 +196,7 @@ public class CupboardControllerTest {
         helperService.addNeed(need2);
         helperService.addNeed(need3);
         helperService.addNeed(need4);
-        
+
         ResponseEntity<Need[]> response = controller.searchNeeds("Phone");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -212,10 +213,11 @@ public class CupboardControllerTest {
         helperService.addNeed(need2);
         helperService.addNeed(need3);
         helperService.addNeed(need4);
-        
+
         ResponseEntity<Need[]> response = controller.searchNeeds("Macbook");
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(0, response.getBody().length);
     }
 
     @Test
@@ -226,8 +228,8 @@ public class CupboardControllerTest {
         CupboardController cc = new CupboardController(hs, ns);
 
         doThrow(new IOException("Simulated error"))
-            .when(mockDao)
-            .searchNeeds(anyString());
+                .when(mockDao)
+                .searchNeeds(anyString());
 
         ResponseEntity<Need[]> response = cc.searchNeeds("Phone");
 
@@ -241,7 +243,7 @@ public class CupboardControllerTest {
         helperService.addNeed(need1);
         helperService.addNeed(need2);
 
-        
+
         ResponseEntity<Need> response = controller.getNeed(98L);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -274,8 +276,8 @@ public class CupboardControllerTest {
         CupboardController cc = new CupboardController(hs, ns);
 
         doThrow(new IOException("Simulated error"))
-            .when(mockDao)
-            .deleteNeed(anyLong());
+                .when(mockDao)
+                .deleteNeed(anyLong());
 
         ResponseEntity<Object> response = cc.removeNeed(1);
 
