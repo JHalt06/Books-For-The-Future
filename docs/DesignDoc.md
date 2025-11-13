@@ -8,7 +8,7 @@ geometry: margin=1in
 > commentary 'blockquotes'; the lines that start with a > character
 > and appear in the generated PDF in italics but do so only **after** all team members agree that the requirements for that section and current Sprint have been met. **Do not** delete future Sprint expectations._
 
-## Team Information 
+## Team Information
 * Team name: Team 06 Fantastech4
 * Team members
   * Nolan York
@@ -143,16 +143,20 @@ This section describes the web interface and flow; this is how the user views an
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
+Core classes:
+  Authenticator
+  Cupboard - 
+  DashboardStats
+  Need
+  User
 
 > _**[Sprint 2, 3 & 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
 > Tier above._
-Core classes:
-  Authenticator
-  Cupboard
-  DashboardStats
-  Need
-  User
+
+The Model Tier contrains domain level classes that represent the data, some business rules, and the state of the UFund system.
+These classes do NOT handle UI logic or HTTP requests. Instead, these classes definwe the main entities used throughout the backend. These classes are the foundation for the controllers and services.
+
 
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
@@ -183,13 +187,13 @@ Core classes:
       Responsible solely for CRUD operations and persistence. Handle reading/writing to JSON files. These files are unaware of how the data is used in business logic.
 
 2. Single Responsibility Principle (SRP)
-    Each class has a it's own clear purpose:
-      For example, the Controller Classes:
-        CupboardController only handles HTTP requests related to cupboards.
-        Notification Controller is soley responsible for managing notification data.
-        NotificationService is responsible for sending notifications between the backend and frontend.
-      DAO classes:
-        Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
+  Each class has a it's own clear purpose:
+    For example, the Controller Classes:
+      CupboardController only handles HTTP requests related to cupboards.
+      Notification Controller is soley responsible for managing notification data.
+      NotificationService is responsible for sending notifications between the backend and frontend.
+    DAO classes:
+      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
 
 3. Low Coupling
     Each service and controlller only interacts through clear itnerfaces (REST endpoints).
