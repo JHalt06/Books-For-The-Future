@@ -58,9 +58,17 @@ The MVP of this project:
 
 ### MVP Features
 >  _**[Sprint 4]** Provide a list of top-level Epics and/or Stories of the MVP._
+1. Manager dashboard
+2. Login functionality
+3. Needs browsing (search, filter, etc.)
+4. Needs management (create, delete, edit)
+5. Account persistence (needs baskets)
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
+**MAJOR:** Notification component that shows Helper users when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
+
+**MINOR:** Filter feature within the needs cupboard. Helpers can search for needs with highest funding percentage, lowest quantity, etc.
 
 
 ## Application Domain
@@ -77,6 +85,8 @@ The main entities and relationships of the project:
 1. Helper: Primary user, can manage their own basket and Needs.
 2. Funding Basket: Group of needs asscoiated with a helper.
 3. Need: Individual resource item with description, quantity, and other metadata.
+4. Manager: Admin user, can modify current needs in the Cupboard, or create new ones. Has access to updated information about the initiative (# of needs, users, etc).
+5. Cupboard: Needs posted by Managers available for Helpers to browse, checkout, etc.
 
 ## Architecture and Design
 

@@ -9,12 +9,12 @@
     "id" : 2,
     "name" : "Dictionaries",
     "quantity" : 100,
-    "fundingAmount" : 26.0
+    "fundingAmount" : 36.0
   }, {
     "id" : 3,
     "name" : "Crayons",
     "quantity" : 100,
-    "fundingAmount" : 62.0
+    "fundingAmount" : 72.0
   }, {
     "id" : 4,
     "name" : "Red Balloons",
