@@ -85,6 +85,7 @@ The MVP of this project:
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
+
 **MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage. This system was implemented to improve communication between Helpers and Managers. Benefits and features of this system include:
 - Automatic refresh of notification count without reloading the page.
 - Scalable design allowing additional notification additions in the future. This follows the Open-Closed principle.
