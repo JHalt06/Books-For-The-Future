@@ -85,9 +85,15 @@ The MVP of this project:
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
-**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
+**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage. This system was implemented to improve communication between Helpers and Managers. Benefits and features of this system include:
+- Automatic refresh of notification count without reloading the page.
+- Scalable design allowing additional notification additions in the future. This follows the Open-Closed principle.
 
-**MINOR:** Filter feature within the needs cupboard. Helpers can search for needs with highest funding percentage, lowest quantity, etc.
+**MINOR:** A set of filtering/sorting utilities was added to the Needs Cupboard to enhance the systems usability for Helpers. This includes options to:
+- Sort needs by highest funding percentage
+- Sort by highest need quantity
+- Sort by lowest need quantity
+- Filter Searches based on relevant criteria
 
 
 ## Application Domain
