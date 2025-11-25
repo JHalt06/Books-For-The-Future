@@ -36,9 +36,11 @@ prevent errors, and makes communication between helpers and admins easier and qu
 | SPA | Single Page |
 | REST | Representational State Transfer |
 | MVP | Minimum Viable Product |
-| Basket | A collection of Needs |
-| Need | An item requested by a helper | 
-
+| Helper | Class of user that can contribute to goals |
+| Manager | Class of user that manages goals |
+| Need | An item requested by a Helper |
+| Basket | A collection of Needs that a Helper wants to contribute to |
+| Cupboard | A collection of Needs available for Helpers to contribute to |
 
 ## Requirements
 
@@ -75,7 +77,7 @@ The MVP of this project:
 
 This section describes the application domain.
 
-![Domain Model](DomainModelSprint2.png)
+![Domain Model](domainmodels4.png)
 
 > _**[Sprint 2 & 4]** Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
