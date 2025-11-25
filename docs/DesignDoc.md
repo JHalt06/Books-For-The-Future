@@ -337,7 +337,11 @@ After a group discussion, the initial OO principles that we think our team shoul
 
 >_**[Sprint 2, 3 & 4]** **Include images of your code coverage report.** If there are any anomalies, discuss
 > those._
-(___.png)
+
+![](coverageSprint3.png)
+Anomalies:
+ * Majority of missed instructions are due to hard-to-reach IOException branches that require class mocking and artificial error throwing. Mockito was found to be difficult for each of us to incorperate in our unit testing practices, and therefore many of them were left untested due to a lack of time.
+
 
 ## Ongoing Rationale
 >_**[Sprint 1, 2, 3 & 4]** Throughout the project, provide a time stamp **(yyyy/mm/dd): Sprint # and description** of any _**mayor**_ team decisions or design milestones/changes and corresponding justification._
