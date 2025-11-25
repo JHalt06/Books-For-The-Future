@@ -225,11 +225,17 @@ Core Classes:
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
 
 Core classes:
-  Authenticator
-  Cupboard - 
-  DashboardStats
-  Need
-  User
+  * UserRole - Enumeration containing both types of Users on the UFund site: helper and manager
+  * User - Represents a user on the UFund site, contains username/password, basket and role data. Performs actions specific to the user.
+  * UserFileDAO - Handles persistence of User data to the json database.
+  * UserDAO - Interface that is implemented by UserFileDAO and defines DAO behavior.
+  * Need - Represents a Need on the UFund site, contains quantity, id #, name and funding amount data.
+  * Cupboard - Represents the Cupboard on the UFund site that holds Needs available for funding, stores Need objects in a List data structure.
+  * FileCupboardDAO - Handles persistence of Cupboard data to the json database.
+  * CupboardDAO - Interface that is implemented by FileCupboardDAO and defines DAO behavior.
+  * Authenticator - Represents the authentication information of Users on the UFund website. Contains session key, username of the user it authenticates, and expiry timestamp data. 
+  * FileAuthDAO - Handles persistence of User Authentication data to the json database.
+  * AuthDAO - Interface that is implemented by FileAuthDAO and defines DAO behavior.
 
 > _**[Sprint 2, 3 & 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
