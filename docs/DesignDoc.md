@@ -78,7 +78,7 @@ The MVP of this project:
 
 8. Checkout Needs(5) - As a Helper I want to add/remove needs from my funding basket so that I can change the status of available needs.
 
-9. Populate Cupboard - As a Helper I want to add needs from my funding basket so that I can change the status of available needs.
+9. Populate Cupboard(5) - As a Helper I want to add needs from my funding basket so that I can change the status of available needs.
 
 10. Modify Funding Basket(5) - As a Helper I want to review all the needs currently in my funding basket so that I can confirm, update, or remove them before finalizing their status.
 
