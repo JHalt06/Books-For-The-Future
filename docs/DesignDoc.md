@@ -314,6 +314,36 @@ After a group discussion, the initial OO principles that we think our team shoul
 > Analysis Tool (SonarQube) and provide your analysis and recommendations.  
 > Include any relevant screenshot(s) with each area._
 
+![](screenshots/SQLogging.png)
+The above issue is detected in the following files:
+* src/main/java/com/ufund/api/ufundapi/Controller/NotificationController.java
+* src/main/java/com/ufund/api/ufundapi/Controller/CupboardController.java 
+* src/main/java/com/ufund/api/ufundapi/Controller/AuthController.java
+
+The code frequently uses System.out.println to print information to the console.
+In a production Spring Boot application, standard output messages are not easily searchable, cannot be filtered by severity (like INFO, WARN, ERROR), and do not include timestamps or thread information.
+Can be resolved by replacing all instances of System.out.println with a proper logging framework like SLF4J (which is built into Spring Boot).
+
+![](screenshots/SQComments.png)
+This issue is seen in:
+* src/main/java/com/ufund/api/ufundapi/Service/HelperService.java
+* src/main/java/com/ufund/api/ufundapi/Service/NotificationService.java
+
+There are large blocks of code that have been commented out rather than deleted.
+This is known as "zombie code." It reduces readability, makes the files longer than necessary, and confuses other developers regarding whether the logic is still relevant or why it was disabled.
+Version control systems (like Git) are designed to keep history; the codebase should only contain active code.
+To resolve this, we should delete the commented-out blocks entirely. If the code is needed in the future, it can be retrieved from the Git history.
+
+![](screenshots/SQStrings.png)
+This is a shown in the files:
+* src/main/java/com/ufund/api/ufundapi/Controller/UserController.java
+* src/main/java/com/ufund/api/ufundapi/Service/AuthService.java
+* src/main/java/com/ufund/api/ufundapi/Service/NotificationService.java
+
+The code uses string concatenation inside logging statements (e.g., logger.info("User " + user + " created")).
+This forces the JVM to concatenate the strings before checking if the logging level (INFO) is actually enabled.
+If the logging level is set to WARN, the string creation is wasted CPU and memory.
+This can be fixed use the parameterized message format provided by SLF4J. This delays the string construction until after the logger confirms the message needs to be printed.
 > _**[Sprint 4]** Discuss **future** refactoring and other design improvements your team would explore if the team had additional time._
 
 ## Testing
