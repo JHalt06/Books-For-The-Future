@@ -85,16 +85,9 @@ The MVP of this project:
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
+**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
 
-**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage. This system was implemented to improve communication between Helpers and Managers. Benefits and features of this system include:
-- Automatic refresh of notification count without reloading the page.
-- Scalable design allowing additional notification additions in the future. This follows the Open-Closed principle.
-
-**MINOR:** A set of filtering/sorting utilities was added to the Needs Cupboard to enhance the systems usability for Helpers. This includes options to:
-- Sort needs by highest funding percentage
-- Sort by highest need quantity
-- Sort by lowest need quantity
-- Filter Searches based on relevant criteria
+**MINOR:** Filter feature within the needs cupboard. Helpers can search for needs with highest funding percentage, lowest quantity, etc.
 
 
 ## Application Domain
@@ -195,7 +188,7 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > to help illustrate the end-to-end flow._
 
 ![](SequenceDiagramViewModel1.png)
-![](sequenceDiagram-AddNeed.png)
+![](SequenceDiagramViewModel2.png)
 
 > _**[Sprint 4]** To adequately show your system, you will need to present the **class diagrams** where relevant in your design. Some additional tips:_
  >* _Class diagrams only apply to the **ViewModel** and **Model** Tier_
@@ -206,6 +199,14 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 ### ViewModel Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
 
+Core Classes:
+* UserController - Handles User account data (user/password) and account creation.
+* CupboardController - Handles Cupboard data, methods to search, CRUD operations, etc. 
+* UserService - Handles User app data (for basket, checking out), contains reference to HelperService for actions.
+* HelperService - Handles User actions like searching for, creating, checking out needs, etc.  
+* AuthService - Authenticates user accounts for logging into the site and performing actions.
+
+
 > _**[Sprint 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
 > Tier above._
@@ -213,7 +214,7 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your ViewModel Tier class diagram 1, etc.](place-holder)
+![Replace with your ViewModel Tier class diagram 1, etc.](view-modelClassDiagram.png)
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
@@ -237,7 +238,7 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your Model Tier class diagram 1, etc.](model-placeholder.png)
+![Replace with your Model Tier class diagram 1, etc.](modelClassDiagram.png)
 
 ## OO Design Principles
 
@@ -293,8 +294,8 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
-- All unit tests pass.
-- View the Acceptance Test Plan document for more information.
+
+View the Acceptance Test Plan document for more information.
 
 ### Unit Testing and Code Coverage
 > _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
