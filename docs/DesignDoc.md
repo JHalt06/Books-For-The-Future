@@ -263,7 +263,7 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
   - The Need class, for example, is responsible for maintaining its own quantity, fund status, and metadata rather than having another class track it.
   - Another example is the DashboardStats class. This class handles important statistics about users and cupboard contents because it has access to all relevant data to do so.
 
-3. Single Responsibility Principle (SRP)
+2. Single Responsibility Principle (SRP)
  - Each class has a it's own clear purpose:
  - For example, the Controller Classes:
      CupboardController only handles HTTP requests related to cupboards.
