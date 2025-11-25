@@ -216,6 +216,8 @@ Core Classes:
 > section will follow the same instructions that are given for the View
 > Tier above._
 
+The ViewModel tier of the project flows through several classes to allow seamless transfer of data updates. Initially, a user logs into the application and their credentials are handled by the AuthController, granting them permissions defined by the UserService. If a new user needs an account to be created, or a password needs to change, that state transfer is done by the UserController class. Once the user is logged in, the HelperService class handles actions they might make on the platform. The CupboardController class allows users to perform actions and handles the transfer of various Need states like CRUD operations and search methods.
+
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
