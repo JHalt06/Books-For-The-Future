@@ -195,7 +195,7 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > to help illustrate the end-to-end flow._
 
 ![](SequenceDiagramViewModel1.png)
-![](newSprint4-AddNeedToBasket-SequenceDiagram.drawio.png)
+![](sequenceDiagram-AddNeed.png)
 
 > _**[Sprint 4]** To adequately show your system, you will need to present the **class diagrams** where relevant in your design. Some additional tips:_
  >* _Class diagrams only apply to the **ViewModel** and **Model** Tier_
