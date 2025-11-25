@@ -30,10 +30,10 @@
                 <app-need-edit [mode]="'Edit'" *ngIf="need" [need]="need" (refreshNeedList)="ngOnInit()"></app-need-edit>
             </ng-template>
             <button *ngIf="usersService.isManager()" (click)="modalService.showModal(edit)">
-                <span class="icon">edit</span>Edit Need
+                <span class="icon"></span>Edit Need
             </button>
             <button *ngIf="usersService.isManager()" (click)="delete(need!.id)" >
-                <span class="icon">delete</span>Delete Need
+                <span class="icon"></span>Delete Need
             </button>
         </div>
     } @else {

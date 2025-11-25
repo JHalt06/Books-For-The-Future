@@ -36,9 +36,11 @@ prevent errors, and makes communication between helpers and admins easier and qu
 | SPA | Single Page |
 | REST | Representational State Transfer |
 | MVP | Minimum Viable Product |
-| Basket | A collection of Needs |
-| Need | An item requested by a helper | 
-
+| Helper | Class of user that can contribute to goals |
+| Manager | Class of user that manages goals |
+| Need | An item requested by a Helper |
+| Basket | A collection of Needs that a Helper wants to contribute to |
+| Cupboard | A collection of Needs available for Helpers to contribute to |
 
 ## Requirements
 
@@ -52,21 +54,38 @@ This section describes the features of the application.
 > _**[Sprint 2 & 4]** Provide a simple description of the Minimum Viable Product._
 The MVP of this project:
 1. User management
-2. Creation, viewing, anf management of school supplies basket (Funding baskets)
+2. User login capability
+2. Creation, viewing, and management of school supplies basket (Funding baskets)
 3. Finalization to lock completed baskets. 
 4. Interface that allows for smooth navigation and interaction. 
 
 ### MVP Features
 >  _**[Sprint 4]** Provide a list of top-level Epics and/or Stories of the MVP._
-1. Manager dashboard
-2. Login functionality
-3. Needs browsing (search, filter, etc.)
-4. Needs management (create, delete, edit)
-5. Account persistence (needs baskets)
+
+1. Admin Login (5) - As a U-fund Manager, I want to log in using the reserved username admin so that I can manage the organization's needs cupboard.
+
+2. Helper Login (8) - As a Helper I want to login to the UFund app so that I can access the needs cupboard and view my basket.
+
+3. Search Needs in cupboard (8) - As a Helper I want to search for a particular need so that I can easily find what things exist or do not exist.
+
+4. Create New Need (8) - As a Manager/Admin I want to submit a request to create a new need so that it is added to the cupboard.
+
+5. Edit an Existing Need(5) - As a Helper I want to edit the details of an existing need in the cupboard 
+
+6. Remove Needs from Cupboard(5) - As a Helper I want to add/remove needs from my funding basket so that I can change the status of available needs.
+
+7. Browse Needs (5) - As a Helper I want to see a list of needs so that I choose which ones to contribute to.
+
+8. Checkout Needs(5) - As a Helper I want to add/remove needs from my funding basket so that I can change the status of available needs.
+
+9. Populate Cupboard - As a Helper I want to add needs from my funding basket so that I can change the status of available needs.
+
+10. Modify Funding Basket(5) - As a Helper I want to review all the needs currently in my funding basket so that I can confirm, update, or remove them before finalizing their status.
+
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
-**MAJOR:** Notification component that shows Helper users when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
+**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
 
 **MINOR:** Filter feature within the needs cupboard. Helpers can search for needs with highest funding percentage, lowest quantity, etc.
 
@@ -75,7 +94,7 @@ The MVP of this project:
 
 This section describes the application domain.
 
-![Domain Model](DomainModelSprint2.png)
+![Domain Model](domainmodels4.png)
 
 > _**[Sprint 2 & 4]** Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
