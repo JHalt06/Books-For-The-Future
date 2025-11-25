@@ -146,6 +146,13 @@ This section describes the web interface and flow; this is how the user views an
 > responsibilities.  This should be a narrative description, i.e. it has
 > a flow or "story line" that the reader can follow._
 
+The application is anchored by the AppComponent, which initializes the global Header and a real-time Notification System that polls for inventory updates using interval polling.
+Navigation is handled by the AppRoutingModule, guiding users to the HomepageComponent for general information or the LoginComponent for authentication via the AuthService.
+The core functional area for Helpers is the CupboardComponent, which allows users to browse, search, and filter needs fetched by the CupboardService.
+This component utilizes the reusable NeedListComponent to render individual items and navigates to NeedInfoComponent for detailed views and basket additions.
+The BasketComponent manages the user's cart, enabling checkout operations through the UsersService.
+For Managers, the ManagerDashboardComponent provides statistical oversight, while the NeedEditComponent (often presented via ModalService) facilitates the creation and modification of needs.
+
 > _**[Sprint 4]** You must  provide at least **2 sequence diagrams** as is relevant to a particular aspects 
 > of the design that you are describing.  (**For example**, in a shopping experience application you might create a 
 > sequence diagram of a customer searching for an item and adding to their cart.)
@@ -168,7 +175,7 @@ This section describes the web interface and flow; this is how the user views an
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your ViewModel Tier class diagram 1, etc.](model-placeholder.png)
+![Replace with your ViewModel Tier class diagram 1, etc.](SequenceDiagram1.png)
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
