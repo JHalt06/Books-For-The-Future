@@ -139,6 +139,34 @@ This section describes the web interface and flow; this is how the user views an
 > _Provide a summary of the application's user interface.  Describe, from the user's perspective, the flow of the pages/navigation in the web application.
 >  (Add low-fidelity mockups prior to initiating your **[Sprint 2]**  work so you have a good idea of the user interactions.) Eventually replace with representative screen shots of your high-fidelity results as these become available and finally include future recommendations improvement recommendations for your **[Sprint 4]** )_
 
+![](screenshots/Homepageloggedout.png)
+When a user first visits the "Books for the Future" application, they are greeted by a simple landing page serving the local Rochester community. The navigation bar provides clear entry points to either view the cupboard immediately or log in to the system.
+
+![](screenshots/Login.png)
+To interact with the system—whether to fund a need or manage inventory—users must authenticate. The login interface is presented as a focused, centered card requiring a username and password, ensuring security before granting access to role-specific features.
+
+![](screenshots/HelperCupboard.png)
+Once logged in as a Helper, the user is directed to the Cupboard. This view displays a list of all available needs. It features a search bar for finding specific items (e.g., "14 needs...") and a filter dropdown. Each item card shows the progress of the need and includes an "Add To Basket" button for immediate selection.
+
+![](screenshots/HelperBasket.png)
+After selecting items, the Helper navigates to their Funding Basket. This page lists the specific needs the user intends to support, displaying progress bars for each. Users have the control to review their selections, remove items if they change their mind, and click "Checkout" to finalize their funding.
+
+![](screenshots/ManagerDashboard.png)
+Managers logging into the system see a specialized Dashboard view. This provides a high-level administrative overview of the organization's health, displaying key statistics such as the Total Users, Total Needs in Cupboard, and Total Funding Collected.
+
+![](screenshots/Cupboard.png)
+The Manager's view of the Cupboard is similar to the Helper's but includes administrative capabilities. Notably, a "Create Need" button is visible at the top left, allowing the manager to add new items to the inventory directly from this screen.
+
+![](screenshots/Create Need.png)
+When a Manager chooses to create a new item, a modal appears at the bottom of the website. This allows the manager to input the Name and Funding Goal for the new need without navigating away from the cupboard context.
+
+![](screenshots/EditNeed.png)
+Managers can access a detailed view of individual needs. This interface displays the target goal and current collection status, while providing specific action buttons to "Edit Need" details or "Delete Need" from the system entirely.
+
+#### Future Improvements:
+* When the manager goes to create a new need, the popup could be made into an overlay that appears over the rest of the interface. As it is now, the popup appears at the bottom of the screen after the user presses the button, which they have to scroll to see. This could be made less confusing and more intuitively.
+* The Cupboard view layout could be remade from a list view to a card grid view. This would allow for a more visually appealing and more functional interface while also utilizing wasted whitespace.
+* There could be some visual cues added to the Login and Create Need modals to instanly inform users of invalid inputs. Such visual cues could be red borders or helper text.
 
 ### View Tier
 > _**[Sprint 4]** Provide a summary of the View Tier UI of your architecture.
