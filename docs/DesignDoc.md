@@ -139,7 +139,13 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 This section describes the web interface and flow; this is how the user views and interacts with the web application.
 >_For the reference below, provide an initial draft image/sketch of possible layout of a mayor page of your User Interface and a brief description of the elements it contains **[Sprint 1]**_
 
-![Replace with your First concept of a layout for a mayor page in the User Interface](draft-layout-ui.png)
+![](mockupS1.png)
+Homepage
+  * About Us: Information about the Ufund application/cause.
+  * Header: Sign Up and Log In buttons that redirect to those respective pages. Should turn into a Log Out button once logged in.
+  * Feature 1: Cupboard for viewing Needs available to checkout.
+  * Feature 2: Funding Basket for checking out Needs that Users are interested in funding.
+
 
 ### 
 > _Provide a summary of the application's user interface.  Describe, from the user's perspective, the flow of the pages/navigation in the web application.
