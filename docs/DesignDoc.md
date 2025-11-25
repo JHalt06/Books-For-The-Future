@@ -346,6 +346,11 @@ If the logging level is set to WARN, the string creation is wasted CPU and memor
 This can be fixed use the parameterized message format provided by SLF4J. This delays the string construction until after the logger confirms the message needs to be printed.
 > _**[Sprint 4]** Discuss **future** refactoring and other design improvements your team would explore if the team had additional time._
 
+ * Separate HelperService and relating classes into Manager and User specific classes respective to their allowed actions on the platform.
+ * Convert Need design to use ints for ID numbers instead of Longs, which are annoying to deal with while ints are universally used between HTML, TypeScript, etc.
+ * Password hashing to ensure security for users.
+ * Add support for edits made to Needs showing on notification feature instead of just create/delete.
+
 ## Testing
 > _This section will provide information about the testing performed
 > and the results of the testing._
@@ -364,6 +369,13 @@ This can be fixed use the parameterized message format provided by SLF4J. This d
 > achieved from unit testing of the code base. Discuss the team's
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets._
+
+1. Determine areas with low coverage using JaCoCo report.
+2. Pick a method to focus unit test on.
+3. Write unit test in respective class file.
+4. Debug and ensure that test passes consistently, and that actual data isn't being overwritten.
+5. Run all earlier unit tests to ensure passing.
+6. Push to GitHub.
 
 >_**[Sprint 2, 3 & 4]** **Include images of your code coverage report.** If there are any anomalies, discuss
 > those._
