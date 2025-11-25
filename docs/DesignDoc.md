@@ -246,7 +246,32 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 > _**[Sprint 2, 3 & 4]** Will eventually address upto **4 key OO Principles** in your final design. Follow guidance in augmenting those completed in previous Sprints as indicated to you by instructor. Be sure to include any diagrams (or clearly refer to ones elsewhere in your Tier sections above) to support your claims._
 > _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
-1. Separation of Conserns (SoC)
+1. Information Expert
+  - Responsibility is assigned to the class that has the neccessary information to complete fulfill it.
+  - The Need class, for example, is responsible for maintaining its own quantity, fund status, and metadata rather than having another class track it.
+  - Another example is the DashboardStats class. This class handles important statistics about users and cupboard contents because it has access to all relevant data to do so.
+
+3. Single Responsibility Principle (SRP)
+ - Each class has a it's own clear purpose:
+ - For example, the Controller Classes:
+     CupboardController only handles HTTP requests related to cupboards.
+     Notification Controller is soley responsible for managing notification data.
+     NotificationService is responsible for sending notifications between the backend and frontend.
+ - DAO classes:
+      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
+
+3. Low Coupling
+- Each service and controlller only interacts through clear itnerfaces (REST endpoints).
+- For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
+- This design principle allows out classes to be cohesive but still loosely connected.
+
+4. Open/Closed
+- Out software entities (classes, modules, functions) are open for extension but closed for modification. This means we could easily add new functionality without changing exisiting, tested code.
+- The notification system is designed to be extensible. New types of notifications can be added without changing the existing backend or UI logic.
+- The Filtering and Sorting utilities in the Needs cupboard can be extended to include new criteria without modifying the substance of the CupboardComponenet or service logic.
+- DAO classes are designed so that changed to the persistence do not require modifications to main business logic.
+
+5. Separation of Conserns (SoC)
     Each layer of our projects architecture has a distinct role.
       Model: Handles data and business logic (Ex: Cupboard, Item, NotifictionService)
       Controller/ViewModel: Communicates between the frontend and backend, processing user input and organzing updates.
@@ -260,20 +285,6 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
       Contrains all core application logic, such as validations.
     Data Access (DAO)
       Responsible solely for CRUD operations and persistence. Handle reading/writing to JSON files. These files are unaware of how the data is used in business logic.
-
-2. Single Responsibility Principle (SRP)
-  Each class has a it's own clear purpose:
-    For example, the Controller Classes:
-      CupboardController only handles HTTP requests related to cupboards.
-      Notification Controller is soley responsible for managing notification data.
-      NotificationService is responsible for sending notifications between the backend and frontend.
-    DAO classes:
-      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
-
-3. Low Coupling
-    Each service and controlller only interacts through clear itnerfaces (REST endpoints).
-    For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
-    This design principle allows out classes to be cohesive but still loosely connected.
 
 ## Static Code Analysis/Future Design Improvements
 > _**[Sprint 4]** With the results from the Static Code Analysis exercise, 
