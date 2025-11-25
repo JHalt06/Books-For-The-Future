@@ -17,15 +17,14 @@ geometry: margin=1in
   * Brayden Castro
 
 ## Executive Summary
-This project is a web-based platform for managing school supplies and school supplies needs efficiently. It supports helpers by organizing and tracking items (Needs)
-for through a centralized system. The goal is to streamline school supply allocation, prevent errors, and provide visibility into available and required supplies.
+This project is a web-based platform for managing school supplies and school supplies needs efficiently. It supports helpers by organizing and tracking items (Needs) through a centralized system. The goal is to streamline school supply allocation, prevent errors, and provide visibility into available and required supplies.
 
 ### Purpose
 >  _**[Sprint 2 & 4]** Provide a very brief statement about the project and the most
 > important user group and user goals._
 
-The purpose of this project is to provide users wuth a centralized, and friendly to use application for managing school supplies allocation. The primary users, helpers,
-can easily lorganize baskets for needed supplies, while the secondary users, admins, can monitor and validate activities. The system helps reduce manual tracking,
+The purpose of this project is to provide users with a centralized, and friendly to use application for managing school supplies allocation. The primary users, helpers,
+can easily organize baskets for needed supplies, while the secondary users, admins, can monitor and validate activities. The system helps reduce manual tracking,
 prevent errors, and makes communication between helpers and admins easier and quicker.
 
 ### Glossary and Acronyms
@@ -85,9 +84,16 @@ The MVP of this project:
 
 ### Enhancements
 > _**[Sprint 4]** Describe what enhancements you have implemented for the project._
-**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage.
 
-**MINOR:** Filter feature within the needs cupboard. Helpers can search for needs with highest funding percentage, lowest quantity, etc.
+**MAJOR:** A real time notification system that shows Helper and Managers/Admins when needs have status changes (created, deleted, etc.). Appears as a bell icon on the webpage. This system was implemented to improve communication between Helpers and Managers. Benefits and features of this system include:
+- Automatic refresh of notification count without reloading the page.
+- Scalable design allowing additional notification additions in the future. This follows the Open-Closed principle.
+
+**MINOR:** A set of filtering/sorting utilities was added to the Needs Cupboard to enhance the systems usability for Helpers. This includes options to:
+- Sort needs by highest funding percentage
+- Sort by highest need quantity
+- Sort by lowest need quantity
+- Filter Searches based on relevant criteria
 
 
 ## Application Domain
@@ -133,7 +139,13 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 This section describes the web interface and flow; this is how the user views and interacts with the web application.
 >_For the reference below, provide an initial draft image/sketch of possible layout of a mayor page of your User Interface and a brief description of the elements it contains **[Sprint 1]**_
 
-![Replace with your First concept of a layout for a mayor page in the User Interface](draft-layout-ui.png)
+![](mockupS1.png)
+Homepage
+  * About Us: Information about the Ufund application/cause.
+  * Header: Sign Up and Log In buttons that redirect to those respective pages. Should turn into a Log Out button once logged in.
+  * Feature 1: Cupboard for viewing Needs available to checkout.
+  * Feature 2: Funding Basket for checking out Needs that Users are interested in funding.
+
 
 ### 
 > _Provide a summary of the application's user interface.  Describe, from the user's perspective, the flow of the pages/navigation in the web application.
@@ -157,7 +169,7 @@ Managers logging into the system see a specialized Dashboard view. This provides
 ![](screenshots/Cupboard.png)
 The Manager's view of the Cupboard is similar to the Helper's but includes administrative capabilities. Notably, a "Create Need" button is visible at the top left, allowing the manager to add new items to the inventory directly from this screen.
 
-![](screenshots/Create Need.png)
+![](screenshots/CreateNeed.png)
 When a Manager chooses to create a new item, a modal appears at the bottom of the website. This allows the manager to input the Name and Funding Goal for the new need without navigating away from the cupboard context.
 
 ![](screenshots/EditNeed.png)
@@ -166,7 +178,7 @@ Managers can access a detailed view of individual needs. This interface displays
 #### Future Improvements:
 * When the manager goes to create a new need, the popup could be made into an overlay that appears over the rest of the interface. As it is now, the popup appears at the bottom of the screen after the user presses the button, which they have to scroll to see. This could be made less confusing and more intuitively.
 * The Cupboard view layout could be remade from a list view to a card grid view. This would allow for a more visually appealing and more functional interface while also utilizing wasted whitespace.
-* There could be some visual cues added to the Login and Create Need modals to instanly inform users of invalid inputs. Such visual cues could be red borders or helper text.
+* There could be some visual cues added to the Login and Create Need modals to instantly inform users of invalid inputs. Such visual cues could be red borders or helper text.
 
 ### View Tier
 > _**[Sprint 4]** Provide a summary of the View Tier UI of your architecture.
@@ -188,7 +200,7 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > to help illustrate the end-to-end flow._
 
 ![](SequenceDiagramViewModel1.png)
-![](SequenceDiagramViewModel2.png)
+![](sequenceDiagram-AddNeed.png)
 
 > _**[Sprint 4]** To adequately show your system, you will need to present the **class diagrams** where relevant in your design. Some additional tips:_
  >* _Class diagrams only apply to the **ViewModel** and **Model** Tier_
@@ -199,74 +211,102 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 ### ViewModel Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
 
+Core Classes: 
+  * UserController - Handles User account data (user/password) and account creation. 
+  * CupboardController - Handles Cupboard data, methods to search, CRUD operations, etc. 
+  * UserService - Handles User app data (for basket, checking out), contains reference to HelperService for actions. 
+  * HelperService - Handles User actions like searching for, creating, checking out needs, etc. 
+  * AuthService - Authenticates user accounts for logging into the site and performing actions.
+
 > _**[Sprint 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
 > Tier above._
 
+The ViewModel tier of the project flows through several classes to allow seamless transfer of data updates. Initially, a user logs into the application and their credentials are handled by the AuthController, granting them permissions defined by the UserService. If a new user needs an account to be created, or a password needs to change, that state transfer is done by the UserController class. Once the user is logged in, the HelperService class handles actions they might make on the platform. The CupboardController class allows users to perform actions and handles the transfer of various Need states like CRUD operations and search methods.
+
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your ViewModel Tier class diagram 1, etc.](place-holder)
+![](view-modelClassDiagram.png)
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
 
 Core classes:
-  Authenticator
-  Cupboard - 
-  DashboardStats
-  Need
-  User
+  * UserRole - Enumeration containing both types of Users on the UFund site: helper and manager
+  * User - Represents a user on the UFund site, contains username/password, basket and role data. Performs actions specific to the user.
+  * UserFileDAO - Handles persistence of User data to the json database.
+  * UserDAO - Interface that is implemented by UserFileDAO and defines DAO behavior.
+  * Need - Represents a Need on the UFund site, contains quantity, id #, name and funding amount data.
+  * Cupboard - Represents the Cupboard on the UFund site that holds Needs available for funding, stores Need objects in a List data structure.
+  * FileCupboardDAO - Handles persistence of Cupboard data to the json database.
+  * CupboardDAO - Interface that is implemented by FileCupboardDAO and defines DAO behavior.
+  * Authenticator - Represents the authentication information of Users on the UFund website. Contains session key, username of the user it authenticates, and expiry timestamp data. 
+  * FileAuthDAO - Handles persistence of User Authentication data to the json database.
+  * AuthDAO - Interface that is implemented by FileAuthDAO and defines DAO behavior.
 
 > _**[Sprint 2, 3 & 4]** Provide a summary of this tier of your architecture. This
 > section will follow the same instructions that are given for the View
 > Tier above._
 
-The Model Tier contrains domain level classes that represent the data, some business rules, and the state of the UFund system.
-These classes do NOT handle UI logic or HTTP requests. Instead, these classes definwe the main entities used throughout the backend. These classes are the foundation for the controllers and services.
+The Model Tier contains domain level classes that represent the data, some business rules, and the state of the UFund system.
+These classes do NOT handle UI logic or HTTP requests. Instead, these classes define the main entities used throughout the backend. These classes are the foundation for the controllers and services.
 
 
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your Model Tier class diagram 1, etc.](model-placeholder.png)
+![](modelClassDiagram.png)
 
 ## OO Design Principles
 
 > _**[Sprint 1]** Name and describe the initial OO Principles that your team has considered in support of your design (and implementation) for this first Sprint._
 
+After a group discussion, the initial OO principles that we think our team should focus on for our design are Single Responsibility and the Open/Closed principle. By focusing on these OO principles specifically, we think that our project will be easier to expand upon in the future while also being easier to understand. By following these principles, our group believes we can be efficiently and effectively approach this project. We also recognize that other OO prinicples will be addressed and recognized further down the line. 
+
 > _**[Sprint 2, 3 & 4]** Will eventually address upto **4 key OO Principles** in your final design. Follow guidance in augmenting those completed in previous Sprints as indicated to you by instructor. Be sure to include any diagrams (or clearly refer to ones elsewhere in your Tier sections above) to support your claims._
 > _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
-1. Separation of Conserns (SoC)
+1. Information Expert
+  - Responsibility is assigned to the class that has the necessary information to complete fulfill it.
+  - The Need class, for example, is responsible for maintaining its own quantity, fund status, and metadata rather than having another class track it.
+  - Another example is the DashboardStats class. This class handles important statistics about users and cupboard contents because it has access to all relevant data to do so.
+
+2. Single Responsibility Principle (SRP)
+ - Each class has a it's own clear purpose:
+ - For example, the Controller Classes:
+     CupboardController only handles HTTP requests related to cupboards.
+     Notification Controller is soley responsible for managing notification data.
+     NotificationService is responsible for sending notifications between the backend and frontend.
+ - DAO classes:
+      Each DAO handles data for a single entity. If the strategy of storing data changes, only this class needs to be updated.
+
+3. Low Coupling
+- Each service and controller only interacts through clear itnerfaces (REST endpoints).
+- For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
+- This design principle allows our classes to be cohesive but still loosely connected.
+
+4. Open/Closed
+- Our software entities (classes, modules, functions) are open for extension but closed for modification. This means we could easily add new functionality without changing exisiting, tested code.
+- The notification system is designed to be extensible. New types of notifications can be added without changing the existing backend or UI logic.
+- The Filtering and Sorting utilities in the Needs cupboard can be extended to include new criteria without modifying the substance of the CupboardComponent or service logic.
+- DAO classes are designed so that changed to the persistence do not require modifications to main business logic.
+
+5. Separation of Conserns (SoC)
     Each layer of our projects architecture has a distinct role.
       Model: Handles data and business logic (Ex: Cupboard, Item, NotifictionService)
-      Controller/ViewModel: Communicates between the frontend and backend, processing user input and organzing updates.
+      Controller/ViewModel: Communicates between the frontend and backend, processing user input and organizing updates.
       View/UFund-UI: Displays data to the user (Ex: Angular components like cupboard.component.ts)
     This seperation od concerns allows each tier of the arhitecture to be modified independently without affecting others.
 
     Answer from Sprint 2:
     Front-End  
-      All user interaction and request handling logic is isolocated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
+      All user interaction and request handling logic is isolated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
     Business Logic
       Contrains all core application logic, such as validations.
     Data Access (DAO)
       Responsible solely for CRUD operations and persistence. Handle reading/writing to JSON files. These files are unaware of how the data is used in business logic.
-
-2. Single Responsibility Principle (SRP)
-  Each class has a it's own clear purpose:
-    For example, the Controller Classes:
-      CupboardController only handles HTTP requests related to cupboards.
-      Notification Controller is soley responsible for managing notification data.
-      NotificationService is responsible for sending notifications between the backend and frontend.
-    DAO classes:
-      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
-
-3. Low Coupling
-    Each service and controlller only interacts through clear itnerfaces (REST endpoints).
-    For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
-    This design principle allows out classes to be cohesive but still loosely connected.
 
 ## Static Code Analysis/Future Design Improvements
 > _**[Sprint 4]** With the results from the Static Code Analysis exercise, 
@@ -316,8 +356,8 @@ This can be fixed use the parameterized message format provided by SLF4J. This d
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
-
-View the Acceptance Test Plan document for more information.
+- All unit tests pass.
+- View the Acceptance Test Plan document for more information.
 
 ### Unit Testing and Code Coverage
 > _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
@@ -365,3 +405,14 @@ Merged all our separate feature branches to sprint3-dev
 Worked on fixing merge conflicts and bugs that arose
 Discussed plan moving forward
 
+11/20/2025:
+Working on now:
+ALL:  Sprint 4 documentation, diagrams, and models.
+Working on next:
+Completing the DesignDoc.md and presenting to class.
+BLOCKERS:
+Tommy: N/A
+James: N/A
+ Nolan: N/A
+ Brayden: N/A
+During standup: Went over Sprint 4 plan in more detail. Discussed how to approach more specific aspects of Sprint 4.
