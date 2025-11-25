@@ -254,6 +254,7 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 ## OO Design Principles
 
 > _**[Sprint 1]** Name and describe the initial OO Principles that your team has considered in support of your design (and implementation) for this first Sprint._
+
 After a group discussion, the initial OO principles that we think our team should focus on for our design are Single Responsibility and the Open/Closed principle. By focusing on these OO principles specifically, we think that our project will be easier to expand upon in the future while also being easier to understand. By following these principles, our group believes we can be efficiently and effectively approach this project. We also recognize that other OO prinicples will be addressed and recognized further down the line. 
 
 > _**[Sprint 2, 3 & 4]** Will eventually address upto **4 key OO Principles** in your final design. Follow guidance in augmenting those completed in previous Sprints as indicated to you by instructor. Be sure to include any diagrams (or clearly refer to ones elsewhere in your Tier sections above) to support your claims._
