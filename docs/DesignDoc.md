@@ -17,15 +17,14 @@ geometry: margin=1in
   * Brayden Castro
 
 ## Executive Summary
-This project is a web-based platform for managing school supplies and school supplies needs efficiently. It supports helpers by organizing and tracking items (Needs)
-for through a centralized system. The goal is to streamline school supply allocation, prevent errors, and provide visibility into available and required supplies.
+This project is a web-based platform for managing school supplies and school supplies needs efficiently. It supports helpers by organizing and tracking items (Needs) through a centralized system. The goal is to streamline school supply allocation, prevent errors, and provide visibility into available and required supplies.
 
 ### Purpose
 >  _**[Sprint 2 & 4]** Provide a very brief statement about the project and the most
 > important user group and user goals._
 
-The purpose of this project is to provide users wuth a centralized, and friendly to use application for managing school supplies allocation. The primary users, helpers,
-can easily lorganize baskets for needed supplies, while the secondary users, admins, can monitor and validate activities. The system helps reduce manual tracking,
+The purpose of this project is to provide users with a centralized, and friendly to use application for managing school supplies allocation. The primary users, helpers,
+can easily organize baskets for needed supplies, while the secondary users, admins, can monitor and validate activities. The system helps reduce manual tracking,
 prevent errors, and makes communication between helpers and admins easier and quicker.
 
 ### Glossary and Acronyms
@@ -173,7 +172,7 @@ Managers can access a detailed view of individual needs. This interface displays
 #### Future Improvements:
 * When the manager goes to create a new need, the popup could be made into an overlay that appears over the rest of the interface. As it is now, the popup appears at the bottom of the screen after the user presses the button, which they have to scroll to see. This could be made less confusing and more intuitively.
 * The Cupboard view layout could be remade from a list view to a card grid view. This would allow for a more visually appealing and more functional interface while also utilizing wasted whitespace.
-* There could be some visual cues added to the Login and Create Need modals to instanly inform users of invalid inputs. Such visual cues could be red borders or helper text.
+* There could be some visual cues added to the Login and Create Need modals to instantly inform users of invalid inputs. Such visual cues could be red borders or helper text.
 
 ### View Tier
 > _**[Sprint 4]** Provide a summary of the View Tier UI of your architecture.
@@ -229,8 +228,8 @@ Core classes:
 > section will follow the same instructions that are given for the View
 > Tier above._
 
-The Model Tier contrains domain level classes that represent the data, some business rules, and the state of the UFund system.
-These classes do NOT handle UI logic or HTTP requests. Instead, these classes definwe the main entities used throughout the backend. These classes are the foundation for the controllers and services.
+The Model Tier contains domain level classes that represent the data, some business rules, and the state of the UFund system.
+These classes do NOT handle UI logic or HTTP requests. Instead, these classes define the main entities used throughout the backend. These classes are the foundation for the controllers and services.
 
 
 
@@ -247,7 +246,7 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 > _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
 1. Information Expert
-  - Responsibility is assigned to the class that has the neccessary information to complete fulfill it.
+  - Responsibility is assigned to the class that has the necessary information to complete fulfill it.
   - The Need class, for example, is responsible for maintaining its own quantity, fund status, and metadata rather than having another class track it.
   - Another example is the DashboardStats class. This class handles important statistics about users and cupboard contents because it has access to all relevant data to do so.
 
@@ -258,29 +257,29 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
      Notification Controller is soley responsible for managing notification data.
      NotificationService is responsible for sending notifications between the backend and frontend.
  - DAO classes:
-      Each DAO handles data for a single entity. If the strategy of storing data changes, only this classs needs to be updated.
+      Each DAO handles data for a single entity. If the strategy of storing data changes, only this class needs to be updated.
 
 3. Low Coupling
-- Each service and controlller only interacts through clear itnerfaces (REST endpoints).
+- Each service and controller only interacts through clear itnerfaces (REST endpoints).
 - For example: The NotificationService doesn't directly modify any controllers state. It only makes HTTP requests, so changing its implementation will not break other classes.
-- This design principle allows out classes to be cohesive but still loosely connected.
+- This design principle allows our classes to be cohesive but still loosely connected.
 
 4. Open/Closed
-- Out software entities (classes, modules, functions) are open for extension but closed for modification. This means we could easily add new functionality without changing exisiting, tested code.
+- Our software entities (classes, modules, functions) are open for extension but closed for modification. This means we could easily add new functionality without changing exisiting, tested code.
 - The notification system is designed to be extensible. New types of notifications can be added without changing the existing backend or UI logic.
-- The Filtering and Sorting utilities in the Needs cupboard can be extended to include new criteria without modifying the substance of the CupboardComponenet or service logic.
+- The Filtering and Sorting utilities in the Needs cupboard can be extended to include new criteria without modifying the substance of the CupboardComponent or service logic.
 - DAO classes are designed so that changed to the persistence do not require modifications to main business logic.
 
 5. Separation of Conserns (SoC)
     Each layer of our projects architecture has a distinct role.
       Model: Handles data and business logic (Ex: Cupboard, Item, NotifictionService)
-      Controller/ViewModel: Communicates between the frontend and backend, processing user input and organzing updates.
+      Controller/ViewModel: Communicates between the frontend and backend, processing user input and organizing updates.
       View/UFund-UI: Displays data to the user (Ex: Angular components like cupboard.component.ts)
     This seperation od concerns allows each tier of the arhitecture to be modified independently without affecting others.
 
     Answer from Sprint 2:
     Front-End  
-      All user interaction and request handling logic is isolocated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
+      All user interaction and request handling logic is isolated in the REST controllers. This tier only formats requests/responses and doesn't directly access the business like logic or data persistence.
     Business Logic
       Contrains all core application logic, such as validations.
     Data Access (DAO)
