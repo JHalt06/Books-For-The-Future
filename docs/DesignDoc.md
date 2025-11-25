@@ -163,7 +163,7 @@ Managers logging into the system see a specialized Dashboard view. This provides
 ![](screenshots/Cupboard.png)
 The Manager's view of the Cupboard is similar to the Helper's but includes administrative capabilities. Notably, a "Create Need" button is visible at the top left, allowing the manager to add new items to the inventory directly from this screen.
 
-![](screenshots/Create Need.png)
+![](screenshots/CreateNeed.png)
 When a Manager chooses to create a new item, a modal appears at the bottom of the website. This allows the manager to input the Name and Funding Goal for the new need without navigating away from the cupboard context.
 
 ![](screenshots/EditNeed.png)
