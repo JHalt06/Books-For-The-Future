@@ -293,8 +293,8 @@ These classes do NOT handle UI logic or HTTP requests. Instead, these classes de
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
-
-View the Acceptance Test Plan document for more information.
+- All unit tests pass.
+- View the Acceptance Test Plan document for more information.
 
 ### Unit Testing and Code Coverage
 > _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
