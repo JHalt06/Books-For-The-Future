@@ -159,6 +159,9 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > As these can span multiple tiers, be sure to include an relevant HTTP requests from the client-side to the server-side 
 > to help illustrate the end-to-end flow._
 
+![](SequenceDiagramViewModel1.png)
+![](SequenceDiagramViewModel2.png)
+
 > _**[Sprint 4]** To adequately show your system, you will need to present the **class diagrams** where relevant in your design. Some additional tips:_
  >* _Class diagrams only apply to the **ViewModel** and **Model** Tier_
 >* _A single class diagram of the entire system will not be effective. You may start with one, but will be need to break it down into smaller sections to account for requirements of each of the Tier static models below._
@@ -175,7 +178,7 @@ For Managers, the ManagerDashboardComponent provides statistical oversight, whil
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
-![Replace with your ViewModel Tier class diagram 1, etc.](SequenceDiagram1.png)
+![Replace with your ViewModel Tier class diagram 1, etc.](place-holder)
 
 ### Model Tier
 > _**[Sprint 1]** List the classes supporting this tier and provide a description of there purpose._
