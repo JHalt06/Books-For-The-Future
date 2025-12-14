@@ -1,7 +1,5 @@
-# U-Fund:  _____ _replace with your particular fundraising type_ _____
-# Modify this document to expand any and all sections that are applicable for a better understanding from your users/testers/collaborators (remove this comment and other instructions areas for your FINAL release)
-
-An online U-Fund system built in Java **24** and ___ _replace with other platform requirements_ ___
+# U-Fund:  
+An online U-Fund system built in Java **24**
   
 ## Team
 
@@ -22,13 +20,9 @@ An online U-Fund system built in Java **24** and ___ _replace with other platfor
 1. Clone the repository and go to the root directory.
 2. Execute `mvn compile exec:java`
 3. Open in your browser `http://localhost:8080/`
-4.  _add any other steps required or examples of how to use/run_
-
-## Known bugs and disclaimers
-(It may be the case that your implementation is not perfect.)
-
-Document any known bug or nuisance.
-If any shortcomings, make clear what these are and where they are located.
+4.  cd ufund-ui
+5.  cd ufund-ui again
+6.  ng serve
 
 ## How to test it
 
@@ -60,14 +54,7 @@ To run tests on all the tiers in isolation do this:
 1. Access the `PROJECT_DOCS_HOME/` directory
 2. Execute `mvn exec:exec@docs`
 3. The generated PDF will be in `PROJECT_DOCS_HOME/` directory
-
-
-## How to setup/run/test program 
-1. Tester, first obtain the Acceptance Test plan
-2. IP address of target machine running the app
-3. Execute ________
-4. ...
-5. ...
+   
 
 ## License
 
